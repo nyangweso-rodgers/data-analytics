@@ -16,6 +16,11 @@ date_vars as (
 --------------------------------- --------------------------------
 business_kpis_data as (SELECT * FROM `kyosk-prod.erp_reports.upload_business_kpis` ),
 --business_kpis_targets as ()
+customer_with_index as (
+                        SELECT *,
+                        row_number()over(partition by name order by modified desc) as index 
+                        FROM `kyosk-prod.erp_reports.customer` 
+                        ),
 delivery_note_with_index as (
                             SELECT *, 
                             row_number()over(partition by name order by modified desc) as index 
@@ -24,36 +29,61 @@ delivery_note_with_index as (
                             ),
 
 ------------------------ Previous Week ----------------------------------
-previous_order_count as (
-                          select distinct count(distinct dn.kyosk_sales_order) as previous_count_of_orders,
-                          count(distinct dn.customer) as previous_count_of_customers
-                          from delivery_note_with_index dn, 
-                          date_vars where index = 1 and dn.posting_date between previous_start_week and previous_end_week
-                          ),
+previous_retail_universe as ( 
+                              select count(distinct name) as previous_count_of_retail_universe 
+                              from customer_with_index, date_vars
+                              where index = 1 and date(creation) <= previous_end_week
+                              ),
+previous_sales as (
+                    select  
+                         distinct count(distinct dn.kyosk_sales_order) as previous_count_of_orders,
+                         count(distinct dn.customer) as previous_count_of_customers,
+                         count(distinct (case when dn.created_on_app = 'Duka App' then dn.kyosk_sales_order else null end)) as previous_count_of_duka_app_orders
+                    from delivery_note_with_index dn, 
+                    date_vars where index = 1 and dn.posting_date between previous_start_week and previous_end_week
+                    ),
 
 ----------------------- Current Week ------------------------------
-current_order_count as (
-                          select distinct count(distinct dn.kyosk_sales_order) as current_count_of_orders,
-                          count(distinct dn.customer) as current_count_of_customers
-                          from delivery_note_with_index dn, 
-                          date_vars where index = 1 and dn.posting_date between current_start_week and current_end_week
-                          ),
+current_retail_universe as ( 
+                              select count(distinct name) as current_count_of_retail_universe 
+                              from customer_with_index, date_vars
+                              where index = 1 and date(creation) <= current_end_week
+                              ),
+current_sales as (
+                    select 
+                         distinct count(distinct dn.kyosk_sales_order) as current_count_of_orders,
+                         count(distinct dn.customer) as current_count_of_customers,
+                         count(distinct (case when dn.created_on_app = 'Duka App' then dn.kyosk_sales_order else null end)) as current_count_of_duka_app_orders
+                    from delivery_note_with_index dn, 
+                    date_vars where index = 1 and dn.posting_date between current_start_week and current_end_week
+                    ),
 
 --------------------------------- Final ----------------
 final_model as (
                   select bkd.*, '' as blank,
-                  case when kpi_name = 'frequent_outlets_(weekly_orders)' then poc.previous_count_of_customers
-                       when kpi_name = 'order_count' then poc.previous_count_of_orders 
+
+
+                  case 
+                       when kpi_name = 'internal_retail_universe_(registerd_retailers)' then pru.previous_count_of_retail_universe
+                       when kpi_name = 'frequent_outlets_(weekly_orders)' then ps.previous_count_of_customers
+                       when kpi_name = 'order_count' then ps.previous_count_of_orders 
+                       when kpi_name = "duka_app_adoption_(order_count)" then (ps.previous_count_of_duka_app_orders / ps.previous_count_of_orders) * 100
                   else null end as previous_week_actuals,
 
-                  case when kpi_name = 'frequent_outlets_(weekly_orders)' then coc.current_count_of_customers
-                       when kpi_name = 'order_count' then coc.current_count_of_orders 
+                  case 
+                       when kpi_name = 'internal_retail_universe_(registerd_retailers)' then cru.current_count_of_retail_universe
+                       when kpi_name = 'frequent_outlets_(weekly_orders)' then cs.current_count_of_customers
+                       when kpi_name = 'order_count' then cs.current_count_of_orders 
+                       when kpi_name = "duka_app_adoption_(order_count)" then (cs.current_count_of_duka_app_orders / cs.current_count_of_orders) * 100
                   else null end as current_week_actuals
 
 
                   from business_kpis_data bkd,
-                  previous_order_count poc,
-                  current_order_count coc
+                  previous_retail_universe pru,
+                  previous_sales ps,
+
+                  current_retail_universe cru, 
+                  current_sales cs
                   )
 select * from final_model
 order by 1
