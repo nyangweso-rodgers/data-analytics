@@ -23,7 +23,8 @@ date_vars as (
                 ),
 --------------------------------- --------------------------------
 business_kpis_data as (SELECT * FROM `kyosk-prod.erp_reports.upload_business_kpis` ),
---business_kpis_targets as ()
+targets as (SELECT * FROM `kyosk-prod.erp_reports.upload_business_kpis_targets` ),
+targets_with_dates as (select * from targets, dates),
 customer_with_index as (
                         SELECT *,
                         row_number()over(partition by name order by modified desc) as index 
@@ -37,6 +38,26 @@ delivery_note_with_index as (
                             ),
 
 ------------------------ Previous Week ----------------------------------
+previous_week_targets as (
+                      select distinct 
+                      sum(revenue_in_usd) as revenue_in_usd,
+                      avg(revenue_growth) as revenue_growth,
+                      avg(margin) as margin,
+                      sum(internal_retail_universe_registerd_retailers) as internal_retail_universe_registerd_retailers,
+                      avg(frequent_outlets_weekly_orders) as frequent_outlets_weekly_orders,
+                      avg(active_outlets_monthly) as active_outlets_monthly,
+                      avg(internal_retail_universe_activity_weekly) as internal_retail_universe_activity_weekly,
+                      avg(weekly_order_frequency) as weekly_order_frequency,
+                      avg(basket_size) as basket_size,
+                      sum(order_count) as order_count,
+                      avg(cancellations) as cancellations,
+                      avg(duka_app_adoption_order_count) as duka_app_adoption_order_count,
+                      avg(duka_app_adoption_order_value) as duka_app_adoption_order_value,
+                      avg(cash_flow_days_inventory_outstanding) as cash_flow_days_inventory_outstanding,
+                      sum(market_development_cost) as market_development_cost
+                      from targets_with_dates, date_vars 
+                      where date between previous_start_week and previous_end_week
+                      ),
 previous_retail_universe as ( 
                               select count(distinct name) as previous_count_of_retail_universe 
                               from customer_with_index, date_vars
@@ -82,7 +103,27 @@ current_month_sales as (
 
 --------------------------------- Final ----------------
 final_model as (
-                  select bkd.*, '' as blank,
+                  select bkd.*, 
+                  '' as blank,
+
+                  case
+                    when kpi_name = "revenue_(usd)" then pwt.revenue_in_usd
+                    when kpi_name = "revenue_growth_(%)" then pwt.revenue_growth
+                    when kpi_name = "margin_(%)" then pwt.margin
+                    when kpi_name = "internal_retail_universe_(registerd_retailers)" then pwt.internal_retail_universe_registerd_retailers
+                    when kpi_name = "frequent_outlets_(weekly_orders)" then pwt.frequent_outlets_weekly_orders
+                    when kpi_name = "active_outlets_(monthly)" then pwt.active_outlets_monthly
+                    when kpi_name = "internal_retail_universe_activity_(weekly)" then pwt.internal_retail_universe_activity_weekly
+                    when kpi_name = "weekly_order_frequency" then pwt.weekly_order_frequency
+                    when kpi_name = "basket_size" then pwt.basket_size
+                    when kpi_name = "order_count" then pwt.order_count
+                    when kpi_name = "cancellations" then pwt.cancellations
+                    when kpi_name = "duka_app_adoption_(order_count)" then pwt.duka_app_adoption_order_count
+                    when kpi_name = "duka_app_adoption_(order_value)" then pwt.duka_app_adoption_order_value
+                    when kpi_name = "cash_flow_(days_inventory_outstanding)" then pwt.cash_flow_days_inventory_outstanding
+                    when kpi_name = "market_development_cost" then pwt.market_development_cost
+                  else null end as previous_week_targets,
+
 
 
                   case 
@@ -107,6 +148,8 @@ final_model as (
 
 
                   from business_kpis_data bkd,
+                  previous_week_targets pwt,
+
                   previous_retail_universe pru,
                   previous_sales ps,
                   previous_month_sales pms,
