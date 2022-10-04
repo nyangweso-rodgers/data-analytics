@@ -1,0 +1,22 @@
+{
+    "name": "HR-DRI-2022-01216",
+    "owner": "dispatchservice@kyosk.app",
+    "creation": "2022-10-04 03:57:25.662857",
+    "modified": "2022-10-04 03:58:54.828578",
+    "modified_by": "dispatchservice@kyosk.app",
+    "idx": 0,
+    "docstatus": 0,
+    "naming_series": "HR-DRI-.YYYY.-",
+    "full_name": "Thomas Yeri Kahindi",
+    "status": "Active",
+    "transporter": "GANTAD LOGISTICS LTD",
+    "driver_login": "thomasyerikahindi@gmail.com",
+    "cell_number": "+254724912126",
+    "issuing_date": "2022-07-11",
+    "expiry_date": "2025-07-11",
+    "driver_warehouse": "HR-DRI-2022-01216 - KDKE",
+    "driver_territory": "Mtwapa Mombasa",
+    "doctype": "Driver",
+    "driving_license_category": [],
+    "__last_sync_on": "2022-10-04T07:10:57.613Z"
+}
