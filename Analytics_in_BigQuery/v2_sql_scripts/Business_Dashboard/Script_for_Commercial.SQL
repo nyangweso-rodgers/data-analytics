@@ -80,6 +80,26 @@ previous_month_sales as (
                               ),
 
 ----------------------- Current Week ------------------------------
+current_week_targets as (
+                      select distinct 
+                      sum(revenue_in_usd) as revenue_in_usd,
+                      avg(revenue_growth) as revenue_growth,
+                      avg(margin) as margin,
+                      sum(internal_retail_universe_registerd_retailers) as internal_retail_universe_registerd_retailers,
+                      avg(frequent_outlets_weekly_orders) as frequent_outlets_weekly_orders,
+                      avg(active_outlets_monthly) as active_outlets_monthly,
+                      avg(internal_retail_universe_activity_weekly) as internal_retail_universe_activity_weekly,
+                      avg(weekly_order_frequency) as weekly_order_frequency,
+                      avg(basket_size) as basket_size,
+                      sum(order_count) as order_count,
+                      avg(cancellations) as cancellations,
+                      avg(duka_app_adoption_order_count) as duka_app_adoption_order_count,
+                      avg(duka_app_adoption_order_value) as duka_app_adoption_order_value,
+                      avg(cash_flow_days_inventory_outstanding) as cash_flow_days_inventory_outstanding,
+                      sum(market_development_cost) as market_development_cost
+                      from targets_with_dates, date_vars 
+                      where date between current_start_week and current_end_week
+                      ),
 current_retail_universe as ( 
                               select count(distinct name) as current_count_of_retail_universe 
                               from customer_with_index, date_vars
@@ -124,6 +144,24 @@ final_model as (
                     when kpi_name = "market_development_cost" then pwt.market_development_cost
                   else null end as previous_week_targets,
 
+                  case
+                    when kpi_name = "revenue_(usd)" then cwt.revenue_in_usd
+                    when kpi_name = "revenue_growth_(%)" then cwt.revenue_growth
+                    when kpi_name = "margin_(%)" then cwt.margin
+                    when kpi_name = "internal_retail_universe_(registerd_retailers)" then cwt.internal_retail_universe_registerd_retailers
+                    when kpi_name = "frequent_outlets_(weekly_orders)" then cwt.frequent_outlets_weekly_orders
+                    when kpi_name = "active_outlets_(monthly)" then cwt.active_outlets_monthly
+                    when kpi_name = "internal_retail_universe_activity_(weekly)" then cwt.internal_retail_universe_activity_weekly
+                    when kpi_name = "weekly_order_frequency" then cwt.weekly_order_frequency
+                    when kpi_name = "basket_size" then cwt.basket_size
+                    when kpi_name = "order_count" then cwt.order_count
+                    when kpi_name = "cancellations" then cwt.cancellations
+                    when kpi_name = "duka_app_adoption_(order_count)" then cwt.duka_app_adoption_order_count
+                    when kpi_name = "duka_app_adoption_(order_value)" then cwt.duka_app_adoption_order_value
+                    when kpi_name = "cash_flow_(days_inventory_outstanding)" then cwt.cash_flow_days_inventory_outstanding
+                    when kpi_name = "market_development_cost" then cwt.market_development_cost
+                  else null end as current_week_targets,
+
 
 
                   case 
@@ -149,11 +187,11 @@ final_model as (
 
                   from business_kpis_data bkd,
                   previous_week_targets pwt,
-
                   previous_retail_universe pru,
                   previous_sales ps,
                   previous_month_sales pms,
 
+                  current_week_targets cwt,
                   current_retail_universe cru, 
                   current_sales cs,
                   current_month_sales cms
