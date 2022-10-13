@@ -22,6 +22,8 @@ date_vars as (
                 from vars
                 ),
 --------------------------------- --------------------------------
+planned_revenue_data as  (SELECT * FROM `kyosk-prod.erp_reports.upload_planned_revenue_v2` order by 1) ,
+currency_conversion_data as (SELECT * FROM `kyosk-prod.erp_reports.upload_currency_conversion_v2` where ex_rate not in ('BUDGET RATE (2022)') ),
 business_kpis_data as (SELECT * FROM `kyosk-prod.erp_reports.upload_business_kpis` ),
 targets as (SELECT * FROM `kyosk-prod.erp_reports.upload_business_kpis_targets` ),
 targets_with_dates as (select * from targets, dates),
@@ -36,20 +38,32 @@ delivery_note_with_index as (
                             FROM `kyosk-prod.erp_reports.delivery_note` 
                             where workflow_state in ('PAID', 'DELIVERED')
                             ),
+delivery_note_report as (
+                            select distinct dnwi.posting_date,
+                            dnwi.company,
+                            dnwi.customer,
+                            dnwi.kyosk_sales_order as sales_order,
+                            dnwi.created_on_app,
+                            dnwi.grand_total,
+                            dnwi.grand_total / ccd.ex_rate_amount as grand_total_in_usd
+                            from delivery_note_with_index dnwi
+                            left join currency_conversion_data ccd on dnwi.company = ccd.company and dnwi.posting_date between ccd.start_date and ccd.end_date      
+                            where index = 1
+                            ),
 
 ------------------------ Previous Week ----------------------------------
 previous_week_targets as (
                       select distinct 
                       sum(revenue_in_usd) as revenue_in_usd,
-                      avg(revenue_growth) as revenue_growth,
+                      --avg(revenue_growth) as revenue_growth,
                       avg(margin) as margin,
                       sum(internal_retail_universe_registerd_retailers) as internal_retail_universe_registerd_retailers,
                       avg(frequent_outlets_weekly_orders) as frequent_outlets_weekly_orders,
                       avg(active_outlets_monthly) as active_outlets_monthly,
                       avg(internal_retail_universe_activity_weekly) as internal_retail_universe_activity_weekly,
                       avg(weekly_order_frequency) as weekly_order_frequency,
-                      avg(basket_size) as basket_size,
-                      sum(order_count) as order_count,
+                      --avg(basket_size) as basket_size,
+                      --sum(order_count) as order_count,
                       avg(cancellations) as cancellations,
                       avg(duka_app_adoption_order_count) as duka_app_adoption_order_count,
                       avg(duka_app_adoption_order_value) as duka_app_adoption_order_value,
@@ -65,11 +79,13 @@ previous_retail_universe as (
                               ),
 previous_sales as (
                     select  
-                         distinct count(distinct dn.kyosk_sales_order) as previous_count_of_orders,
-                         count(distinct dn.customer) as previous_count_of_customers,
-                         count(distinct (case when dn.created_on_app = 'Duka App' then dn.kyosk_sales_order else null end)) as previous_count_of_duka_app_orders
-                    from delivery_note_with_index dn, 
-                    date_vars where index = 1 and dn.posting_date between previous_start_week and previous_end_week
+                         distinct count(distinct dn.sales_order) as count_of_orders,
+                         count(distinct dn.customer) as count_of_customers,
+                         count(distinct (case when dn.created_on_app = 'Duka App' then dn.sales_order else null end)) as count_of_duka_app_orders,
+                         sum(case when dn.created_on_app = 'Duka App' then dn.grand_total_in_usd else null end) as duka_app_revenue_in_usd,
+                         sum(grand_total_in_usd) as revenue_in_usd
+                    from delivery_note_report dn, 
+                    date_vars where dn.posting_date between previous_start_week and previous_end_week
                     ),
 --------------------------------------- Previous Month ---------------------------------------
 previous_month_sales as (
@@ -107,11 +123,13 @@ current_retail_universe as (
                               ),
 current_sales as (
                     select 
-                         distinct count(distinct dn.kyosk_sales_order) as current_count_of_orders,
-                         count(distinct dn.customer) as current_count_of_customers,
-                         count(distinct (case when dn.created_on_app = 'Duka App' then dn.kyosk_sales_order else null end)) as current_count_of_duka_app_orders
-                    from delivery_note_with_index dn, 
-                    date_vars where index = 1 and dn.posting_date between current_start_week and current_end_week
+                         distinct count(distinct dn.sales_order) as count_of_orders,
+                         count(distinct dn.customer) as count_of_customers,
+                         count(distinct (case when dn.created_on_app = 'Duka App' then dn.sales_order else null end)) as count_of_duka_app_orders,
+                         sum(case when dn.created_on_app = 'Duka App' then dn.grand_total_in_usd else null end) as duka_app_revenue_in_usd,
+                         sum(grand_total_in_usd) as revenue_in_usd
+                    from delivery_note_report dn, 
+                    date_vars where dn.posting_date between current_start_week and current_end_week
                     ),
 ------------------------------------ Current Month -----------------------------------
 current_month_sales as (
@@ -128,60 +146,67 @@ final_model as (
 
                   case
                     when kpi_name = "revenue_(usd)" then pwt.revenue_in_usd
-                    when kpi_name = "revenue_growth_(%)" then pwt.revenue_growth
+                    --when kpi_name = "revenue_growth_(%)" then pwt.revenue_growth
                     when kpi_name = "margin_(%)" then pwt.margin
-                    when kpi_name = "internal_retail_universe_(registerd_retailers)" then pwt.internal_retail_universe_registerd_retailers
-                    when kpi_name = "frequent_outlets_(weekly_orders)" then pwt.frequent_outlets_weekly_orders
-                    when kpi_name = "active_outlets_(monthly)" then pwt.active_outlets_monthly
-                    when kpi_name = "internal_retail_universe_activity_(weekly)" then pwt.internal_retail_universe_activity_weekly
-                    when kpi_name = "weekly_order_frequency" then pwt.weekly_order_frequency
-                    when kpi_name = "basket_size" then pwt.basket_size
-                    when kpi_name = "order_count" then pwt.order_count
+                    --when kpi_name = "internal_retail_universe_(registerd_retailers)" then pwt.internal_retail_universe_registerd_retailers
+                    --when kpi_name = "frequent_outlets_(weekly_orders)" then pwt.frequent_outlets_weekly_orders
+                    --when kpi_name = "active_outlets_(monthly)" then pwt.active_outlets_monthly
+                    --when kpi_name = "internal_retail_universe_activity_(weekly)" then pwt.internal_retail_universe_activity_weekly
+                    --when kpi_name = "weekly_order_frequency" then pwt.weekly_order_frequency
+                    --when kpi_name = "basket_size" then pwt.basket_size
+                    --when kpi_name = "order_count" then pwt.order_count
                     when kpi_name = "cancellations" then pwt.cancellations
                     when kpi_name = "duka_app_adoption_(order_count)" then pwt.duka_app_adoption_order_count
                     when kpi_name = "duka_app_adoption_(order_value)" then pwt.duka_app_adoption_order_value
                     when kpi_name = "cash_flow_(days_inventory_outstanding)" then pwt.cash_flow_days_inventory_outstanding
-                    when kpi_name = "market_development_cost" then pwt.market_development_cost
+                    --when kpi_name = "market_development_cost" then pwt.market_development_cost
                   else null end as previous_week_targets,
 
                   case
                     when kpi_name = "revenue_(usd)" then cwt.revenue_in_usd
-                    when kpi_name = "revenue_growth_(%)" then cwt.revenue_growth
+                    --when kpi_name = "revenue_growth_(%)" then cwt.revenue_growth
                     when kpi_name = "margin_(%)" then cwt.margin
-                    when kpi_name = "internal_retail_universe_(registerd_retailers)" then cwt.internal_retail_universe_registerd_retailers
-                    when kpi_name = "frequent_outlets_(weekly_orders)" then cwt.frequent_outlets_weekly_orders
-                    when kpi_name = "active_outlets_(monthly)" then cwt.active_outlets_monthly
-                    when kpi_name = "internal_retail_universe_activity_(weekly)" then cwt.internal_retail_universe_activity_weekly
-                    when kpi_name = "weekly_order_frequency" then cwt.weekly_order_frequency
-                    when kpi_name = "basket_size" then cwt.basket_size
-                    when kpi_name = "order_count" then cwt.order_count
+                    --when kpi_name = "internal_retail_universe_(registerd_retailers)" then cwt.internal_retail_universe_registerd_retailers
+                    --when kpi_name = "frequent_outlets_(weekly_orders)" then cwt.frequent_outlets_weekly_orders
+                    --when kpi_name = "active_outlets_(monthly)" then cwt.active_outlets_monthly
+                    --when kpi_name = "internal_retail_universe_activity_(weekly)" then cwt.internal_retail_universe_activity_weekly
+                    --when kpi_name = "weekly_order_frequency" then cwt.weekly_order_frequency
+                    --when kpi_name = "basket_size" then cwt.basket_size
+                    --when kpi_name = "order_count" then cwt.order_count
                     when kpi_name = "cancellations" then cwt.cancellations
                     when kpi_name = "duka_app_adoption_(order_count)" then cwt.duka_app_adoption_order_count
                     when kpi_name = "duka_app_adoption_(order_value)" then cwt.duka_app_adoption_order_value
                     when kpi_name = "cash_flow_(days_inventory_outstanding)" then cwt.cash_flow_days_inventory_outstanding
-                    when kpi_name = "market_development_cost" then cwt.market_development_cost
+                    --when kpi_name = "market_development_cost" then cwt.market_development_cost
                   else null end as current_week_targets,
 
 
 
                   case 
+                       when kpi_name = "revenue_(usd)" then ps.revenue_in_usd
                        when kpi_name = 'internal_retail_universe_(registerd_retailers)' then pru.previous_count_of_retail_universe
-                       when kpi_name = 'frequent_outlets_(weekly_orders)' then ps.previous_count_of_customers
+                       when kpi_name = 'frequent_outlets_(weekly_orders)' then ps.count_of_customers
                        when kpi_name = "active_outlets_(monthly)"  then pms.previous_month_count_of_customers
-                       when kpi_name = "internal_retail_universe_activity_(weekly)" then (ps.previous_count_of_customers / pms.previous_month_count_of_customers) * 100
-                       when kpi_name = "weekly_order_frequency" then ps.previous_count_of_orders / ps.previous_count_of_customers
-                       when kpi_name = 'order_count' then ps.previous_count_of_orders 
-                       when kpi_name = "duka_app_adoption_(order_count)" then (ps.previous_count_of_duka_app_orders / ps.previous_count_of_orders) * 100
+                       when kpi_name = "internal_retail_universe_activity_(weekly)" then (ps.count_of_customers / pms.previous_month_count_of_customers) * 100
+                       when kpi_name = "weekly_order_frequency" then ps.count_of_orders / ps.count_of_customers
+                       when kpi_name = "basket_size" then ps.revenue_in_usd / ps.count_of_orders
+                       when kpi_name = 'order_count' then ps.count_of_orders 
+                       when kpi_name = "duka_app_adoption_(order_count)" then (ps.count_of_duka_app_orders / ps.count_of_orders) * 100
+                       when kpi_name = "duka_app_adoption_(order_value)" then (ps.duka_app_revenue_in_usd / ps.revenue_in_usd) * 100
                   else null end as previous_week_actuals,
 
                   case 
+                       when kpi_name = "revenue_(usd)" then cs.revenue_in_usd
+                       when kpi_name = "revenue_growth_(%)" then (cs.revenue_in_usd / ps.revenue_in_usd -1) * 100
                        when kpi_name = 'internal_retail_universe_(registerd_retailers)' then cru.current_count_of_retail_universe
-                       when kpi_name = 'frequent_outlets_(weekly_orders)' then cs.current_count_of_customers
+                       when kpi_name = 'frequent_outlets_(weekly_orders)' then cs.count_of_customers
                        when kpi_name = "active_outlets_(monthly)"  then cms.current_month_count_of_customers
-                       when kpi_name = "internal_retail_universe_activity_(weekly)" then (cs.current_count_of_customers / cms.current_month_count_of_customers) * 100
-                       when kpi_name = "weekly_order_frequency" then cs. current_count_of_orders / cs.current_count_of_customers
-                       when kpi_name = 'order_count' then cs.current_count_of_orders 
-                       when kpi_name = "duka_app_adoption_(order_count)" then (cs.current_count_of_duka_app_orders / cs.current_count_of_orders) * 100
+                       when kpi_name = "internal_retail_universe_activity_(weekly)" then (cs.count_of_customers / cms.current_month_count_of_customers) * 100
+                       when kpi_name = "weekly_order_frequency" then cs. count_of_orders / cs.count_of_customers
+                       when kpi_name = "basket_size" then cs.revenue_in_usd / cs.count_of_orders
+                       when kpi_name = 'order_count' then cs.count_of_orders 
+                       when kpi_name = "duka_app_adoption_(order_count)" then (cs.count_of_duka_app_orders / cs.count_of_orders) * 100
+                       when kpi_name = "duka_app_adoption_(order_value)" then (cs.duka_app_revenue_in_usd / cs.revenue_in_usd) * 100
                   else null end as current_week_actuals
 
 
