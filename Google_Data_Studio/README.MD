@@ -1,4 +1,4 @@
-# Google Big Query
+# Google Data Studio
 
 ## Table Of Contents
 - [References]()
