@@ -1,0 +1,4074 @@
+{
+    "data": [
+        {
+            "name": "MAT-BIN-2022-102333",
+            "warehouse": "Makindye Main - KDUG",
+            "item_code": "Mirinda Green Apple Soda 330ML",
+            "actual_qty": 49,
+            "valuation_rate": 8177.9661,
+            "stock_uom": "CARTON",
+            "modified": "2022-12-05 22:47:55.947215",
+            "idx": 1
+        },
+        {
+            "name": "MAT-BIN-2022-94370",
+            "warehouse": "Makindye Main - KDUG",
+            "item_code": "Bahari  Salt 200G",
+            "actual_qty": 265,
+            "valuation_rate": 6355.944607365,
+            "stock_uom": "CARTON",
+            "modified": "2022-12-05 22:47:55.931106",
+            "idx": 2
+        },
+        {
+            "name": "MAT-BIN-2022-103726",
+            "warehouse": "Makindye Main - KDUG",
+            "item_code": "Magic  Washing Powder 250G",
+            "actual_qty": 10992,
+            "valuation_rate": 2167.796615479,
+            "stock_uom": "PC",
+            "modified": "2022-12-05 22:47:55.896897",
+            "idx": 3
+        },
+        {
+            "name": "MAT-BIN-2022-10-06246",
+            "warehouse": "Makindye Main - KDUG",
+            "item_code": "Softcare Diapers Highcounts Tapes 40Pc Large",
+            "actual_qty": 185,
+            "valuation_rate": 14618.644067,
+            "stock_uom": "OUTER",
+            "modified": "2022-12-05 22:45:17.601785",
+            "idx": 4
+        },
+        {
+            "name": "MAT-BIN-2022-89525",
+            "warehouse": "Makindye Main - KDUG",
+            "item_code": "Fortune Butto Cooking Oil 500ML",
+            "actual_qty": 3,
+            "valuation_rate": 69853.191830158,
+            "stock_uom": "CARTON",
+            "modified": "2022-12-05 22:45:17.554286",
+            "idx": 5
+        },
+        {
+            "name": "MAT-BIN-2022-12-01687",
+            "warehouse": "Makindye Main - KDUG",
+            "item_code": "Sunseed Sun Flower Cooking Oil 5L",
+            "actual_qty": 6,
+            "valuation_rate": 151525.4235,
+            "stock_uom": "Nos",
+            "modified": "2022-12-05 22:44:28.975254",
+            "idx": 6
+        },
+        {
+            "name": "MAT-BIN-2022-95597",
+            "warehouse": "Makindye Main - KDUG",
+            "item_code": "Bahari  Salt 500G",
+            "actual_qty": 156,
+            "valuation_rate": 15550.310289149,
+            "stock_uom": "CARTON",
+            "modified": "2022-12-05 22:44:08.966321",
+            "idx": 7
+        },
+        {
+            "name": "MAT-BIN-2022-89451",
+            "warehouse": "Makindye Main - KDUG",
+            "item_code": "Azam  All Purpose Flour 2KG",
+            "actual_qty": 5,
+            "valuation_rate": 76259.047988268,
+            "stock_uom": "BALE",
+            "modified": "2022-12-05 22:42:00.669931",
+            "idx": 8
+        },
+        {
+            "name": "MAT-BIN-2022-93597",
+            "warehouse": "Makindye Main - KDUG",
+            "item_code": "Fortune Butto Cooking Oil 20L",
+            "actual_qty": 20,
+            "valuation_rate": 121149.1526,
+            "stock_uom": "JERICAN",
+            "modified": "2022-12-05 22:41:06.748825",
+            "idx": 9
+        },
+        {
+            "name": "MAT-BIN-2022-10-01985",
+            "warehouse": "Makindye Main - KDUG",
+            "item_code": "Tanzania  Grade-I Rice 50Kg",
+            "actual_qty": 1,
+            "valuation_rate": 230000,
+            "stock_uom": "BAG",
+            "modified": "2022-12-05 22:40:41.909034",
+            "idx": 10
+        },
+        {
+            "name": "MAT-BIN-2022-93802",
+            "warehouse": "Makindye Main - KDUG",
+            "item_code": "Pepsi Cola Soda 330ml",
+            "actual_qty": 349,
+            "valuation_rate": 8135.5931537,
+            "stock_uom": "CARTON",
+            "modified": "2022-12-05 22:40:20.134976",
+            "idx": 11
+        },
+        {
+            "name": "MAT-BIN-2022-89633",
+            "warehouse": "Makindye Main - KDUG",
+            "item_code": "Kaswa All Purpose Flour 2KG",
+            "actual_qty": 178,
+            "valuation_rate": 73794.808757517,
+            "stock_uom": "BALE",
+            "modified": "2022-12-05 22:39:18.288627",
+            "idx": 12
+        },
+        {
+            "name": "MAT-BIN-2022-10-08165",
+            "warehouse": "Makindye Main - KDUG",
+            "item_code": "Best Fry Cooking Oil 500ML",
+            "actual_qty": 96,
+            "valuation_rate": 67736.319932088,
+            "stock_uom": "CARTON",
+            "modified": "2022-12-05 22:37:21.585129",
+            "idx": 13
+        },
+        {
+            "name": "MAT-BIN-2022-12-01688",
+            "warehouse": "Makindye Main - KDUG",
+            "item_code": "Sunseed Sun Flower Cooking Oil 3L",
+            "actual_qty": 9,
+            "valuation_rate": 137881.356,
+            "stock_uom": "Nos",
+            "modified": "2022-12-05 22:36:53.326606",
+            "idx": 14
+        },
+        {
+            "name": "MAT-BIN-2022-89527",
+            "warehouse": "Makindye Main - KDUG",
+            "item_code": "White  Star Bar Soap 1Kg",
+            "actual_qty": 152,
+            "valuation_rate": 45890.091553722,
+            "stock_uom": "CARTON",
+            "modified": "2022-12-05 22:36:32.013585",
+            "idx": 15
+        },
+        {
+            "name": "MAT-BIN-2022-100885",
+            "warehouse": "Makindye Main - KDUG",
+            "item_code": "White Star Bar Soap 20 x 1Kg",
+            "actual_qty": 230,
+            "valuation_rate": 91783.440611242,
+            "stock_uom": "CARTON",
+            "modified": "2022-12-05 22:36:06.071325",
+            "idx": 16
+        },
+        {
+            "name": "MAT-BIN-2022-12-01686",
+            "warehouse": "Makindye Main - KDUG",
+            "item_code": "Sunseed Sun Flower",
+            "actual_qty": 2,
+            "valuation_rate": 96440.678,
+            "stock_uom": "Nos",
+            "modified": "2022-12-05 22:31:22.332102",
+            "idx": 17
+        },
+        {
+            "name": "MAT-BIN-2022-73847",
+            "warehouse": "Nalukolongo Main - KDUG",
+            "item_code": "Kaswa All Purpose Flour 2KG",
+            "actual_qty": 230,
+            "valuation_rate": 73728.813567,
+            "stock_uom": "BALE",
+            "modified": "2022-12-05 22:29:10.832671",
+            "idx": 18
+        },
+        {
+            "name": "MAT-BIN-2022-108434",
+            "warehouse": "Nalukolongo Main - KDUG",
+            "item_code": "Fortune Butto  Cooking Oil  25ML",
+            "actual_qty": 28,
+            "valuation_rate": 35237.288131297,
+            "stock_uom": "CARTON",
+            "modified": "2022-12-05 22:28:38.515110",
+            "idx": 19
+        },
+        {
+            "name": "MAT-BIN-2022-72682",
+            "warehouse": "Nalukolongo Main - KDUG",
+            "item_code": "Fortune Butto Cooking Oil 1L",
+            "actual_qty": 48,
+            "valuation_rate": 69818.500035981,
+            "stock_uom": "CARTON",
+            "modified": "2022-12-05 22:28:38.494660",
+            "idx": 20
+        },
+        {
+            "name": "MAT-BIN-2022-10-01094",
+            "warehouse": "Nalukolongo Main - KDUG",
+            "item_code": "Best Fry Cooking Oil 500ML",
+            "actual_qty": 166,
+            "valuation_rate": 67798.081446457,
+            "stock_uom": "CARTON",
+            "modified": "2022-12-05 22:28:05.413256",
+            "idx": 21
+        },
+        {
+            "name": "MAT-BIN-2022-77967",
+            "warehouse": "Nalukolongo Main - KDUG",
+            "item_code": "Kakira Brown Sugar 1Kg",
+            "actual_qty": 17,
+            "valuation_rate": 76864.4068047,
+            "stock_uom": "CARTON",
+            "modified": "2022-12-05 22:28:05.398325",
+            "idx": 22
+        },
+        {
+            "name": "MAT-BIN-2022-10-01095",
+            "warehouse": "Nalukolongo Main - KDUG",
+            "item_code": "Best Fry Cooking Oil 1000ML",
+            "actual_qty": 143,
+            "valuation_rate": 67776.677440706,
+            "stock_uom": "CARTON",
+            "modified": "2022-12-05 22:27:40.052735",
+            "idx": 23
+        },
+        {
+            "name": "MAT-BIN-2022-81874",
+            "warehouse": "Nalukolongo Main - KDUG",
+            "item_code": "White Star Bar Soap 20 x 1Kg",
+            "actual_qty": 35,
+            "valuation_rate": 91779.661037,
+            "stock_uom": "CARTON",
+            "modified": "2022-12-05 22:26:56.533806",
+            "idx": 24
+        },
+        {
+            "name": "MAT-BIN-2022-75735",
+            "warehouse": "Nalukolongo Main - KDUG",
+            "item_code": "Luxury Tissue Rolls 24",
+            "actual_qty": 352,
+            "valuation_rate": 7515.321944317,
+            "stock_uom": "BALE",
+            "modified": "2022-12-05 22:25:05.619313",
+            "idx": 25
+        },
+        {
+            "name": "MAT-BIN-2022-72681",
+            "warehouse": "Nalukolongo Main - KDUG",
+            "item_code": "Fortune Butto Cooking Oil 500ML",
+            "actual_qty": 117,
+            "valuation_rate": 69805.631369767,
+            "stock_uom": "CARTON",
+            "modified": "2022-12-05 22:25:05.601359",
+            "idx": 26
+        },
+        {
+            "name": "MAT-BIN-2022-11-25033",
+            "warehouse": "Nalukolongo Main - KDUG",
+            "item_code": "Krishna  Candles 12 x 8PC",
+            "actual_qty": 9,
+            "valuation_rate": 33898.305,
+            "stock_uom": "CARTON",
+            "modified": "2022-12-05 22:23:32.692119",
+            "idx": 27
+        },
+        {
+            "name": "MAT-BIN-2022-97528",
+            "warehouse": "Nalukolongo Main - KDUG",
+            "item_code": "Star Goldy Cooking Oil 20L",
+            "actual_qty": 32,
+            "valuation_rate": 117724.266302439,
+            "stock_uom": "JERICAN",
+            "modified": "2022-12-05 22:20:28.309542",
+            "idx": 28
+        },
+        {
+            "name": "MAT-BIN-2022-90635",
+            "warehouse": "Nalukolongo Main - KDUG",
+            "item_code": "Softcare A+  Sanitary Pads Cotton Purple",
+            "actual_qty": 44,
+            "valuation_rate": 33498.036437825,
+            "stock_uom": "CARTON",
+            "modified": "2022-12-05 22:20:28.304963",
+            "idx": 29
+        },
+        {
+            "name": "MAT-BIN-2022-78178",
+            "warehouse": "Nalukolongo Main - KDUG",
+            "item_code": "Royco Mchuzi Mix Beef Ground Spices 10g",
+            "actual_qty": 57,
+            "valuation_rate": 16693.237165842,
+            "stock_uom": "CARTON",
+            "modified": "2022-12-05 22:15:49.397633",
+            "idx": 30
+        },
+        {
+            "name": "MAT-BIN-2022-83025",
+            "warehouse": "Nalukolongo Main - KDUG",
+            "item_code": "Pepsi Cola Soda 330ml",
+            "actual_qty": 179,
+            "valuation_rate": 8135.593219599,
+            "stock_uom": "CARTON",
+            "modified": "2022-12-05 22:15:49.370356",
+            "idx": 31
+        },
+        {
+            "name": "MAT-BIN-2022-83023",
+            "warehouse": "Nalukolongo Main - KDUG",
+            "item_code": "Mirinda Fruity Soda 330ML",
+            "actual_qty": 389,
+            "valuation_rate": 8135.593219853,
+            "stock_uom": "CARTON",
+            "modified": "2022-12-05 22:15:49.329173",
+            "idx": 32
+        },
+        {
+            "name": "MAT-BIN-2022-10-03207",
+            "warehouse": "Nalukolongo Main - KDUG",
+            "item_code": "Magic  Washing Powder 500G",
+            "actual_qty": 3,
+            "valuation_rate": 49835.593,
+            "stock_uom": "CARTON",
+            "modified": "2022-12-05 22:13:21.227092",
+            "idx": 33
+        },
+        {
+            "name": "MAT-BIN-2022-74650",
+            "warehouse": "Nalukolongo Main - KDUG",
+            "item_code": "Gorillos Chicken Flavored Crisps 24g",
+            "actual_qty": 11,
+            "valuation_rate": 15254.2372,
+            "stock_uom": "BALE",
+            "modified": "2022-12-05 22:12:44.019019",
+            "idx": 34
+        },
+        {
+            "name": "MAT-BIN-2022-74651",
+            "warehouse": "Nalukolongo Main - KDUG",
+            "item_code": "Gorillos BBQ Beef Flavored Crisps 24g",
+            "actual_qty": 237,
+            "valuation_rate": 15254.23725598,
+            "stock_uom": "BALE",
+            "modified": "2022-12-05 22:12:43.956630",
+            "idx": 35
+        },
+        {
+            "name": "MAT-BIN-2022-85693",
+            "warehouse": "Kawempe Main - KDUG",
+            "item_code": "Star Goldy Cooking Oil 500ML",
+            "actual_qty": 164,
+            "valuation_rate": 67768.439180474,
+            "stock_uom": "CARTON",
+            "modified": "2022-12-05 21:46:08.802731",
+            "idx": 36
+        },
+        {
+            "name": "MAT-BIN-2022-68540",
+            "warehouse": "Luzira Main - KDUG",
+            "item_code": "Pembe All Purpose Flour 2KG",
+            "actual_qty": 181,
+            "valuation_rate": 74576.271175317,
+            "stock_uom": "BALE",
+            "modified": "2022-12-05 21:36:29.904328",
+            "idx": 37
+        },
+        {
+            "name": "MAT-BIN-2022-79675",
+            "warehouse": "Luzira Main - KDUG",
+            "item_code": "Kaswa All Purpose Flour 2KG",
+            "actual_qty": 849,
+            "valuation_rate": 73730.946328421,
+            "stock_uom": "BALE",
+            "modified": "2022-12-05 21:36:29.746879",
+            "idx": 38
+        },
+        {
+            "name": "MAT-BIN-2022-74563",
+            "warehouse": "Luzira Main - KDUG",
+            "item_code": "Gorillos Chicken Flavored Crisps 24g",
+            "actual_qty": 186,
+            "valuation_rate": 15254.2373,
+            "stock_uom": "BALE",
+            "modified": "2022-12-05 21:35:27.001009",
+            "idx": 39
+        },
+        {
+            "name": "MAT-BIN-2022-73350",
+            "warehouse": "Luzira Main - KDUG",
+            "item_code": "Azam  All Purpose Flour 2KG",
+            "actual_qty": 6,
+            "valuation_rate": 76271.1864489,
+            "stock_uom": "BALE",
+            "modified": "2022-12-05 21:35:26.951036",
+            "idx": 40
+        },
+        {
+            "name": "MAT-BIN-2022-10-02781",
+            "warehouse": "Luzira Main - KDUG",
+            "item_code": "Best Fry Cooking Oil 500ML",
+            "actual_qty": 568,
+            "valuation_rate": 67506.323720046,
+            "stock_uom": "CARTON",
+            "modified": "2022-12-05 21:35:26.779082",
+            "idx": 41
+        },
+        {
+            "name": "MAT-BIN-2022-77520",
+            "warehouse": "Luzira Main - KDUG",
+            "item_code": "Kakira Ice Green Hard Boiled sweets Mints 20Sachets x 3Pcs",
+            "actual_qty": 21,
+            "valuation_rate": 49152.062268097,
+            "stock_uom": "CARTON",
+            "modified": "2022-12-05 21:25:44.436284",
+            "idx": 42
+        },
+        {
+            "name": "MAT-BIN-2022-78500",
+            "warehouse": "Luzira Main - KDUG",
+            "item_code": "Bahari  Salt 500G",
+            "actual_qty": 16,
+            "valuation_rate": 15677.966091997,
+            "stock_uom": "CARTON",
+            "modified": "2022-12-05 21:25:14.436289",
+            "idx": 43
+        },
+        {
+            "name": "MAT-BIN-2022-10-00995",
+            "warehouse": "Luzira Main - KDUG",
+            "item_code": "Best Fry Cooking Oil 1000ML",
+            "actual_qty": 476,
+            "valuation_rate": 67316.867664019,
+            "stock_uom": "CARTON",
+            "modified": "2022-12-05 21:25:14.369620",
+            "idx": 44
+        },
+        {
+            "name": "MAT-BIN-2022-72356",
+            "warehouse": "Luzira Main - KDUG",
+            "item_code": "Chapa  Nyota  Brown Bar Soap 600G",
+            "actual_qty": 239,
+            "valuation_rate": 62405.295756524,
+            "stock_uom": "CARTON",
+            "modified": "2022-12-05 21:25:14.315415",
+            "idx": 45
+        },
+        {
+            "name": "MAT-BIN-2022-82993",
+            "warehouse": "Luzira Main - KDUG",
+            "item_code": "Mirinda Fruity Soda 330ML",
+            "actual_qty": 965,
+            "valuation_rate": 8134.96662456,
+            "stock_uom": "CARTON",
+            "modified": "2022-12-05 21:25:14.250187",
+            "idx": 46
+        },
+        {
+            "name": "MAT-BIN-2022-104349",
+            "warehouse": "Luzira Main - KDUG",
+            "item_code": "Mirinda Green Apple Soda 330ML",
+            "actual_qty": 384,
+            "valuation_rate": 8135.593218532,
+            "stock_uom": "CARTON",
+            "modified": "2022-12-05 21:25:14.211916",
+            "idx": 47
+        },
+        {
+            "name": "MAT-BIN-2022-82994",
+            "warehouse": "Luzira Main - KDUG",
+            "item_code": "Mountain dew  Soda 330ml",
+            "actual_qty": 793,
+            "valuation_rate": 8135.593222167,
+            "stock_uom": "CARTON",
+            "modified": "2022-12-05 21:25:14.193545",
+            "idx": 48
+        },
+        {
+            "name": "MAT-BIN-2022-82995",
+            "warehouse": "Luzira Main - KDUG",
+            "item_code": "Pepsi Cola Soda 330ml",
+            "actual_qty": 1033,
+            "valuation_rate": 8135.593224454,
+            "stock_uom": "CARTON",
+            "modified": "2022-12-05 21:25:14.097737",
+            "idx": 49
+        },
+        {
+            "name": "MAT-BIN-2022-68679",
+            "warehouse": "Luzira Main - KDUG",
+            "item_code": "Rock Boom Energy Drink 320ML",
+            "actual_qty": 72,
+            "valuation_rate": 14464.627304599,
+            "stock_uom": "CARTON",
+            "modified": "2022-12-05 21:25:14.072547",
+            "idx": 50
+        },
+        {
+            "name": "MAT-BIN-2022-11-18410",
+            "warehouse": "Luzira Main - KDUG",
+            "item_code": "Sting Gold  Energy Drink 330ML",
+            "actual_qty": 16,
+            "valuation_rate": 13559.322,
+            "stock_uom": "CARTON",
+            "modified": "2022-12-05 21:25:14.035831",
+            "idx": 51
+        },
+        {
+            "name": "MAT-BIN-2022-11-22104",
+            "warehouse": "Luzira Main - KDUG",
+            "item_code": "Softcare A+ 10s Sanitary Pads Cotton Purple",
+            "actual_qty": 50,
+            "valuation_rate": 37758.013069307,
+            "stock_uom": "CARTON",
+            "modified": "2022-12-05 21:23:33.291689",
+            "idx": 52
+        },
+        {
+            "name": "MAT-BIN-2022-108066",
+            "warehouse": "Luzira Main - KDUG",
+            "item_code": "Supreme Wheat Flour 2KG",
+            "actual_qty": 1,
+            "valuation_rate": 76271.186437678,
+            "stock_uom": "BALE",
+            "modified": "2022-12-05 21:23:33.285595",
+            "idx": 53
+        },
+        {
+            "name": "MAT-BIN-2022-11-06360",
+            "warehouse": "Kawempe Main - KDUG",
+            "item_code": "Top Star Bar Soap White 600g",
+            "actual_qty": 209,
+            "valuation_rate": 61016.949199535,
+            "stock_uom": "CARTON",
+            "modified": "2022-12-05 21:23:15.663135",
+            "idx": 54
+        },
+        {
+            "name": "MAT-BIN-2022-91388",
+            "warehouse": "Kawempe Main - KDUG",
+            "item_code": "Luxury Tissue Rolls 24",
+            "actual_qty": 138,
+            "valuation_rate": 6880.066324402,
+            "stock_uom": "BALE",
+            "modified": "2022-12-05 21:23:15.637594",
+            "idx": 55
+        },
+        {
+            "name": "MAT-BIN-2022-64378",
+            "warehouse": "Luzira Main - KDUG",
+            "item_code": "Fortune Butto Cooking Oil 500ML",
+            "actual_qty": 69,
+            "valuation_rate": 69803.961894444,
+            "stock_uom": "CARTON",
+            "modified": "2022-12-05 21:20:35.540234",
+            "idx": 56
+        },
+        {
+            "name": "MAT-BIN-2022-69371",
+            "warehouse": "Luzira Main - KDUG",
+            "item_code": "Yaket Drinking Water 550ML",
+            "actual_qty": 116,
+            "valuation_rate": 3644.067793,
+            "stock_uom": "CARTON",
+            "modified": "2022-12-05 21:20:35.352450",
+            "idx": 57
+        },
+        {
+            "name": "MAT-BIN-2022-72146",
+            "warehouse": "Luzira Main - KDUG",
+            "item_code": "Luxury Tissue Rolls 24",
+            "actual_qty": 1164,
+            "valuation_rate": 8168.583403431,
+            "stock_uom": "BALE",
+            "modified": "2022-12-05 21:19:46.921437",
+            "idx": 58
+        },
+        {
+            "name": "MAT-BIN-2022-10-00163",
+            "warehouse": "Luzira Main - KDUG",
+            "item_code": "Tanzania  Grade-II Rice 50Kg",
+            "actual_qty": 7,
+            "valuation_rate": 220011.303364925,
+            "stock_uom": "BAG",
+            "modified": "2022-12-05 21:14:15.068403",
+            "idx": 59
+        },
+        {
+            "name": "MAT-BIN-2022-10-01579",
+            "warehouse": "Luzira Main - KDUG",
+            "item_code": "Softcare Diapers Highcounts Pants 40PC Large",
+            "actual_qty": 106,
+            "valuation_rate": 17784.513596439,
+            "stock_uom": "OUTER",
+            "modified": "2022-12-05 21:10:58.260339",
+            "idx": 60
+        },
+        {
+            "name": "MAT-BIN-2022-11-15741",
+            "warehouse": "Kawempe Main - KDUG",
+            "item_code": "Sting Gold  Energy Drink 330ML",
+            "actual_qty": 65,
+            "valuation_rate": 13559.322,
+            "stock_uom": "CARTON",
+            "modified": "2022-12-05 21:10:31.616867",
+            "idx": 61
+        },
+        {
+            "name": "MAT-BIN-2022-81444",
+            "warehouse": "Kawempe Main - KDUG",
+            "item_code": "Kaswa All Purpose Flour 2KG",
+            "actual_qty": 224,
+            "valuation_rate": 73860.16082969,
+            "stock_uom": "BALE",
+            "modified": "2022-12-05 21:09:16.023111",
+            "idx": 62
+        },
+        {
+            "name": "MAT-BIN-2022-10-01014",
+            "warehouse": "Kawempe Main - KDUG",
+            "item_code": "Best Fry Cooking Oil 500ML",
+            "actual_qty": 197,
+            "valuation_rate": 66461.391052361,
+            "stock_uom": "CARTON",
+            "modified": "2022-12-05 21:08:07.755019",
+            "idx": 63
+        },
+        {
+            "name": "MAT-BIN-2022-84723",
+            "warehouse": "Kawempe Main - KDUG",
+            "item_code": "White Star Bar Soap 20 x 1Kg",
+            "actual_qty": 17,
+            "valuation_rate": 91791.569346853,
+            "stock_uom": "CARTON",
+            "modified": "2022-12-05 21:03:58.755909",
+            "idx": 64
+        },
+        {
+            "name": "MAT-BIN-2022-11-11822",
+            "warehouse": "Kawempe Main - KDUG",
+            "item_code": "Fortune  Spaghetti 450g",
+            "actual_qty": 151,
+            "valuation_rate": 41110.169467,
+            "stock_uom": "CARTON",
+            "modified": "2022-12-05 21:03:58.648508",
+            "idx": 65
+        },
+        {
+            "name": "MAT-BIN-2022-85579",
+            "warehouse": "Kawempe Main - KDUG",
+            "item_code": "Pepsi Cola Soda 330ml",
+            "actual_qty": 520,
+            "valuation_rate": 8135.593221003,
+            "stock_uom": "CARTON",
+            "modified": "2022-12-05 21:03:01.104982",
+            "idx": 66
+        },
+        {
+            "name": "MAT-BIN-2022-94348",
+            "warehouse": "Kawempe Main - KDUG",
+            "item_code": "Mountain dew  Soda 330ml",
+            "actual_qty": 309,
+            "valuation_rate": 8135.593221937,
+            "stock_uom": "CARTON",
+            "modified": "2022-12-05 21:03:01.042406",
+            "idx": 67
+        },
+        {
+            "name": "MAT-BIN-2022-97701",
+            "warehouse": "Kawempe Main - KDUG",
+            "item_code": "Mirinda Green Apple Soda 330ML",
+            "actual_qty": 108,
+            "valuation_rate": 8135.593221778,
+            "stock_uom": "CARTON",
+            "modified": "2022-12-05 21:03:00.970787",
+            "idx": 68
+        },
+        {
+            "name": "MAT-BIN-2022-85578",
+            "warehouse": "Kawempe Main - KDUG",
+            "item_code": "Mirinda Fruity Soda 330ML",
+            "actual_qty": 836,
+            "valuation_rate": 8138.978303931,
+            "stock_uom": "CARTON",
+            "modified": "2022-12-05 21:03:00.914009",
+            "idx": 69
+        },
+        {
+            "name": "MAT-BIN-2022-80617",
+            "warehouse": "Kawempe Main - KDUG",
+            "item_code": "Rock Boom Energy Drink 320ML",
+            "actual_qty": 216,
+            "valuation_rate": 14568.683827689,
+            "stock_uom": "CARTON",
+            "modified": "2022-12-05 21:02:06.083333",
+            "idx": 70
+        },
+        {
+            "name": "MAT-BIN-2022-85339",
+            "warehouse": "Kawempe Main - KDUG",
+            "item_code": "Chapa  Nyota  Brown Bar Soap 600G",
+            "actual_qty": 27,
+            "valuation_rate": 62542.372891958,
+            "stock_uom": "CARTON",
+            "modified": "2022-12-05 21:02:06.048192",
+            "idx": 71
+        },
+        {
+            "name": "MAT-BIN-2022-10-00339",
+            "warehouse": "Kawempe Main - KDUG",
+            "item_code": "Tanzania Grade-I Rice 25Kg",
+            "actual_qty": 45,
+            "valuation_rate": 115000,
+            "stock_uom": "BAG",
+            "modified": "2022-12-05 21:02:05.967171",
+            "idx": 72
+        },
+        {
+            "name": "MAT-BIN-2022-72974",
+            "warehouse": "Nalukolongo Main - KDUG",
+            "item_code": "Mayuge Sugar Brown Sugar 25KG",
+            "actual_qty": 0,
+            "valuation_rate": 86016.9492,
+            "stock_uom": "BAG",
+            "modified": "2022-12-05 21:01:15.438220",
+            "idx": 73
+        },
+        {
+            "name": "MAT-BIN-2022-91626",
+            "warehouse": "Kawempe Main - KDUG",
+            "item_code": "Softcare Diapers Highcounts Tapes 40Pc Large",
+            "actual_qty": 975,
+            "valuation_rate": 14618.644067,
+            "stock_uom": "OUTER",
+            "modified": "2022-12-05 21:01:15.085753",
+            "idx": 74
+        },
+        {
+            "name": "MAT-BIN-2022-80566",
+            "warehouse": "Kawempe Main - KDUG",
+            "item_code": "Azam  All Purpose Flour 2KG",
+            "actual_qty": 445,
+            "valuation_rate": 76271.186435824,
+            "stock_uom": "BALE",
+            "modified": "2022-12-05 21:01:15.040415",
+            "idx": 75
+        },
+        {
+            "name": "MAT-BIN-2022-72975",
+            "warehouse": "Nalukolongo Main - KDUG",
+            "item_code": "Mayuge Sugar Brown Sugar 50 KG",
+            "actual_qty": 0,
+            "valuation_rate": 172033.8983,
+            "stock_uom": "BAG",
+            "modified": "2022-12-05 21:00:40.686767",
+            "idx": 76
+        },
+        {
+            "name": "MAT-BIN-2022-87202",
+            "warehouse": "Nalukolongo Main - KDUG",
+            "item_code": "Bahari  Salt 500G",
+            "actual_qty": 224,
+            "valuation_rate": 15434.990059307,
+            "stock_uom": "CARTON",
+            "modified": "2022-12-05 20:59:06.936715",
+            "idx": 77
+        },
+        {
+            "name": "MAT-BIN-2022-81424",
+            "warehouse": "Kawempe Main - KDUG",
+            "item_code": "White  Star Bar Soap 1Kg",
+            "actual_qty": 8,
+            "valuation_rate": 45889.830503327,
+            "stock_uom": "CARTON",
+            "modified": "2022-12-05 20:58:39.601670",
+            "idx": 78
+        },
+        {
+            "name": "MAT-BIN-2022-12-01032",
+            "warehouse": "Luzira Main - KDUG",
+            "item_code": "Sunseed Sun Flower Cooking Oil 3L",
+            "actual_qty": 5,
+            "valuation_rate": 137881.356,
+            "stock_uom": "Nos",
+            "modified": "2022-12-05 20:57:59.963832",
+            "idx": 79
+        },
+        {
+            "name": "MAT-BIN-2022-91679",
+            "warehouse": "Kawempe Main - KDUG",
+            "item_code": "Supreme Wheat Flour 2KG",
+            "actual_qty": 19,
+            "valuation_rate": 76251.36840377,
+            "stock_uom": "BALE",
+            "modified": "2022-12-05 20:55:56.282639",
+            "idx": 80
+        },
+        {
+            "name": "MAT-BIN-2022-72300",
+            "warehouse": "Nalukolongo Main - KDUG",
+            "item_code": "Star Goldy Cooking Oil 500ML",
+            "actual_qty": 130,
+            "valuation_rate": 67796.610191785,
+            "stock_uom": "CARTON",
+            "modified": "2022-12-05 20:54:35.154553",
+            "idx": 81
+        },
+        {
+            "name": "MAT-BIN-2022-79404",
+            "warehouse": "Nalukolongo Main - KDUG",
+            "item_code": "White  Star Bar Soap 1Kg",
+            "actual_qty": 0,
+            "valuation_rate": 45889.8305,
+            "stock_uom": "CARTON",
+            "modified": "2022-12-05 20:54:01.337090",
+            "idx": 82
+        },
+        {
+            "name": "MAT-BIN-2022-71549",
+            "warehouse": "Luzira Main - KDUG",
+            "item_code": "Indomie Chicken Flavored Noodles 70g",
+            "actual_qty": 156,
+            "valuation_rate": 31067.7966,
+            "stock_uom": "CARTON",
+            "modified": "2022-12-05 20:53:48.754977",
+            "idx": 83
+        },
+        {
+            "name": "MAT-BIN-2022-85503",
+            "warehouse": "Kawempe Main - KDUG",
+            "item_code": "Kakira Ice Green Hard Boiled sweets Mints 20Sachets x 3Pcs",
+            "actual_qty": 65,
+            "valuation_rate": 49152.5424,
+            "stock_uom": "CARTON",
+            "modified": "2022-12-05 20:53:16.185897",
+            "idx": 84
+        },
+        {
+            "name": "MAT-BIN-2022-10-00996",
+            "warehouse": "Nalukolongo Main - KDUG",
+            "item_code": "Tanzania  Grade-I Rice 50Kg",
+            "actual_qty": 0,
+            "valuation_rate": 229967.257853797,
+            "stock_uom": "BAG",
+            "modified": "2022-12-05 20:52:54.346370",
+            "idx": 85
+        },
+        {
+            "name": "MAT-BIN-2022-85552",
+            "warehouse": "Kawempe Main - KDUG",
+            "item_code": "Star Goldy Cooking Oil 1L",
+            "actual_qty": 43,
+            "valuation_rate": 67775.640141151,
+            "stock_uom": "CARTON",
+            "modified": "2022-12-05 20:52:25.590101",
+            "idx": 86
+        },
+        {
+            "name": "MAT-BIN-2022-11-26061",
+            "warehouse": "Kawempe Main - KDUG",
+            "item_code": "Modern Deluxe Tissue Rolls 2ply 100sheets",
+            "actual_qty": 121,
+            "valuation_rate": 7881.3559,
+            "stock_uom": "BALE",
+            "modified": "2022-12-05 20:51:48.961797",
+            "idx": 87
+        },
+        {
+            "name": "MAT-BIN-2022-99390",
+            "warehouse": "Kawempe Main - KDUG",
+            "item_code": "Fortune Butto Cooking Oil 20L",
+            "actual_qty": 15,
+            "valuation_rate": 125993.220227,
+            "stock_uom": "JERICAN",
+            "modified": "2022-12-05 20:50:25.418511",
+            "idx": 88
+        },
+        {
+            "name": "MAT-BIN-2022-11-22602",
+            "warehouse": "Makindye Main - KDUG",
+            "item_code": "Modern Deluxe Tissue Rolls 2ply 100sheets",
+            "actual_qty": 137,
+            "valuation_rate": 7881.355933333,
+            "stock_uom": "BALE",
+            "modified": "2022-12-05 20:49:41.078168",
+            "idx": 89
+        },
+        {
+            "name": "MAT-BIN-2022-11-10646",
+            "warehouse": "Makindye Main - KDUG",
+            "item_code": "Softcare Medium Diapers Low Counts 12PC",
+            "actual_qty": 32,
+            "valuation_rate": 0,
+            "stock_uom": "OUTER",
+            "modified": "2022-12-05 20:49:41.070280",
+            "idx": 90
+        },
+        {
+            "name": "MAT-BIN-2022-11-25369",
+            "warehouse": "Makindye Main - KDUG",
+            "item_code": "Krishna  Candles 12 x 8PC",
+            "actual_qty": 22,
+            "valuation_rate": 33898.305,
+            "stock_uom": "CARTON",
+            "modified": "2022-12-05 20:49:41.064739",
+            "idx": 91
+        },
+        {
+            "name": "MAT-BIN-2022-96614",
+            "warehouse": "Makindye Main - KDUG",
+            "item_code": "Softcare A+  Sanitary Pads Cotton Purple",
+            "actual_qty": 38,
+            "valuation_rate": 34784.137237085,
+            "stock_uom": "CARTON",
+            "modified": "2022-12-05 20:49:40.991011",
+            "idx": 92
+        },
+        {
+            "name": "MAT-BIN-2022-80615",
+            "warehouse": "Kawempe Main - KDUG",
+            "item_code": "Oner Apple Juice 500ml",
+            "actual_qty": 218,
+            "valuation_rate": 19830.508487988,
+            "stock_uom": "CARTON",
+            "modified": "2022-12-05 20:47:43.405201",
+            "idx": 93
+        },
+        {
+            "name": "MAT-BIN-2022-11-13705",
+            "warehouse": "Makindye Main - KDUG",
+            "item_code": "Everyday Cream Chocolate Biscuits 9g",
+            "actual_qty": 75,
+            "valuation_rate": 4491.5254,
+            "stock_uom": "CARTON",
+            "modified": "2022-12-05 20:46:33.697769",
+            "idx": 94
+        },
+        {
+            "name": "MAT-BIN-2022-90579",
+            "warehouse": "Makindye Main - KDUG",
+            "item_code": "Chapa  Nyota  Blue Bar Soap 600G",
+            "actual_qty": 6,
+            "valuation_rate": 62542.684482077,
+            "stock_uom": "CARTON",
+            "modified": "2022-12-05 20:46:33.691836",
+            "idx": 95
+        },
+        {
+            "name": "MAT-BIN-2022-93804",
+            "warehouse": "Makindye Main - KDUG",
+            "item_code": "Mirinda Fruity Soda 330ML",
+            "actual_qty": 19,
+            "valuation_rate": 8162.104277639,
+            "stock_uom": "CARTON",
+            "modified": "2022-12-05 20:42:55.886958",
+            "idx": 96
+        },
+        {
+            "name": "MAT-BIN-2022-95096",
+            "warehouse": "Makindye Main - KDUG",
+            "item_code": "Gorillos BBQ Beef Flavored Crisps 24g",
+            "actual_qty": 128,
+            "valuation_rate": 15254.997622463,
+            "stock_uom": "BALE",
+            "modified": "2022-12-05 20:42:55.825432",
+            "idx": 97
+        },
+        {
+            "name": "MAT-BIN-2022-95630",
+            "warehouse": "Makindye Main - KDUG",
+            "item_code": "Indomie Beef Flavored  Noodles 70g",
+            "actual_qty": 89,
+            "valuation_rate": 31039.689376818,
+            "stock_uom": "CARTON",
+            "modified": "2022-12-05 20:42:55.813525",
+            "idx": 98
+        },
+        {
+            "name": "MAT-BIN-2022-10-08164",
+            "warehouse": "Makindye Main - KDUG",
+            "item_code": "Best Fry Cooking Oil 1000ML",
+            "actual_qty": 25,
+            "valuation_rate": 67760.601236037,
+            "stock_uom": "CARTON",
+            "modified": "2022-12-05 20:42:18.654551",
+            "idx": 99
+        },
+        {
+            "name": "MAT-BIN-2022-11-03340",
+            "warehouse": "Makindye Main - KDUG",
+            "item_code": "Supreme Wheat Flour 2KG",
+            "actual_qty": 246,
+            "valuation_rate": 76271.186433381,
+            "stock_uom": "BALE",
+            "modified": "2022-12-05 20:42:18.638315",
+            "idx": 100
+        },
+        {
+            "name": "MAT-BIN-2022-88795",
+            "warehouse": "Makindye Main - KDUG",
+            "item_code": "Oner Apple Juice 500ml",
+            "actual_qty": 24,
+            "valuation_rate": 19830.508403581,
+            "stock_uom": "CARTON",
+            "modified": "2022-12-05 20:40:42.165954",
+            "idx": 101
+        },
+        {
+            "name": "MAT-BIN-2022-64382",
+            "warehouse": "Luzira Main - KDUG",
+            "item_code": "Magic  Washing Powder 250G",
+            "actual_qty": 2486,
+            "valuation_rate": 2167.815043219,
+            "stock_uom": "PC",
+            "modified": "2022-12-05 20:40:12.139099",
+            "idx": 102
+        },
+        {
+            "name": "MAT-BIN-2022-68675",
+            "warehouse": "Luzira Main - KDUG",
+            "item_code": "Oner Apple Juice 500ml",
+            "actual_qty": 72,
+            "valuation_rate": 19830.508502552,
+            "stock_uom": "CARTON",
+            "modified": "2022-12-05 20:40:12.103294",
+            "idx": 103
+        },
+        {
+            "name": "MAT-BIN-2022-81422",
+            "warehouse": "Kawempe Main - KDUG",
+            "item_code": "Fortune Butto Cooking Oil 500ML",
+            "actual_qty": 437,
+            "valuation_rate": 69803.481204612,
+            "stock_uom": "CARTON",
+            "modified": "2022-12-05 20:40:06.526898",
+            "idx": 104
+        },
+        {
+            "name": "MAT-BIN-2022-85551",
+            "warehouse": "Kawempe Main - KDUG",
+            "item_code": "Indomie Chicken Flavored Noodles 70g",
+            "actual_qty": 138,
+            "valuation_rate": 31067.7966,
+            "stock_uom": "CARTON",
+            "modified": "2022-12-05 20:40:06.320731",
+            "idx": 105
+        },
+        {
+            "name": "MAT-BIN-2022-11-17185",
+            "warehouse": "Luzira Main - KDUG",
+            "item_code": "Modern Deluxe Tissue Rolls 2ply 100sheets",
+            "actual_qty": 42,
+            "valuation_rate": 7881.355946,
+            "stock_uom": "BALE",
+            "modified": "2022-12-05 20:35:20.922386",
+            "idx": 106
+        },
+        {
+            "name": "MAT-BIN-2022-78501",
+            "warehouse": "Luzira Main - KDUG",
+            "item_code": "Bahari  Salt 200G",
+            "actual_qty": 237,
+            "valuation_rate": 6355.9322,
+            "stock_uom": "CARTON",
+            "modified": "2022-12-05 20:35:20.913787",
+            "idx": 107
+        },
+        {
+            "name": "MAT-BIN-2022-71548",
+            "warehouse": "Luzira Main - KDUG",
+            "item_code": "Ubisco Milk and Honey Biscuits 108Pkts",
+            "actual_qty": 415,
+            "valuation_rate": 6256.888679158,
+            "stock_uom": "CARTON",
+            "modified": "2022-12-05 20:35:20.881445",
+            "idx": 108
+        },
+        {
+            "name": "MAT-BIN-2022-10-09900",
+            "warehouse": "Luzira Main - KDUG",
+            "item_code": "Avion  Drinking Straws",
+            "actual_qty": 129,
+            "valuation_rate": 14830.508472464,
+            "stock_uom": "CARTON",
+            "modified": "2022-12-05 20:33:12.085740",
+            "idx": 109
+        },
+        {
+            "name": "MAT-BIN-2022-11-13063",
+            "warehouse": "Luzira Main - KDUG",
+            "item_code": "Everyday Cream Chocolate Biscuits 9g",
+            "actual_qty": 50,
+            "valuation_rate": 4491.5254,
+            "stock_uom": "CARTON",
+            "modified": "2022-12-05 20:32:21.305434",
+            "idx": 110
+        },
+        {
+            "name": "MAT-BIN-2022-68674",
+            "warehouse": "Luzira Main - KDUG",
+            "item_code": "Oner Mango Juice 500ML",
+            "actual_qty": 88,
+            "valuation_rate": 19830.508488388,
+            "stock_uom": "CARTON",
+            "modified": "2022-12-05 20:28:16.514791",
+            "idx": 111
+        },
+        {
+            "name": "MAT-BIN-2022-94986",
+            "warehouse": "Kawempe Main - KDUG",
+            "item_code": "Softcare Diapers Highcounts Pants 40PC Large",
+            "actual_qty": 466,
+            "valuation_rate": 18644.067793,
+            "stock_uom": "OUTER",
+            "modified": "2022-12-05 20:27:47.455261",
+            "idx": 112
+        },
+        {
+            "name": "MAT-BIN-2022-83369",
+            "warehouse": "Kawempe Main - KDUG",
+            "item_code": "Pembe All Purpose Flour 2KG",
+            "actual_qty": 299,
+            "valuation_rate": 74576.271171,
+            "stock_uom": "BALE",
+            "modified": "2022-12-05 20:27:47.431124",
+            "idx": 113
+        },
+        {
+            "name": "MAT-BIN-2022-81423",
+            "warehouse": "Kawempe Main - KDUG",
+            "item_code": "Fortune Butto Cooking Oil 1L",
+            "actual_qty": 300,
+            "valuation_rate": 69803.389833,
+            "stock_uom": "CARTON",
+            "modified": "2022-12-05 20:27:47.357000",
+            "idx": 114
+        },
+        {
+            "name": "MAT-BIN-2022-10-10160",
+            "warehouse": "Makindye Main - KDUG",
+            "item_code": "Uganda Waragi Premium   200ml",
+            "actual_qty": 9,
+            "valuation_rate": 71267.15103604,
+            "stock_uom": "CARTON",
+            "modified": "2022-12-05 20:27:18.235070",
+            "idx": 115
+        },
+        {
+            "name": "MAT-BIN-2022-82618",
+            "warehouse": "Kawempe Main - KDUG",
+            "item_code": "Mayuge Sugar Brown Sugar 50 KG",
+            "actual_qty": 2,
+            "valuation_rate": 172033.8983,
+            "stock_uom": "BAG",
+            "modified": "2022-12-05 20:26:08.412567",
+            "idx": 116
+        },
+        {
+            "name": "MAT-BIN-2022-80616",
+            "warehouse": "Kawempe Main - KDUG",
+            "item_code": "Oner Mango Juice 500ML",
+            "actual_qty": 242,
+            "valuation_rate": 19830.508479158,
+            "stock_uom": "CARTON",
+            "modified": "2022-12-05 20:25:42.601094",
+            "idx": 117
+        },
+        {
+            "name": "MAT-BIN-2022-11-21155",
+            "warehouse": "Kawempe Main - KDUG",
+            "item_code": "Fortune  Spaghetti 250g",
+            "actual_qty": 103,
+            "valuation_rate": 42788.1356,
+            "stock_uom": "CARTON",
+            "modified": "2022-12-05 20:24:48.880267",
+            "idx": 118
+        },
+        {
+            "name": "MAT-BIN-2022-10-10159",
+            "warehouse": "Makindye Main - KDUG",
+            "item_code": "Uganda Waragi Coconut  200ml",
+            "actual_qty": 51,
+            "valuation_rate": 71822.03396875,
+            "stock_uom": "CARTON",
+            "modified": "2022-12-05 20:24:31.213748",
+            "idx": 119
+        },
+        {
+            "name": "MAT-BIN-2022-95631",
+            "warehouse": "Makindye Main - KDUG",
+            "item_code": "Indomie Chicken Flavored Noodles 70g",
+            "actual_qty": 59,
+            "valuation_rate": 31052.760146596,
+            "stock_uom": "CARTON",
+            "modified": "2022-12-05 20:24:31.209125",
+            "idx": 120
+        },
+        {
+            "name": "MAT-BIN-2022-10-06247",
+            "warehouse": "Makindye Main - KDUG",
+            "item_code": "Softcare Diapers Highcounts Pants 40PC Large",
+            "actual_qty": 337,
+            "valuation_rate": 18644.067793056,
+            "stock_uom": "OUTER",
+            "modified": "2022-12-05 20:24:31.171746",
+            "idx": 121
+        },
+        {
+            "name": "MAT-BIN-2022-64381",
+            "warehouse": "Luzira Main - KDUG",
+            "item_code": "Magic  Laundry & Detergents 45g",
+            "actual_qty": 25,
+            "valuation_rate": 17542.372877905,
+            "stock_uom": "CARTON",
+            "modified": "2022-12-05 20:23:09.991793",
+            "idx": 122
+        },
+        {
+            "name": "MAT-BIN-2022-84724",
+            "warehouse": "Kawempe Main - KDUG",
+            "item_code": "Fortune Butto Cooking Oil 100ML",
+            "actual_qty": 174,
+            "valuation_rate": 25744.85400197,
+            "stock_uom": "CARTON",
+            "modified": "2022-12-05 20:20:16.596719",
+            "idx": 123
+        },
+        {
+            "name": "MAT-BIN-2022-11-17144",
+            "warehouse": "Luzira Main - KDUG",
+            "item_code": "Uganda Waragi Coconut  200ml",
+            "actual_qty": 12,
+            "valuation_rate": 69491.5254,
+            "stock_uom": "CARTON",
+            "modified": "2022-12-05 20:18:18.827381",
+            "idx": 124
+        },
+        {
+            "name": "MAT-BIN-2022-84725",
+            "warehouse": "Kawempe Main - KDUG",
+            "item_code": "Fortune Butto Cooking Oil 200ML",
+            "actual_qty": 97,
+            "valuation_rate": 34718.683195646,
+            "stock_uom": "CARTON",
+            "modified": "2022-12-05 20:14:32.321777",
+            "idx": 125
+        },
+        {
+            "name": "MAT-BIN-2022-10-01012",
+            "warehouse": "Kawempe Main - KDUG",
+            "item_code": "Fortune Butto  Cooking Oil  25ML",
+            "actual_qty": 54,
+            "valuation_rate": 35742.288813657,
+            "stock_uom": "CARTON",
+            "modified": "2022-12-05 20:13:02.250026",
+            "idx": 126
+        },
+        {
+            "name": "MAT-BIN-2022-85338",
+            "warehouse": "Kawempe Main - KDUG",
+            "item_code": "Chapa  Nyota  Blue Bar Soap 600G",
+            "actual_qty": 1,
+            "valuation_rate": 62542.33299522,
+            "stock_uom": "CARTON",
+            "modified": "2022-12-05 20:10:58.307923",
+            "idx": 127
+        },
+        {
+            "name": "MAT-BIN-2022-11-17453",
+            "warehouse": "Kawempe Main - KDUG",
+            "item_code": "Everyday Cream Chocolate Biscuits 9g",
+            "actual_qty": 24,
+            "valuation_rate": 4491.525337188,
+            "stock_uom": "CARTON",
+            "modified": "2022-12-05 20:10:02.436305",
+            "idx": 128
+        },
+        {
+            "name": "MAT-BIN-2022-11-04628",
+            "warehouse": "Kawempe Main - KDUG",
+            "item_code": "Avion  Drinking Straws",
+            "actual_qty": 126,
+            "valuation_rate": 14830.508484846,
+            "stock_uom": "CARTON",
+            "modified": "2022-12-05 20:10:02.402024",
+            "idx": 129
+        },
+        {
+            "name": "MAT-BIN-2022-10-01013",
+            "warehouse": "Kawempe Main - KDUG",
+            "item_code": "Best Fry Cooking Oil 1000ML",
+            "actual_qty": 438,
+            "valuation_rate": 67117.112118299,
+            "stock_uom": "CARTON",
+            "modified": "2022-12-05 20:03:48.785568",
+            "idx": 130
+        },
+        {
+            "name": "MAT-BIN-2022-12-01679",
+            "warehouse": "Kawempe Main - KDUG",
+            "item_code": "Tanzania  Rice  One One 25kg",
+            "actual_qty": 88,
+            "valuation_rate": 105932.2034,
+            "stock_uom": "BAG",
+            "modified": "2022-12-05 20:03:48.768110",
+            "idx": 131
+        },
+        {
+            "name": "MAT-BIN-2022-10-00788",
+            "warehouse": "Nalukolongo Main - KDUG",
+            "item_code": "Supreme Wheat Flour 2KG",
+            "actual_qty": 150,
+            "valuation_rate": 76271.186450025,
+            "stock_uom": "BALE",
+            "modified": "2022-12-05 20:02:30.686092",
+            "idx": 132
+        },
+        {
+            "name": "MAT-BIN-2022-12-02230",
+            "warehouse": "Nalukolongo Main - KDUG",
+            "item_code": "Tanzania  Rice  One One 25kg",
+            "actual_qty": 87,
+            "valuation_rate": 105932.2034,
+            "stock_uom": "BAG",
+            "modified": "2022-12-05 20:02:30.308535",
+            "idx": 133
+        },
+        {
+            "name": "MAT-BIN-2022-80613",
+            "warehouse": "Nalukolongo Main - KDUG",
+            "item_code": "Indomie Chicken Flavored Noodles 70g",
+            "actual_qty": 33,
+            "valuation_rate": 31067.796618,
+            "stock_uom": "CARTON",
+            "modified": "2022-12-05 19:56:29.381602",
+            "idx": 134
+        },
+        {
+            "name": "MAT-BIN-2022-87201",
+            "warehouse": "Nalukolongo Main - KDUG",
+            "item_code": "Bahari  Salt 200G",
+            "actual_qty": 214,
+            "valuation_rate": 6355.932193725,
+            "stock_uom": "CARTON",
+            "modified": "2022-12-05 19:56:29.260116",
+            "idx": 135
+        },
+        {
+            "name": "MAT-BIN-2022-83368",
+            "warehouse": "Kawempe Main - KDUG",
+            "item_code": "Gorillos BBQ Beef Flavored Crisps 24g",
+            "actual_qty": 34,
+            "valuation_rate": 15258.061582675,
+            "stock_uom": "BALE",
+            "modified": "2022-12-05 19:54:45.943917",
+            "idx": 136
+        },
+        {
+            "name": "MAT-BIN-2022-10-05582",
+            "warehouse": "Luzira Main - KDUG",
+            "item_code": "Tanzania  Grade-I Rice 50Kg",
+            "actual_qty": 2,
+            "valuation_rate": 230000,
+            "stock_uom": "BAG",
+            "modified": "2022-12-05 19:48:29.444551",
+            "idx": 137
+        },
+        {
+            "name": "MAT-BIN-2022-85524",
+            "warehouse": "Kawempe Main - KDUG",
+            "item_code": "Gorillos Chicken Flavored Crisps 24g",
+            "actual_qty": 147,
+            "valuation_rate": 15254.237293532,
+            "stock_uom": "BALE",
+            "modified": "2022-12-05 19:43:21.219381",
+            "idx": 138
+        },
+        {
+            "name": "MAT-BIN-2022-83912",
+            "warehouse": "Luzira Main - KDUG",
+            "item_code": "White Star Bar Soap 20 x 1Kg",
+            "actual_qty": 4,
+            "valuation_rate": 91781.851644829,
+            "stock_uom": "CARTON",
+            "modified": "2022-12-05 19:33:08.963040",
+            "idx": 139
+        },
+        {
+            "name": "MAT-BIN-2022-72450",
+            "warehouse": "Luzira Main - KDUG",
+            "item_code": "White  Star Bar Soap 1Kg",
+            "actual_qty": 11,
+            "valuation_rate": 45889.8305,
+            "stock_uom": "CARTON",
+            "modified": "2022-12-05 19:31:31.510308",
+            "idx": 140
+        },
+        {
+            "name": "MAT-BIN-2022-64379",
+            "warehouse": "Luzira Main - KDUG",
+            "item_code": "Fortune Butto Cooking Oil 1L",
+            "actual_qty": 0,
+            "valuation_rate": 69803.3898,
+            "stock_uom": "CARTON",
+            "modified": "2022-12-05 19:31:31.159148",
+            "idx": 141
+        },
+        {
+            "name": "MAT-BIN-2022-97035",
+            "warehouse": "Luzira Main - KDUG",
+            "item_code": "Fortune Butto Cooking Oil 20L",
+            "actual_qty": 4,
+            "valuation_rate": 121149.1525,
+            "stock_uom": "JERICAN",
+            "modified": "2022-12-05 19:30:11.078103",
+            "idx": 142
+        },
+        {
+            "name": "MAT-BIN-2022-11-25050",
+            "warehouse": "Kawempe Main - KDUG",
+            "item_code": "Krishna  Matches Boxes",
+            "actual_qty": 11,
+            "valuation_rate": 54237.2882,
+            "stock_uom": "CARTON",
+            "modified": "2022-12-05 19:29:52.612878",
+            "idx": 143
+        },
+        {
+            "name": "MAT-BIN-2022-95632",
+            "warehouse": "Makindye Main - KDUG",
+            "item_code": "Rock Boom Energy Drink 320ML",
+            "actual_qty": 19,
+            "valuation_rate": 14573.732690933,
+            "stock_uom": "CARTON",
+            "modified": "2022-12-05 19:23:06.789035",
+            "idx": 144
+        },
+        {
+            "name": "MAT-BIN-2022-12-01031",
+            "warehouse": "Luzira Main - KDUG",
+            "item_code": "Sunseed Sun Flower",
+            "actual_qty": 0,
+            "valuation_rate": 96440.678,
+            "stock_uom": "Nos",
+            "modified": "2022-12-05 19:22:38.659272",
+            "idx": 145
+        },
+        {
+            "name": "MAT-BIN-2022-95097",
+            "warehouse": "Makindye Main - KDUG",
+            "item_code": "Gorillos Chicken Flavored Crisps 24g",
+            "actual_qty": 137,
+            "valuation_rate": 15254.465328006,
+            "stock_uom": "BALE",
+            "modified": "2022-12-05 19:15:32.133719",
+            "idx": 146
+        },
+        {
+            "name": "MAT-BIN-2022-90896",
+            "warehouse": "Makindye Main - KDUG",
+            "item_code": "Luxury Tissue Rolls 24",
+            "actual_qty": 168,
+            "valuation_rate": 7430.681507658,
+            "stock_uom": "BALE",
+            "modified": "2022-12-05 19:11:19.246111",
+            "idx": 147
+        },
+        {
+            "name": "MAT-BIN-2022-72301",
+            "warehouse": "Nalukolongo Main - KDUG",
+            "item_code": "Star Goldy Cooking Oil 1L",
+            "actual_qty": 165,
+            "valuation_rate": 67789.048035222,
+            "stock_uom": "CARTON",
+            "modified": "2022-12-05 19:04:09.078695",
+            "idx": 148
+        },
+        {
+            "name": "MAT-BIN-2022-11-25032",
+            "warehouse": "Nalukolongo Main - KDUG",
+            "item_code": "Tanzania Rice  One One 50kg",
+            "actual_qty": 79,
+            "valuation_rate": 211864.4068,
+            "stock_uom": "BAG",
+            "modified": "2022-12-05 19:03:10.813828",
+            "idx": 149
+        },
+        {
+            "name": "MAT-BIN-2022-92591",
+            "warehouse": "Nalukolongo Main - KDUG",
+            "item_code": "Softcare Diapers Highcounts Pants 40PC Large",
+            "actual_qty": 854,
+            "valuation_rate": 18644.0678,
+            "stock_uom": "OUTER",
+            "modified": "2022-12-05 19:02:24.104076",
+            "idx": 150
+        },
+        {
+            "name": "MAT-BIN-2022-10-09298",
+            "warehouse": "Nalukolongo Main - KDUG",
+            "item_code": "Avion  Drinking Straws",
+            "actual_qty": 111,
+            "valuation_rate": 14830.50849925,
+            "stock_uom": "CARTON",
+            "modified": "2022-12-05 18:59:07.212593",
+            "idx": 151
+        },
+        {
+            "name": "MAT-BIN-2022-75729",
+            "warehouse": "Nalukolongo Main - KDUG",
+            "item_code": "Ubisco Milk and Honey Biscuits 108Pkts",
+            "actual_qty": 242,
+            "valuation_rate": 6223.278226916,
+            "stock_uom": "CARTON",
+            "modified": "2022-12-05 18:58:20.551625",
+            "idx": 152
+        },
+        {
+            "name": "MAT-BIN-2022-71988",
+            "warehouse": "Nalukolongo Main - KDUG",
+            "item_code": "Oner Apple Juice 500ml",
+            "actual_qty": 261,
+            "valuation_rate": 19830.508482888,
+            "stock_uom": "CARTON",
+            "modified": "2022-12-05 18:58:20.515890",
+            "idx": 153
+        },
+        {
+            "name": "MAT-BIN-2022-10-04930",
+            "warehouse": "Nalukolongo Main - KDUG",
+            "item_code": "Modern Deluxe Tissue Rolls 2ply 100sheets",
+            "actual_qty": 136,
+            "valuation_rate": 7881.355926815,
+            "stock_uom": "BALE",
+            "modified": "2022-12-05 18:58:02.198049",
+            "idx": 154
+        },
+        {
+            "name": "MAT-BIN-2022-83024",
+            "warehouse": "Nalukolongo Main - KDUG",
+            "item_code": "Mountain dew  Soda 330ml",
+            "actual_qty": 0,
+            "valuation_rate": 8135.593221875,
+            "stock_uom": "CARTON",
+            "modified": "2022-12-05 18:56:00.200177",
+            "idx": 155
+        },
+        {
+            "name": "MAT-BIN-2022-12-01572",
+            "warehouse": "Makindye Main - KDUG",
+            "item_code": "Krishna  Matches Boxes",
+            "actual_qty": 27,
+            "valuation_rate": 54237.2882,
+            "stock_uom": "CARTON",
+            "modified": "2022-12-05 18:54:01.959644",
+            "idx": 156
+        },
+        {
+            "name": "MAT-BIN-2022-94334",
+            "warehouse": "Kawempe Main - KDUG",
+            "item_code": "Indomie Beef Flavored  Noodles 70g",
+            "actual_qty": 372,
+            "valuation_rate": 29909.476199274,
+            "stock_uom": "CARTON",
+            "modified": "2022-12-05 18:53:35.063562",
+            "idx": 157
+        },
+        {
+            "name": "MAT-BIN-2022-92866",
+            "warehouse": "Kawempe Main - KDUG",
+            "item_code": "Star Goldy Cooking Oil 20L",
+            "actual_qty": 10,
+            "valuation_rate": 117796.610333,
+            "stock_uom": "JERICAN",
+            "modified": "2022-12-05 18:47:03.425709",
+            "idx": 158
+        },
+        {
+            "name": "MAT-BIN-2022-10-08573",
+            "warehouse": "Kawempe Main - KDUG",
+            "item_code": "Gorillos Chilli Tomato Flavoured Crisps 24g",
+            "actual_qty": 30,
+            "valuation_rate": 15254.2372,
+            "stock_uom": "BALE",
+            "modified": "2022-12-05 18:45:48.557395",
+            "idx": 159
+        },
+        {
+            "name": "MAT-BIN-2022-11-12948",
+            "warehouse": "Kawempe Main - KDUG",
+            "item_code": "Top Star Bar Soap Blue 600g",
+            "actual_qty": 31,
+            "valuation_rate": 61016.9492,
+            "stock_uom": "CARTON",
+            "modified": "2022-12-05 18:35:22.356922",
+            "idx": 160
+        },
+        {
+            "name": "MAT-BIN-2022-84437",
+            "warehouse": "Kawempe Main - KDUG",
+            "item_code": "Kakira Brown Sugar 25KG",
+            "actual_qty": 0,
+            "valuation_rate": 85771.022226658,
+            "stock_uom": "Nos",
+            "modified": "2022-12-05 18:14:06.545181",
+            "idx": 161
+        },
+        {
+            "name": "MAT-BIN-2022-85550",
+            "warehouse": "Kawempe Main - KDUG",
+            "item_code": "Magic  Washing Powder 250G",
+            "actual_qty": 0,
+            "valuation_rate": 2167.796611,
+            "stock_uom": "PC",
+            "modified": "2022-12-05 18:13:41.548316",
+            "idx": 162
+        },
+        {
+            "name": "MAT-BIN-2022-104810",
+            "warehouse": "Makindye Main - KDUG",
+            "item_code": "Kakira Ice Green Hard Boiled sweets Mints 20Sachets x 3Pcs",
+            "actual_qty": 47,
+            "valuation_rate": 49134.170690708,
+            "stock_uom": "CARTON",
+            "modified": "2022-12-05 17:56:16.777450",
+            "idx": 163
+        },
+        {
+            "name": "MAT-BIN-2022-11-18528",
+            "warehouse": "Kawempe Main - KDUG",
+            "item_code": "Roki  Cooking Oil 1000ML",
+            "actual_qty": 0,
+            "valuation_rate": 80593.2204,
+            "stock_uom": "CARTON",
+            "modified": "2022-12-05 17:39:25.811314",
+            "idx": 164
+        },
+        {
+            "name": "MAT-BIN-2022-73336",
+            "warehouse": "Nalukolongo Main - KDUG",
+            "item_code": "Azam  All Purpose Flour 2KG",
+            "actual_qty": 0,
+            "valuation_rate": 76271.186440004,
+            "stock_uom": "BALE",
+            "modified": "2022-12-05 17:39:23.480154",
+            "idx": 165
+        },
+        {
+            "name": "MAT-BIN-2022-103608",
+            "warehouse": "Nalukolongo Main - KDUG",
+            "item_code": "Fortune Butto Cooking Oil 20L",
+            "actual_qty": 80,
+            "valuation_rate": 121149.1525,
+            "stock_uom": "JERICAN",
+            "modified": "2022-12-05 17:36:44.177253",
+            "idx": 166
+        },
+        {
+            "name": "MAT-BIN-2022-91625",
+            "warehouse": "Kawempe Main - KDUG",
+            "item_code": "Softcare A+  Sanitary Pads Cotton Purple",
+            "actual_qty": 8,
+            "valuation_rate": 0,
+            "stock_uom": "CARTON",
+            "modified": "2022-12-05 17:33:43.391593",
+            "idx": 167
+        },
+        {
+            "name": "MAT-BIN-2022-71985",
+            "warehouse": "Nalukolongo Main - KDUG",
+            "item_code": "Oner Mango Juice 500ML",
+            "actual_qty": 189,
+            "valuation_rate": 19810.784821615,
+            "stock_uom": "CARTON",
+            "modified": "2022-12-05 17:32:26.330333",
+            "idx": 168
+        },
+        {
+            "name": "MAT-BIN-2022-71986",
+            "warehouse": "Nalukolongo Main - KDUG",
+            "item_code": "Rock Boom Energy Drink 320ML",
+            "actual_qty": 87,
+            "valuation_rate": 14600.594557629,
+            "stock_uom": "CARTON",
+            "modified": "2022-12-05 17:26:54.986247",
+            "idx": 169
+        },
+        {
+            "name": "MAT-BIN-2022-80379",
+            "warehouse": "Nalukolongo Main - KDUG",
+            "item_code": "Rwenzori  Tea 10g",
+            "actual_qty": 435,
+            "valuation_rate": 20646.426485565,
+            "stock_uom": "CARTON",
+            "modified": "2022-12-05 17:04:46.059334",
+            "idx": 170
+        },
+        {
+            "name": "MAT-BIN-2022-12-02142",
+            "warehouse": "Kawempe Main - KDUG",
+            "item_code": "Softcare Jumbo Diapers M 63pc",
+            "actual_qty": 38,
+            "valuation_rate": 0,
+            "stock_uom": "OUTER",
+            "modified": "2022-12-05 17:01:50.135120",
+            "idx": 171
+        },
+        {
+            "name": "MAT-BIN-2022-11-09654",
+            "warehouse": "Kawempe Main - KDUG",
+            "item_code": "Softcare Medium Diapers Low Counts 12PC",
+            "actual_qty": 8,
+            "valuation_rate": 0,
+            "stock_uom": "OUTER",
+            "modified": "2022-12-05 17:01:50.132122",
+            "idx": 172
+        },
+        {
+            "name": "MAT-BIN-2022-12-01578",
+            "warehouse": "Kawempe Main - KDUG",
+            "item_code": "Softcare Mini Diapers M 6pc",
+            "actual_qty": 69,
+            "valuation_rate": 0,
+            "stock_uom": "OUTER",
+            "modified": "2022-12-05 17:01:50.112694",
+            "idx": 173
+        },
+        {
+            "name": "MAT-BIN-2022-89528",
+            "warehouse": "Makindye Main - KDUG",
+            "item_code": "Magic  Laundry & Detergents 45g",
+            "actual_qty": 3,
+            "valuation_rate": 17542.999464918,
+            "stock_uom": "CARTON",
+            "modified": "2022-12-05 16:51:55.294204",
+            "idx": 174
+        },
+        {
+            "name": "MAT-BIN-2022-96086",
+            "warehouse": "Makindye Main - KDUG",
+            "item_code": "Pembe All Purpose Flour 2KG",
+            "actual_qty": 10,
+            "valuation_rate": 74574.799588944,
+            "stock_uom": "BALE",
+            "modified": "2022-12-05 16:51:55.181478",
+            "idx": 175
+        },
+        {
+            "name": "MAT-BIN-2022-102989",
+            "warehouse": "Makindye Main - KDUG",
+            "item_code": "Star Goldy Cooking Oil 1L",
+            "actual_qty": 101,
+            "valuation_rate": 67771.655116033,
+            "stock_uom": "CARTON",
+            "modified": "2022-12-05 16:50:49.948733",
+            "idx": 176
+        },
+        {
+            "name": "MAT-BIN-2022-11-25052",
+            "warehouse": "Kawempe Main - KDUG",
+            "item_code": "Tanzania Rice  One One 50kg",
+            "actual_qty": 73,
+            "valuation_rate": 211864.4068,
+            "stock_uom": "BAG",
+            "modified": "2022-12-05 16:37:20.573370",
+            "idx": 177
+        },
+        {
+            "name": "MAT-BIN-2022-11-23695",
+            "warehouse": "Nalukolongo Main - KDUG",
+            "item_code": "Softcare A+ 10s Sanitary Pads Cotton Purple",
+            "actual_qty": 25,
+            "valuation_rate": 38135.5932,
+            "stock_uom": "CARTON",
+            "modified": "2022-12-05 16:21:11.685432",
+            "idx": 178
+        },
+        {
+            "name": "MAT-BIN-2022-10-05583",
+            "warehouse": "Luzira Main - KDUG",
+            "item_code": "Tanzania Grade-I Rice 25Kg",
+            "actual_qty": 0,
+            "valuation_rate": 115000,
+            "stock_uom": "BAG",
+            "modified": "2022-12-05 16:09:20.802096",
+            "idx": 179
+        },
+        {
+            "name": "MAT-BIN-2022-69297",
+            "warehouse": "Luzira Main - KDUG",
+            "item_code": "Fortune Butto Cooking Oil 200ML",
+            "actual_qty": 2,
+            "valuation_rate": 34146.66491544,
+            "stock_uom": "CARTON",
+            "modified": "2022-12-05 16:08:14.260040",
+            "idx": 180
+        },
+        {
+            "name": "MAT-BIN-2022-12-01593",
+            "warehouse": "Makindye Main - KDUG",
+            "item_code": "Tanzania  Rice  One One 25kg",
+            "actual_qty": 24,
+            "valuation_rate": 105932.203333,
+            "stock_uom": "BAG",
+            "modified": "2022-12-05 15:38:05.891387",
+            "idx": 181
+        },
+        {
+            "name": "MAT-BIN-2022-12-01598",
+            "warehouse": "Luzira Main - KDUG",
+            "item_code": "Tanzania Rice  One One 50kg",
+            "actual_qty": 83,
+            "valuation_rate": 211864.4068,
+            "stock_uom": "BAG",
+            "modified": "2022-12-05 15:29:30.923671",
+            "idx": 182
+        },
+        {
+            "name": "MAT-BIN-2022-72355",
+            "warehouse": "Luzira Main - KDUG",
+            "item_code": "Chapa  Nyota  Blue Bar Soap 600G",
+            "actual_qty": 7,
+            "valuation_rate": 62542.372868464,
+            "stock_uom": "CARTON",
+            "modified": "2022-12-05 15:29:30.916902",
+            "idx": 183
+        },
+        {
+            "name": "MAT-BIN-2022-11-25508",
+            "warehouse": "Luzira Main - KDUG",
+            "item_code": "Krishna  Candles 12 x 8PC",
+            "actual_qty": 2,
+            "valuation_rate": 33898.305,
+            "stock_uom": "CARTON",
+            "modified": "2022-12-05 15:29:03.800791",
+            "idx": 184
+        },
+        {
+            "name": "MAT-BIN-2022-74562",
+            "warehouse": "Luzira Main - KDUG",
+            "item_code": "Gorillos BBQ Beef Flavored Crisps 24g",
+            "actual_qty": 134,
+            "valuation_rate": 15254.926792844,
+            "stock_uom": "BALE",
+            "modified": "2022-12-05 15:27:28.514839",
+            "idx": 185
+        },
+        {
+            "name": "MAT-BIN-2022-12-00241",
+            "warehouse": "Nalukolongo Main - KDUG",
+            "item_code": "Softcare Mini Diapers M 6pc",
+            "actual_qty": 26,
+            "valuation_rate": 0,
+            "stock_uom": "OUTER",
+            "modified": "2022-12-05 15:26:11.624828",
+            "idx": 186
+        },
+        {
+            "name": "MAT-BIN-2022-10-10103",
+            "warehouse": "Luzira Main - KDUG",
+            "item_code": "Fortune Butto  Cooking Oil  25ML",
+            "actual_qty": 0,
+            "valuation_rate": 35414.74230745,
+            "stock_uom": "CARTON",
+            "modified": "2022-12-05 15:24:30.620502",
+            "idx": 187
+        },
+        {
+            "name": "MAT-BIN-2022-11-25722",
+            "warehouse": "Nalukolongo Main - KDUG",
+            "item_code": "Gorillos Chilli Tomato Flavoured Crisps 24g",
+            "actual_qty": 33,
+            "valuation_rate": 15254.2372,
+            "stock_uom": "BALE",
+            "modified": "2022-12-05 15:23:42.530531",
+            "idx": 188
+        },
+        {
+            "name": "MAT-BIN-2022-102988",
+            "warehouse": "Makindye Main - KDUG",
+            "item_code": "Star Goldy Cooking Oil 20L",
+            "actual_qty": 0,
+            "valuation_rate": 117796.610125,
+            "stock_uom": "JERICAN",
+            "modified": "2022-12-05 15:12:12.485919",
+            "idx": 189
+        },
+        {
+            "name": "MAT-BIN-2022-11-18529",
+            "warehouse": "Kawempe Main - KDUG",
+            "item_code": "Softcare A+ 10s Sanitary Pads Cotton Purple",
+            "actual_qty": 129,
+            "valuation_rate": 37883.039602649,
+            "stock_uom": "CARTON",
+            "modified": "2022-12-05 14:23:12.548118",
+            "idx": 190
+        },
+        {
+            "name": "MAT-BIN-2022-10-01986",
+            "warehouse": "Makindye Main - KDUG",
+            "item_code": "Tanzania Grade-I Rice 25Kg",
+            "actual_qty": 0,
+            "valuation_rate": 115000,
+            "stock_uom": "BAG",
+            "modified": "2022-12-05 14:09:33.285349",
+            "idx": 191
+        },
+        {
+            "name": "MAT-BIN-2022-91332",
+            "warehouse": "Makindye Main - KDUG",
+            "item_code": "Kakira Brown Sugar 10KG",
+            "actual_qty": 0,
+            "valuation_rate": 35593.220335,
+            "stock_uom": "BAG",
+            "modified": "2022-12-05 14:08:55.750468",
+            "idx": 192
+        },
+        {
+            "name": "MAT-BIN-2022-11-20291",
+            "warehouse": "Makindye Main - KDUG",
+            "item_code": "Sting Gold  Energy Drink 330ML",
+            "actual_qty": 93,
+            "valuation_rate": 13559.322,
+            "stock_uom": "CARTON",
+            "modified": "2022-12-05 14:07:51.881586",
+            "idx": 193
+        },
+        {
+            "name": "MAT-BIN-2022-89526",
+            "warehouse": "Makindye Main - KDUG",
+            "item_code": "Fortune Butto Cooking Oil 1L",
+            "actual_qty": 0,
+            "valuation_rate": 70122.473191287,
+            "stock_uom": "CARTON",
+            "modified": "2022-12-05 14:07:11.331928",
+            "idx": 194
+        },
+        {
+            "name": "MAT-BIN-2022-102990",
+            "warehouse": "Makindye Main - KDUG",
+            "item_code": "Star Goldy Cooking Oil 500ML",
+            "actual_qty": 0,
+            "valuation_rate": 67618.252731899,
+            "stock_uom": "CARTON",
+            "modified": "2022-12-05 13:42:43.469899",
+            "idx": 195
+        },
+        {
+            "name": "MAT-BIN-2022-10-08166",
+            "warehouse": "Makindye Main - KDUG",
+            "item_code": "Best Fry Cooking Oil 10L",
+            "actual_qty": 19,
+            "valuation_rate": 64516.748563853,
+            "stock_uom": "JERICAN",
+            "modified": "2022-12-05 13:26:22.696966",
+            "idx": 196
+        },
+        {
+            "name": "MAT-BIN-2022-10-09497",
+            "warehouse": "Makindye Main - KDUG",
+            "item_code": "Avion  Drinking Straws",
+            "actual_qty": 62,
+            "valuation_rate": 14830.508456074,
+            "stock_uom": "CARTON",
+            "modified": "2022-12-05 13:25:43.178156",
+            "idx": 197
+        },
+        {
+            "name": "MAT-BIN-2022-85858",
+            "warehouse": "Kawempe Main - KDUG",
+            "item_code": "Ubisco Milk and Honey Biscuits 108Pkts",
+            "actual_qty": 580,
+            "valuation_rate": 6372.881356497,
+            "stock_uom": "CARTON",
+            "modified": "2022-12-05 13:22:02.662213",
+            "idx": 198
+        },
+        {
+            "name": "MAT-BIN-2022-72684",
+            "warehouse": "Nalukolongo Main - KDUG",
+            "item_code": "Magic  Washing Powder 250G",
+            "actual_qty": 200,
+            "valuation_rate": 2167.796615479,
+            "stock_uom": "PC",
+            "modified": "2022-12-05 13:21:37.681168",
+            "idx": 199
+        },
+        {
+            "name": "MAT-BIN-2022-80614",
+            "warehouse": "Nalukolongo Main - KDUG",
+            "item_code": "Indomie Beef Flavored  Noodles 70g",
+            "actual_qty": 174,
+            "valuation_rate": 31067.796607866,
+            "stock_uom": "CARTON",
+            "modified": "2022-12-05 13:13:08.780418",
+            "idx": 200
+        },
+        {
+            "name": "MAT-BIN-2022-11-17377",
+            "warehouse": "Nalukolongo Main - KDUG",
+            "item_code": "Uganda Waragi Coconut  200ml",
+            "actual_qty": 81,
+            "valuation_rate": 69491.5254,
+            "stock_uom": "CARTON",
+            "modified": "2022-12-05 13:02:57.111573",
+            "idx": 201
+        },
+        {
+            "name": "MAT-BIN-2022-12-00242",
+            "warehouse": "Nalukolongo Main - KDUG",
+            "item_code": "Softcare Jumbo Diapers M 63pc",
+            "actual_qty": 27,
+            "valuation_rate": 0,
+            "stock_uom": "OUTER",
+            "modified": "2022-12-05 12:59:52.383100",
+            "idx": 202
+        },
+        {
+            "name": "MAT-BIN-2022-10-10157",
+            "warehouse": "Luzira Main - KDUG",
+            "item_code": "Uganda Waragi Premium   200ml",
+            "actual_qty": 2,
+            "valuation_rate": 71444.067848,
+            "stock_uom": "CARTON",
+            "modified": "2022-12-05 12:55:03.561435",
+            "idx": 203
+        },
+        {
+            "name": "MAT-BIN-2022-70153",
+            "warehouse": "Luzira Main - KDUG",
+            "item_code": "Kakira Brown Sugar 25KG",
+            "actual_qty": 7,
+            "valuation_rate": 85593.220333,
+            "stock_uom": "Nos",
+            "modified": "2022-12-05 12:55:03.497727",
+            "idx": 204
+        },
+        {
+            "name": "MAT-BIN-2022-11-14101",
+            "warehouse": "Makindye Main - KDUG",
+            "item_code": "Jjimu  Maize Flour 25Kg",
+            "actual_qty": 0,
+            "valuation_rate": 63983.050800264,
+            "stock_uom": "BAG",
+            "modified": "2022-12-05 12:39:44.046756",
+            "idx": 205
+        },
+        {
+            "name": "MAT-BIN-2022-12-01033",
+            "warehouse": "Luzira Main - KDUG",
+            "item_code": "Sunseed Sun Flower Cooking Oil 5L",
+            "actual_qty": 5,
+            "valuation_rate": 151525.4235,
+            "stock_uom": "Nos",
+            "modified": "2022-12-05 11:54:28.025703",
+            "idx": 206
+        },
+        {
+            "name": "MAT-BIN-2022-10-00164",
+            "warehouse": "Luzira Main - KDUG",
+            "item_code": "Tanzania  Grade-II Rice 25Kg",
+            "actual_qty": 1,
+            "valuation_rate": 93230.595400738,
+            "stock_uom": "BAG",
+            "modified": "2022-12-05 11:45:57.642905",
+            "idx": 207
+        },
+        {
+            "name": "MAT-BIN-2022-71550",
+            "warehouse": "Luzira Main - KDUG",
+            "item_code": "Indomie Beef Flavored  Noodles 70g",
+            "actual_qty": 116,
+            "valuation_rate": 31067.7966,
+            "stock_uom": "CARTON",
+            "modified": "2022-12-05 11:45:56.362171",
+            "idx": 208
+        },
+        {
+            "name": "MAT-BIN-2022-12-01594",
+            "warehouse": "Makindye Main - KDUG",
+            "item_code": "Tanzania Rice  One One 50kg",
+            "actual_qty": 26,
+            "valuation_rate": 211864.406667,
+            "stock_uom": "BAG",
+            "modified": "2022-12-05 11:12:51.668789",
+            "idx": 209
+        },
+        {
+            "name": "MAT-BIN-2022-11-23398",
+            "warehouse": "Makindye Main - KDUG",
+            "item_code": "Royco Mchuzi Mix Beef Ground Spices 10g",
+            "actual_qty": 1,
+            "valuation_rate": 16525.4237,
+            "stock_uom": "CARTON",
+            "modified": "2022-12-05 10:11:39.664664",
+            "idx": 210
+        },
+        {
+            "name": "MAT-BIN-2022-98167",
+            "warehouse": "Makindye Main - KDUG",
+            "item_code": "Ubisco Milk and Honey Biscuits 108Pkts",
+            "actual_qty": 209,
+            "valuation_rate": 6121.381331246,
+            "stock_uom": "CARTON",
+            "modified": "2022-12-05 10:11:39.374141",
+            "idx": 211
+        },
+        {
+            "name": "MAT-BIN-2022-11-06945",
+            "warehouse": "Kawempe Main - KDUG",
+            "item_code": "Everest Tangawizi Tea 8g",
+            "actual_qty": 37,
+            "valuation_rate": 17796.6102,
+            "stock_uom": "CARTON",
+            "modified": "2022-12-05 09:29:02.493133",
+            "idx": 212
+        },
+        {
+            "name": "MAT-BIN-2022-70152",
+            "warehouse": "Luzira Main - KDUG",
+            "item_code": "Kakira Brown Sugar 50KG",
+            "actual_qty": 0,
+            "valuation_rate": 170444.094056124,
+            "stock_uom": "BAG",
+            "modified": "2022-12-05 08:50:36.308350",
+            "idx": 213
+        },
+        {
+            "name": "MAT-BIN-2022-70154",
+            "warehouse": "Luzira Main - KDUG",
+            "item_code": "Kakira Brown Sugar 1Kg",
+            "actual_qty": 0,
+            "valuation_rate": 76864.406761953,
+            "stock_uom": "CARTON",
+            "modified": "2022-12-05 06:18:25.231488",
+            "idx": 214
+        },
+        {
+            "name": "MAT-BIN-2022-10-00997",
+            "warehouse": "Nalukolongo Main - KDUG",
+            "item_code": "Tanzania Grade-I Rice 25Kg",
+            "actual_qty": 0,
+            "valuation_rate": 115000,
+            "stock_uom": "BAG",
+            "modified": "2022-12-05 06:14:55.126723",
+            "idx": 215
+        },
+        {
+            "name": "MAT-BIN-2022-72698",
+            "warehouse": "Nalukolongo Main - KDUG",
+            "item_code": "Pembe All Purpose Flour 2KG",
+            "actual_qty": 0,
+            "valuation_rate": 74576.271166485,
+            "stock_uom": "BALE",
+            "modified": "2022-12-04 04:09:32.052541",
+            "idx": 216
+        },
+        {
+            "name": "MAT-BIN-2022-11-22785",
+            "warehouse": "Makindye Main - KDUG",
+            "item_code": "Tanzania  Grade-II Rice 50Kg",
+            "actual_qty": 1,
+            "valuation_rate": 220011.303364925,
+            "stock_uom": "BAG",
+            "modified": "2022-12-03 20:10:06.532281",
+            "idx": 217
+        },
+        {
+            "name": "MAT-BIN-2022-10-01096",
+            "warehouse": "Nalukolongo Main - KDUG",
+            "item_code": "Best Fry Cooking Oil 10L",
+            "actual_qty": 0,
+            "valuation_rate": 61105.955939661,
+            "stock_uom": "JERICAN",
+            "modified": "2022-12-03 19:09:17.849408",
+            "idx": 218
+        },
+        {
+            "name": "MAT-BIN-2022-72345",
+            "warehouse": "Nalukolongo Main - KDUG",
+            "item_code": "Kakira Brown Sugar 25KG",
+            "actual_qty": 0,
+            "valuation_rate": 87711.8644,
+            "stock_uom": "Nos",
+            "modified": "2022-12-03 18:40:58.361343",
+            "idx": 219
+        },
+        {
+            "name": "MAT-BIN-2022-11-21699",
+            "warehouse": "Nalukolongo Main - KDUG",
+            "item_code": "Everyday Cream Chocolate Biscuits 9g",
+            "actual_qty": 0,
+            "valuation_rate": 4491.5254,
+            "stock_uom": "CARTON",
+            "modified": "2022-12-03 18:35:12.219691",
+            "idx": 220
+        },
+        {
+            "name": "MAT-BIN-2022-10-00340",
+            "warehouse": "Kawempe Main - KDUG",
+            "item_code": "Tanzania  Grade-I Rice 50Kg",
+            "actual_qty": 0,
+            "valuation_rate": 229987.655511423,
+            "stock_uom": "BAG",
+            "modified": "2022-12-03 18:16:06.077478",
+            "idx": 221
+        },
+        {
+            "name": "MAT-BIN-2022-91331",
+            "warehouse": "Makindye Main - KDUG",
+            "item_code": "Kakira Brown Sugar 25KG",
+            "actual_qty": 0,
+            "valuation_rate": 85593.220365038,
+            "stock_uom": "Nos",
+            "modified": "2022-12-03 14:52:40.606071",
+            "idx": 222
+        },
+        {
+            "name": "MAT-BIN-2022-100270",
+            "warehouse": "Makindye Main - KDUG",
+            "item_code": "Kakira Brown Sugar 50KG",
+            "actual_qty": 0,
+            "valuation_rate": 169491.525428931,
+            "stock_uom": "BAG",
+            "modified": "2022-12-03 14:52:05.154869",
+            "idx": 223
+        },
+        {
+            "name": "MAT-BIN-2022-11-10639",
+            "warehouse": "Luzira Main - KDUG",
+            "item_code": "Jjimu  Maize Flour 25Kg",
+            "actual_qty": 0,
+            "valuation_rate": 63983.050839463,
+            "stock_uom": "BAG",
+            "modified": "2022-12-03 12:54:21.499897",
+            "idx": 224
+        },
+        {
+            "name": "MAT-BIN-2022-84436",
+            "warehouse": "Kawempe Main - KDUG",
+            "item_code": "Kakira Brown Sugar 10KG",
+            "actual_qty": 0,
+            "valuation_rate": 35670.074442449,
+            "stock_uom": "BAG",
+            "modified": "2022-12-03 11:32:13.955054",
+            "idx": 225
+        },
+        {
+            "name": "MAT-BIN-2022-10-08928",
+            "warehouse": "Makindye Main - KDUG",
+            "item_code": "Tanzania  Grade-II Rice 25Kg",
+            "actual_qty": 0,
+            "valuation_rate": 93230.381725722,
+            "stock_uom": "BAG",
+            "modified": "2022-12-03 11:17:05.073812",
+            "idx": 226
+        },
+        {
+            "name": "MAT-BIN-2022-93803",
+            "warehouse": "Makindye Main - KDUG",
+            "item_code": "Mountain dew  Soda 330ml",
+            "actual_qty": 0,
+            "valuation_rate": 8177.843815461,
+            "stock_uom": "CARTON",
+            "modified": "2022-12-03 09:57:58.235585",
+            "idx": 227
+        },
+        {
+            "name": "MAT-BIN-2022-11-16255",
+            "warehouse": "Nalukolongo Main - KDUG",
+            "item_code": "Fortune  Spaghetti 450g",
+            "actual_qty": 0,
+            "valuation_rate": 41110.1694,
+            "stock_uom": "CARTON",
+            "modified": "2022-12-03 09:14:33.615860",
+            "idx": 228
+        },
+        {
+            "name": "MAT-BIN-2022-11-20295",
+            "warehouse": "Makindye Main - KDUG",
+            "item_code": "Fortune  Spaghetti 250g",
+            "actual_qty": 1,
+            "valuation_rate": 42788.1356,
+            "stock_uom": "CARTON",
+            "modified": "2022-12-03 06:50:14.784716",
+            "idx": 229
+        },
+        {
+            "name": "MAT-BIN-2022-102792",
+            "warehouse": "Nalukolongo Main - KDUG",
+            "item_code": "Mirinda Green Apple Soda 330ML",
+            "actual_qty": 0,
+            "valuation_rate": 8135.593221917,
+            "stock_uom": "CARTON",
+            "modified": "2022-12-03 06:18:55.523992",
+            "idx": 230
+        },
+        {
+            "name": "MAT-BIN-2022-11-20083",
+            "warehouse": "Nalukolongo Main - KDUG",
+            "item_code": "Fortune  Spaghetti 250g",
+            "actual_qty": 0,
+            "valuation_rate": 42788.1356,
+            "stock_uom": "CARTON",
+            "modified": "2022-12-03 06:18:22.828300",
+            "idx": 231
+        },
+        {
+            "name": "MAT-BIN-2022-85659",
+            "warehouse": "Kawempe Main - KDUG",
+            "item_code": "Bahari  Salt 200G",
+            "actual_qty": 0,
+            "valuation_rate": 6355.932194343,
+            "stock_uom": "CARTON",
+            "modified": "2022-12-02 18:52:20.416775",
+            "idx": 232
+        },
+        {
+            "name": "MAT-BIN-2022-11-16599",
+            "warehouse": "Makindye Main - KDUG",
+            "item_code": "Fortune  Spaghetti 450g",
+            "actual_qty": 0,
+            "valuation_rate": 41110.1695,
+            "stock_uom": "CARTON",
+            "modified": "2022-12-02 18:34:51.309178",
+            "idx": 233
+        },
+        {
+            "name": "MAT-BIN-2022-71543",
+            "warehouse": "Luzira Main - KDUG",
+            "item_code": "Mayuge Sugar Brown Sugar 50 KG",
+            "actual_qty": 0,
+            "valuation_rate": 161016.94915,
+            "stock_uom": "BAG",
+            "modified": "2022-12-02 17:43:23.094996",
+            "idx": 234
+        },
+        {
+            "name": "MAT-BIN-2022-82617",
+            "warehouse": "Kawempe Main - KDUG",
+            "item_code": "Mayuge Sugar Brown Sugar 25KG",
+            "actual_qty": 0,
+            "valuation_rate": 86016.9492,
+            "stock_uom": "BAG",
+            "modified": "2022-12-02 16:57:31.861101",
+            "idx": 235
+        },
+        {
+            "name": "MAT-BIN-2022-77994",
+            "warehouse": "Nalukolongo Main - KDUG",
+            "item_code": "Chapa  Nyota  Blue Bar Soap 600G",
+            "actual_qty": 0,
+            "valuation_rate": 62542.372899673,
+            "stock_uom": "CARTON",
+            "modified": "2022-12-02 16:42:27.855770",
+            "idx": 236
+        },
+        {
+            "name": "MAT-BIN-2022-11-13643",
+            "warehouse": "Nalukolongo Main - KDUG",
+            "item_code": "Jjimu  Maize Flour 25Kg",
+            "actual_qty": 0,
+            "valuation_rate": 63983.050833333,
+            "stock_uom": "BAG",
+            "modified": "2022-12-02 16:22:59.665969",
+            "idx": 237
+        },
+        {
+            "name": "MAT-BIN-2022-11-04627",
+            "warehouse": "Kawempe Main - KDUG",
+            "item_code": "Everest black Tea 8g",
+            "actual_qty": 91,
+            "valuation_rate": 17796.6102,
+            "stock_uom": "CARTON",
+            "modified": "2022-12-02 14:44:46.370255",
+            "idx": 238
+        },
+        {
+            "name": "MAT-BIN-2022-71987",
+            "warehouse": "Nalukolongo Main - KDUG",
+            "item_code": "Riham Biscuits 19g",
+            "actual_qty": 0,
+            "valuation_rate": 12881.356,
+            "stock_uom": "CARTON",
+            "modified": "2022-12-02 14:40:28.720111",
+            "idx": 239
+        },
+        {
+            "name": "MAT-BIN-2022-11-25051",
+            "warehouse": "Kawempe Main - KDUG",
+            "item_code": "Krishna  Candles 12 x 8PC",
+            "actual_qty": 0,
+            "valuation_rate": 33898.305,
+            "stock_uom": "CARTON",
+            "modified": "2022-12-02 14:31:58.775269",
+            "idx": 240
+        },
+        {
+            "name": "MAT-BIN-2022-10-00965",
+            "warehouse": "Makindye Main - KDUG",
+            "item_code": "Mayuge Sugar Brown Sugar 25KG",
+            "actual_qty": 0,
+            "valuation_rate": 80508.4746,
+            "stock_uom": "BAG",
+            "modified": "2022-12-02 14:31:46.474486",
+            "idx": 241
+        },
+        {
+            "name": "MAT-BIN-2022-72346",
+            "warehouse": "Nalukolongo Main - KDUG",
+            "item_code": "Kakira Brown Sugar 50KG",
+            "actual_qty": 0,
+            "valuation_rate": 169491.5254,
+            "stock_uom": "BAG",
+            "modified": "2022-12-02 00:01:13.896363",
+            "idx": 242
+        },
+        {
+            "name": "MAT-BIN-2022-71542",
+            "warehouse": "Luzira Main - KDUG",
+            "item_code": "Mayuge Sugar Brown Sugar 25KG",
+            "actual_qty": 0,
+            "valuation_rate": 80508.4746,
+            "stock_uom": "BAG",
+            "modified": "2022-12-01 16:36:39.647732",
+            "idx": 243
+        },
+        {
+            "name": "MAT-BIN-2022-91818",
+            "warehouse": "Luzira Main - KDUG",
+            "item_code": "Softcare A+  Sanitary Pads Cotton Purple",
+            "actual_qty": 0,
+            "valuation_rate": 29225.446012783,
+            "stock_uom": "CARTON",
+            "modified": "2022-12-01 16:36:15.223268",
+            "idx": 244
+        },
+        {
+            "name": "MAT-BIN-2022-10-00966",
+            "warehouse": "Makindye Main - KDUG",
+            "item_code": "Mayuge Sugar Brown Sugar 50 KG",
+            "actual_qty": 0,
+            "valuation_rate": 161017.382837633,
+            "stock_uom": "BAG",
+            "modified": "2022-12-01 15:56:57.907365",
+            "idx": 245
+        },
+        {
+            "name": "MAT-BIN-2022-89635",
+            "warehouse": "Makindye Main - KDUG",
+            "item_code": "Kakira Brown Sugar 1Kg",
+            "actual_qty": 0,
+            "valuation_rate": 78607.931191723,
+            "stock_uom": "CARTON",
+            "modified": "2022-12-01 15:52:54.936584",
+            "idx": 246
+        },
+        {
+            "name": "MAT-BIN-2022-88927",
+            "warehouse": "Luzira Main - KDUG",
+            "item_code": "Riham Biscuits 19g",
+            "actual_qty": 6,
+            "valuation_rate": 15200,
+            "stock_uom": "CARTON",
+            "modified": "2022-12-01 13:22:16.406259",
+            "idx": 247
+        },
+        {
+            "name": "MAT-BIN-2022-10-01900",
+            "warehouse": "Luzira Main - KDUG",
+            "item_code": "Roki  Cooking Oil 10L",
+            "actual_qty": 0,
+            "valuation_rate": 63245.448792593,
+            "stock_uom": "JERICAN",
+            "modified": "2022-12-01 05:44:30.499479",
+            "idx": 248
+        },
+        {
+            "name": "MAT-BIN-2022-91819",
+            "warehouse": "Luzira Main - KDUG",
+            "item_code": "Softcare Diapers Highcounts Tapes 40Pc Large",
+            "actual_qty": 0,
+            "valuation_rate": 14618.644067,
+            "stock_uom": "OUTER",
+            "modified": "2022-11-30 18:58:33.095434",
+            "idx": 249
+        },
+        {
+            "name": "MAT-BIN-2022-10-09498",
+            "warehouse": "Kawempe Main - KDUG",
+            "item_code": "Best Fry Cooking Oil 10L",
+            "actual_qty": 0,
+            "valuation_rate": 59332.717771278,
+            "stock_uom": "JERICAN",
+            "modified": "2022-11-30 17:52:18.535955",
+            "idx": 250
+        },
+        {
+            "name": "MAT-BIN-2022-88343",
+            "warehouse": "Kawempe Main - KDUG",
+            "item_code": "Bahari  Salt 500G",
+            "actual_qty": 0,
+            "valuation_rate": 15665.160987166,
+            "stock_uom": "CARTON",
+            "modified": "2022-11-30 17:50:44.093037",
+            "idx": 251
+        },
+        {
+            "name": "MAT-BIN-2022-84770",
+            "warehouse": "Kawempe Main - KDUG",
+            "item_code": "Kakira Brown Sugar 50KG",
+            "actual_qty": 0,
+            "valuation_rate": 169491.52544,
+            "stock_uom": "BAG",
+            "modified": "2022-11-30 17:17:00.480946",
+            "idx": 252
+        },
+        {
+            "name": "MAT-BIN-2022-10-01434",
+            "warehouse": "Makindye Main - KDUG",
+            "item_code": "Roki Cooking Oil 5L",
+            "actual_qty": 0,
+            "valuation_rate": 128951.608462661,
+            "stock_uom": "CARTON",
+            "modified": "2022-11-30 14:17:32.068069",
+            "idx": 253
+        },
+        {
+            "name": "MAT-BIN-2022-96159",
+            "warehouse": "Makindye Main - KDUG",
+            "item_code": "Rwenzori  Tea 10g",
+            "actual_qty": 0,
+            "valuation_rate": 21547.00744533,
+            "stock_uom": "CARTON",
+            "modified": "2022-11-30 11:51:19.069787",
+            "idx": 254
+        },
+        {
+            "name": "MAT-BIN-2022-11-20296",
+            "warehouse": "Makindye Main - KDUG",
+            "item_code": "Fortune Butto  Cooking Oil  25ML",
+            "actual_qty": 0,
+            "valuation_rate": 35237.2882,
+            "stock_uom": "CARTON",
+            "modified": "2022-11-30 09:38:13.970572",
+            "idx": 255
+        },
+        {
+            "name": "MAT-BIN-2022-72680",
+            "warehouse": "Nalukolongo Main - KDUG",
+            "item_code": "Magic  Laundry & Detergents 45g",
+            "actual_qty": 0,
+            "valuation_rate": 17554.39589694,
+            "stock_uom": "CARTON",
+            "modified": "2022-11-29 18:50:18.931192",
+            "idx": 256
+        },
+        {
+            "name": "MAT-BIN-2022-11-17257",
+            "warehouse": "Nalukolongo Main - KDUG",
+            "item_code": "Sting Gold  Energy Drink 330ML",
+            "actual_qty": 0,
+            "valuation_rate": 13559.322,
+            "stock_uom": "CARTON",
+            "modified": "2022-11-29 17:42:59.337951",
+            "idx": 257
+        },
+        {
+            "name": "MAT-BIN-2022-11-21050",
+            "warehouse": "Luzira Main - KDUG",
+            "item_code": "Fortune  Spaghetti 250g",
+            "actual_qty": 0,
+            "valuation_rate": 42788.1356,
+            "stock_uom": "CARTON",
+            "modified": "2022-11-29 15:54:11.935626",
+            "idx": 258
+        },
+        {
+            "name": "MAT-BIN-2022-11-14100",
+            "warehouse": "Makindye Main - KDUG",
+            "item_code": "Jjimu  Maize Flour 10Kg",
+            "actual_qty": 0,
+            "valuation_rate": 25847.4576,
+            "stock_uom": "BAG",
+            "modified": "2022-11-29 15:49:47.242529",
+            "idx": 259
+        },
+        {
+            "name": "MAT-BIN-2022-11-20940",
+            "warehouse": "Makindye Main - KDUG",
+            "item_code": "Jjimu  Maize Flour 50kg",
+            "actual_qty": 0,
+            "valuation_rate": 127118.6441,
+            "stock_uom": "BAG",
+            "modified": "2022-11-29 15:46:49.180634",
+            "idx": 260
+        },
+        {
+            "name": "MAT-BIN-2022-10-10403",
+            "warehouse": "Nalukolongo Main - KDUG",
+            "item_code": "Uganda Waragi Premium   200ml",
+            "actual_qty": 0,
+            "valuation_rate": 0,
+            "stock_uom": "CARTON",
+            "modified": "2022-11-29 15:44:37.115612",
+            "idx": 261
+        },
+        {
+            "name": "MAT-BIN-2022-84771",
+            "warehouse": "Kawempe Main - KDUG",
+            "item_code": "Kakira Brown Sugar 1Kg",
+            "actual_qty": 0,
+            "valuation_rate": 76864.406818,
+            "stock_uom": "CARTON",
+            "modified": "2022-11-29 14:33:02.865267",
+            "idx": 262
+        },
+        {
+            "name": "MAT-BIN-2022-71980",
+            "warehouse": "Luzira Main - KDUG",
+            "item_code": "Star Goldy Cooking Oil 500ML",
+            "actual_qty": 0,
+            "valuation_rate": 66767.554542857,
+            "stock_uom": "CARTON",
+            "modified": "2022-11-29 08:46:45.842726",
+            "idx": 263
+        },
+        {
+            "name": "MAT-BIN-2022-11-10638",
+            "warehouse": "Luzira Main - KDUG",
+            "item_code": "Jjimu  Maize Flour 10Kg",
+            "actual_qty": 0,
+            "valuation_rate": 25847.4576,
+            "stock_uom": "BAG",
+            "modified": "2022-11-29 06:32:07.258632",
+            "idx": 264
+        },
+        {
+            "name": "MAT-BIN-2022-11-21051",
+            "warehouse": "Luzira Main - KDUG",
+            "item_code": "Fortune  Spaghetti 450g",
+            "actual_qty": 0,
+            "valuation_rate": 41110.1696,
+            "stock_uom": "CARTON",
+            "modified": "2022-11-29 06:02:45.319173",
+            "idx": 265
+        },
+        {
+            "name": "MAT-BIN-2022-90580",
+            "warehouse": "Makindye Main - KDUG",
+            "item_code": "Chapa  Nyota  Brown Bar Soap 600G",
+            "actual_qty": 0,
+            "valuation_rate": 63041.899383746,
+            "stock_uom": "CARTON",
+            "modified": "2022-11-29 04:27:29.617387",
+            "idx": 266
+        },
+        {
+            "name": "MAT-BIN-2022-11-18500",
+            "warehouse": "Luzira Main - KDUG",
+            "item_code": "Jjimu  Maize Flour 50kg",
+            "actual_qty": 0,
+            "valuation_rate": 127118.644,
+            "stock_uom": "BAG",
+            "modified": "2022-11-28 15:49:37.241102",
+            "idx": 267
+        },
+        {
+            "name": "MAT-BIN-2022-72618",
+            "warehouse": "Nalukolongo Main - KDUG",
+            "item_code": "Macdo   Tomato Sauce 50PC",
+            "actual_qty": 0,
+            "valuation_rate": 5500,
+            "stock_uom": "PACKET",
+            "modified": "2022-11-28 12:03:50.310515",
+            "idx": 268
+        },
+        {
+            "name": "MAT-BIN-2022-11-14961",
+            "warehouse": "Kawempe Main - KDUG",
+            "item_code": "Indomie BBQ Beef Flavored Noodles 70g",
+            "actual_qty": 0,
+            "valuation_rate": 26288.1356,
+            "stock_uom": "CARTON",
+            "modified": "2022-11-28 06:12:28.999453",
+            "idx": 269
+        },
+        {
+            "name": "MAT-BIN-2022-104749",
+            "warehouse": "Makindye Main - KDUG",
+            "item_code": "Always maxi Thick Extra Long Sanitary Pads",
+            "actual_qty": 0,
+            "valuation_rate": 32216.949107,
+            "stock_uom": "CARTON",
+            "modified": "2022-11-26 22:29:42.781314",
+            "idx": 270
+        },
+        {
+            "name": "MAT-BIN-2022-95628",
+            "warehouse": "Makindye Main - KDUG",
+            "item_code": "Fortune Butto Cooking Oil 200ML",
+            "actual_qty": 0,
+            "valuation_rate": 35849.545041278,
+            "stock_uom": "CARTON",
+            "modified": "2022-11-26 22:29:41.814283",
+            "idx": 271
+        },
+        {
+            "name": "MAT-BIN-2022-93402",
+            "warehouse": "Luzira Main - KDUG",
+            "item_code": "Always maxi Thick Extra Long Sanitary Pads",
+            "actual_qty": 0,
+            "valuation_rate": 32216.949148,
+            "stock_uom": "CARTON",
+            "modified": "2022-11-26 22:29:06.512896",
+            "idx": 272
+        },
+        {
+            "name": "MAT-BIN-2022-10-01433",
+            "warehouse": "Makindye Main - KDUG",
+            "item_code": "Roki Cooking Oil 3L",
+            "actual_qty": 0,
+            "valuation_rate": 126440.678,
+            "stock_uom": "CARTON",
+            "modified": "2022-11-26 22:29:05.236312",
+            "idx": 273
+        },
+        {
+            "name": "MAT-BIN-2022-104115",
+            "warehouse": "Makindye Main - KDUG",
+            "item_code": "Nomi Laundry & Detergents 500g",
+            "actual_qty": 0,
+            "valuation_rate": 49406.7796,
+            "stock_uom": "CARTON",
+            "modified": "2022-11-26 22:06:18.232655",
+            "idx": 274
+        },
+        {
+            "name": "MAT-BIN-2022-84257",
+            "warehouse": "Luzira Main - KDUG",
+            "item_code": "Chapa  Mandashi Baking Powder 100g",
+            "actual_qty": 0,
+            "valuation_rate": 9610.16949175,
+            "stock_uom": "DOZEN",
+            "modified": "2022-11-26 22:02:49.452833",
+            "idx": 275
+        },
+        {
+            "name": "MAT-BIN-2022-10-01902",
+            "warehouse": "Luzira Main - KDUG",
+            "item_code": "Roki Cooking Oil 3L",
+            "actual_qty": 0,
+            "valuation_rate": 126440.678,
+            "stock_uom": "CARTON",
+            "modified": "2022-11-26 22:02:49.421363",
+            "idx": 276
+        },
+        {
+            "name": "MAT-BIN-2022-10-01907",
+            "warehouse": "Luzira Main - KDUG",
+            "item_code": "Roki Cooking Oil 5L",
+            "actual_qty": 0,
+            "valuation_rate": 132966.1016,
+            "stock_uom": "CARTON",
+            "modified": "2022-11-26 22:02:45.861869",
+            "idx": 277
+        },
+        {
+            "name": "MAT-BIN-2022-10-07377",
+            "warehouse": "Luzira Main - KDUG",
+            "item_code": "Softcare Small Diapers Low Counts 15PC",
+            "actual_qty": 0,
+            "valuation_rate": 0,
+            "stock_uom": "OUTER",
+            "modified": "2022-11-26 22:02:41.892782",
+            "idx": 278
+        },
+        {
+            "name": "MAT-BIN-2022-72352",
+            "warehouse": "Nalukolongo Main - KDUG",
+            "item_code": "Chapa  Nyota  Brown Bar Soap 600G",
+            "actual_qty": 0,
+            "valuation_rate": 62542.3729,
+            "stock_uom": "CARTON",
+            "modified": "2022-11-26 22:02:41.115155",
+            "idx": 279
+        },
+        {
+            "name": "MAT-BIN-2022-10-07859",
+            "warehouse": "Nalukolongo Main - KDUG",
+            "item_code": "Softcare Small Diapers Low Counts 15PC",
+            "actual_qty": 0,
+            "valuation_rate": 0,
+            "stock_uom": "OUTER",
+            "modified": "2022-11-26 22:02:38.922299",
+            "idx": 280
+        },
+        {
+            "name": "MAT-BIN-2022-90634",
+            "warehouse": "Nalukolongo Main - KDUG",
+            "item_code": "Softcare Diapers Highcounts Tapes 40Pc Large",
+            "actual_qty": 0,
+            "valuation_rate": 14618.644067,
+            "stock_uom": "OUTER",
+            "modified": "2022-11-26 22:02:37.764332",
+            "idx": 281
+        },
+        {
+            "name": "MAT-BIN-2022-10-06597",
+            "warehouse": "Kawempe Main - KDUG",
+            "item_code": "Softcare Small Diapers Low Counts 15PC",
+            "actual_qty": 0,
+            "valuation_rate": 0,
+            "stock_uom": "OUTER",
+            "modified": "2022-11-26 22:02:29.400022",
+            "idx": 282
+        },
+        {
+            "name": "MAT-BIN-2022-84881",
+            "warehouse": "Kawempe Main - KDUG",
+            "item_code": "Rwenzori  Tea 10g",
+            "actual_qty": 0,
+            "valuation_rate": 21440.67796,
+            "stock_uom": "CARTON",
+            "modified": "2022-11-26 22:02:29.224087",
+            "idx": 283
+        },
+        {
+            "name": "MAT-BIN-2022-71565",
+            "warehouse": "Luzira Main - KDUG",
+            "item_code": "Rwenzori  Tea 10g",
+            "actual_qty": 0,
+            "valuation_rate": 21440.67796,
+            "stock_uom": "CARTON",
+            "modified": "2022-11-26 22:01:59.417312",
+            "idx": 284
+        },
+        {
+            "name": "MAT-BIN-2022-10-06248",
+            "warehouse": "Makindye Main - KDUG",
+            "item_code": "Always Cotton Soft Maxi Thick Extra Long Sanitary Pads",
+            "actual_qty": 0,
+            "valuation_rate": 34776.305087625,
+            "stock_uom": "CARTON",
+            "modified": "2022-11-26 20:58:43.265234",
+            "idx": 285
+        },
+        {
+            "name": "MAT-BIN-2022-88796",
+            "warehouse": "Makindye Main - KDUG",
+            "item_code": "Oner Mango Juice 500ML",
+            "actual_qty": 0,
+            "valuation_rate": 19786.238429695,
+            "stock_uom": "CARTON",
+            "modified": "2022-11-26 20:58:27.164401",
+            "idx": 286
+        },
+        {
+            "name": "MAT-BIN-2022-97987",
+            "warehouse": "Makindye Main - KDUG",
+            "item_code": "Top Up  Tomato Sauce 400g",
+            "actual_qty": 0,
+            "valuation_rate": 31016.9492,
+            "stock_uom": "CARTON",
+            "modified": "2022-11-26 20:58:24.575498",
+            "idx": 287
+        },
+        {
+            "name": "MAT-BIN-2022-10-03814",
+            "warehouse": "Kawempe Main - KDUG",
+            "item_code": "Softcare Diapers Low Counts 11PC",
+            "actual_qty": 0,
+            "valuation_rate": 0,
+            "stock_uom": "OUTER",
+            "modified": "2022-11-26 20:41:33.301374",
+            "idx": 288
+        },
+        {
+            "name": "MAT-BIN-2022-101558",
+            "warehouse": "Makindye Main - KDUG",
+            "item_code": "Magic  Washing Powder 500G",
+            "actual_qty": 0,
+            "valuation_rate": 49835.5932,
+            "stock_uom": "CARTON",
+            "modified": "2022-11-26 20:41:17.357630",
+            "idx": 289
+        },
+        {
+            "name": "MAT-BIN-2022-102987",
+            "warehouse": "Makindye Main - KDUG",
+            "item_code": "Star Goldy Cooking Oil 10L",
+            "actual_qty": 0,
+            "valuation_rate": 63104.297810457,
+            "stock_uom": "JERICAN",
+            "modified": "2022-11-26 20:41:17.347055",
+            "idx": 290
+        },
+        {
+            "name": "MAT-BIN-2022-81461",
+            "warehouse": "Nalukolongo Main - KDUG",
+            "item_code": "Kakira Ice Green Hard Boiled sweets Mints 20Sachets x 3Pcs",
+            "actual_qty": 0,
+            "valuation_rate": 45705.96,
+            "stock_uom": "CARTON",
+            "modified": "2022-11-26 20:40:01.507920",
+            "idx": 291
+        },
+        {
+            "name": "MAT-BIN-2022-71928",
+            "warehouse": "Luzira Main - KDUG",
+            "item_code": "Habari  Salt 200G",
+            "actual_qty": 0,
+            "valuation_rate": 7000,
+            "stock_uom": "CARTON",
+            "modified": "2022-11-26 20:23:36.884087",
+            "idx": 292
+        },
+        {
+            "name": "MAT-BIN-2022-68819",
+            "warehouse": "Luzira Main - KDUG",
+            "item_code": "Britania Gluco Maxi Biscuits 120Pkts",
+            "actual_qty": 0,
+            "valuation_rate": 35706.156146437,
+            "stock_uom": "CARTON",
+            "modified": "2022-11-26 20:23:36.879181",
+            "idx": 293
+        },
+        {
+            "name": "MAT-BIN-2022-69945",
+            "warehouse": "Luzira Main - KDUG",
+            "item_code": "Macdo  Tomato Sauce 360g",
+            "actual_qty": 0,
+            "valuation_rate": 24000,
+            "stock_uom": "CARTON",
+            "modified": "2022-11-26 20:23:35.102162",
+            "idx": 294
+        },
+        {
+            "name": "MAT-BIN-2022-64383",
+            "warehouse": "Luzira Main - KDUG",
+            "item_code": "Magic  Washing Powder 500G",
+            "actual_qty": 0,
+            "valuation_rate": 49835.5932,
+            "stock_uom": "CARTON",
+            "modified": "2022-11-26 20:23:33.448272",
+            "idx": 295
+        },
+        {
+            "name": "MAT-BIN-2022-70155",
+            "warehouse": "Luzira Main - KDUG",
+            "item_code": "Kakira Brown Sugar 10KG",
+            "actual_qty": 0,
+            "valuation_rate": 35593.220334586,
+            "stock_uom": "BAG",
+            "modified": "2022-11-26 20:23:32.593638",
+            "idx": 296
+        },
+        {
+            "name": "MAT-BIN-2022-73578",
+            "warehouse": "Luzira Main - KDUG",
+            "item_code": "Meru  Star Bar Soap 1 KG",
+            "actual_qty": 0,
+            "valuation_rate": 57500,
+            "stock_uom": "CARTON",
+            "modified": "2022-11-26 20:23:30.109512",
+            "idx": 297
+        },
+        {
+            "name": "MAT-BIN-2022-71982",
+            "warehouse": "Luzira Main - KDUG",
+            "item_code": "Teju Mango Juice 200ml",
+            "actual_qty": 0,
+            "valuation_rate": 18000,
+            "stock_uom": "CARTON",
+            "modified": "2022-11-26 20:23:27.331238",
+            "idx": 298
+        },
+        {
+            "name": "MAT-BIN-2022-68823",
+            "warehouse": "Luzira Main - KDUG",
+            "item_code": "Star Goldy Cooking Oil 20L",
+            "actual_qty": 0,
+            "valuation_rate": 133898.305,
+            "stock_uom": "JERICAN",
+            "modified": "2022-11-26 20:23:25.725916",
+            "idx": 299
+        },
+        {
+            "name": "MAT-BIN-2022-64380",
+            "warehouse": "Luzira Main - KDUG",
+            "item_code": "Fortune Butto Cooking Oil 100ML",
+            "actual_qty": 0,
+            "valuation_rate": 26779.661,
+            "stock_uom": "CARTON",
+            "modified": "2022-11-26 20:23:23.666673",
+            "idx": 300
+        },
+        {
+            "name": "MAT-BIN-2022-68672",
+            "warehouse": "Luzira Main - KDUG",
+            "item_code": "Riham Biscuits 30g",
+            "actual_qty": 0,
+            "valuation_rate": 14200,
+            "stock_uom": "CARTON",
+            "modified": "2022-11-26 20:23:19.056320",
+            "idx": 301
+        },
+        {
+            "name": "MAT-BIN-2022-68818",
+            "warehouse": "Luzira Main - KDUG",
+            "item_code": "Britania Milk  Biscuits 30g",
+            "actual_qty": 0,
+            "valuation_rate": 28813.5594,
+            "stock_uom": "CARTON",
+            "modified": "2022-11-26 20:23:18.237134",
+            "idx": 302
+        },
+        {
+            "name": "MAT-BIN-2022-72357",
+            "warehouse": "Luzira Main - KDUG",
+            "item_code": "Aqua Sipi Drinking Water 500ml",
+            "actual_qty": 0,
+            "valuation_rate": 3475.596150556,
+            "stock_uom": "CARTON",
+            "modified": "2022-11-26 20:23:17.486476",
+            "idx": 303
+        },
+        {
+            "name": "MAT-BIN-2022-67675",
+            "warehouse": "Luzira Main - KDUG",
+            "item_code": "Kinyara Brown Sugar 50Kg",
+            "actual_qty": 0,
+            "valuation_rate": 165000,
+            "stock_uom": "BAG",
+            "modified": "2022-11-26 20:23:14.265689",
+            "idx": 304
+        },
+        {
+            "name": "MAT-BIN-2022-68820",
+            "warehouse": "Luzira Main - KDUG",
+            "item_code": "Britania Glucose Biscuits 84Pkts",
+            "actual_qty": 0,
+            "valuation_rate": 14723.358662601,
+            "stock_uom": "CARTON",
+            "modified": "2022-11-26 20:21:29.785127",
+            "idx": 305
+        },
+        {
+            "name": "MAT-BIN-2022-71226",
+            "warehouse": "Luzira Main - KDUG",
+            "item_code": "Habari  Salt 500G",
+            "actual_qty": 0,
+            "valuation_rate": 18500,
+            "stock_uom": "CARTON",
+            "modified": "2022-11-26 20:21:20.718980",
+            "idx": 306
+        },
+        {
+            "name": "MAT-BIN-2022-10-01239",
+            "warehouse": "Luzira Main - KDUG",
+            "item_code": "Best Fry Cooking Oil 10L",
+            "actual_qty": 0,
+            "valuation_rate": 61895.794118518,
+            "stock_uom": "JERICAN",
+            "modified": "2022-11-26 19:24:39.760819",
+            "idx": 307
+        },
+        {
+            "name": "MAT-BIN-2022-11-13642",
+            "warehouse": "Nalukolongo Main - KDUG",
+            "item_code": "Jjimu  Maize Flour 10Kg",
+            "actual_qty": 0,
+            "valuation_rate": 25847.4576,
+            "stock_uom": "BAG",
+            "modified": "2022-11-25 18:17:31.799283",
+            "idx": 308
+        },
+        {
+            "name": "MAT-BIN-2022-10-09896",
+            "warehouse": "Nalukolongo Main - KDUG",
+            "item_code": "Roki Cooking Oil 5L",
+            "actual_qty": 0,
+            "valuation_rate": 127627.1185,
+            "stock_uom": "CARTON",
+            "modified": "2022-11-25 14:09:51.539109",
+            "idx": 309
+        },
+        {
+            "name": "MAT-BIN-2022-10-03206",
+            "warehouse": "Nalukolongo Main - KDUG",
+            "item_code": "Top Up  Tomato Sauce 400g",
+            "actual_qty": 0,
+            "valuation_rate": 31016.9492,
+            "stock_uom": "CARTON",
+            "modified": "2022-11-25 12:16:54.501747",
+            "idx": 310
+        },
+        {
+            "name": "MAT-BIN-2022-10-10671",
+            "warehouse": "Luzira Main - KDUG",
+            "item_code": "Softcare Medium Diapers Low Counts 12PC",
+            "actual_qty": 0,
+            "valuation_rate": 0,
+            "stock_uom": "OUTER",
+            "modified": "2022-11-25 07:30:58.239079",
+            "idx": 311
+        },
+        {
+            "name": "MAT-BIN-2022-11-13275",
+            "warehouse": "Makindye Main - KDUG",
+            "item_code": "Roki  Cooking Oil 1000ML",
+            "actual_qty": 0,
+            "valuation_rate": 87372.8814,
+            "stock_uom": "CARTON",
+            "modified": "2022-11-24 16:27:08.342046",
+            "idx": 312
+        },
+        {
+            "name": "MAT-BIN-2022-11-15872",
+            "warehouse": "Kawempe Main - KDUG",
+            "item_code": "Jjimu  Maize Flour 25Kg",
+            "actual_qty": 0,
+            "valuation_rate": 63983.0508,
+            "stock_uom": "BAG",
+            "modified": "2022-11-24 15:58:46.341184",
+            "idx": 313
+        },
+        {
+            "name": "MAT-BIN-2022-11-15871",
+            "warehouse": "Kawempe Main - KDUG",
+            "item_code": "Jjimu  Maize Flour 10Kg",
+            "actual_qty": 0,
+            "valuation_rate": 25847.4576,
+            "stock_uom": "BAG",
+            "modified": "2022-11-24 15:50:37.399067",
+            "idx": 314
+        },
+        {
+            "name": "MAT-BIN-2022-71981",
+            "warehouse": "Luzira Main - KDUG",
+            "item_code": "Star Goldy Cooking Oil 1L",
+            "actual_qty": 0,
+            "valuation_rate": 66297.274986126,
+            "stock_uom": "CARTON",
+            "modified": "2022-11-24 10:08:55.055014",
+            "idx": 315
+        },
+        {
+            "name": "MAT-BIN-2022-68817",
+            "warehouse": "Luzira Main - KDUG",
+            "item_code": "Top Up  Tomato Sauce 400g",
+            "actual_qty": 0,
+            "valuation_rate": 36600,
+            "stock_uom": "CARTON",
+            "modified": "2022-11-24 00:01:15.383022",
+            "idx": 316
+        },
+        {
+            "name": "MAT-BIN-2022-10-09898",
+            "warehouse": "Nalukolongo Main - KDUG",
+            "item_code": "Roki Cooking Oil 20L",
+            "actual_qty": 0,
+            "valuation_rate": 131271.1864,
+            "stock_uom": "JERICAN",
+            "modified": "2022-11-23 11:06:50.358524",
+            "idx": 317
+        },
+        {
+            "name": "MAT-BIN-2022-10-06268",
+            "warehouse": "Luzira Main - KDUG",
+            "item_code": "Roki  Cooking Oil 1000ML",
+            "actual_qty": 0,
+            "valuation_rate": 87372.8814,
+            "stock_uom": "CARTON",
+            "modified": "2022-11-23 00:02:18.696781",
+            "idx": 318
+        },
+        {
+            "name": "MAT-BIN-2022-84722",
+            "warehouse": "Kawempe Main - KDUG",
+            "item_code": "Magic  Laundry & Detergents 45g",
+            "actual_qty": 0,
+            "valuation_rate": 17542.372875489,
+            "stock_uom": "CARTON",
+            "modified": "2022-11-22 20:35:07.354700",
+            "idx": 319
+        },
+        {
+            "name": "MAT-BIN-2022-10-01901",
+            "warehouse": "Luzira Main - KDUG",
+            "item_code": "Roki Cooking Oil 20L",
+            "actual_qty": 0,
+            "valuation_rate": 131271.1864,
+            "stock_uom": "JERICAN",
+            "modified": "2022-11-22 15:53:38.727483",
+            "idx": 320
+        },
+        {
+            "name": "MAT-BIN-2022-10-01431",
+            "warehouse": "Makindye Main - KDUG",
+            "item_code": "Roki  Cooking Oil 10L",
+            "actual_qty": 0,
+            "valuation_rate": 64955.50853,
+            "stock_uom": "JERICAN",
+            "modified": "2022-11-22 15:24:45.740971",
+            "idx": 321
+        },
+        {
+            "name": "MAT-BIN-2022-10-09899",
+            "warehouse": "Nalukolongo Main - KDUG",
+            "item_code": "Roki  Cooking Oil 10L",
+            "actual_qty": 0,
+            "valuation_rate": 65677.9662,
+            "stock_uom": "JERICAN",
+            "modified": "2022-11-22 06:04:28.537727",
+            "idx": 322
+        },
+        {
+            "name": "MAT-BIN-2022-10-01432",
+            "warehouse": "Makindye Main - KDUG",
+            "item_code": "Roki Cooking Oil 20L",
+            "actual_qty": 0,
+            "valuation_rate": 131271.1864,
+            "stock_uom": "JERICAN",
+            "modified": "2022-11-22 03:58:17.003501",
+            "idx": 323
+        },
+        {
+            "name": "MAT-BIN-2022-72359",
+            "warehouse": "Luzira Main - KDUG",
+            "item_code": "Nomi Laundry & Detergents 500g",
+            "actual_qty": 0,
+            "valuation_rate": 58300,
+            "stock_uom": "CARTON",
+            "modified": "2022-11-22 00:01:37.497880",
+            "idx": 324
+        },
+        {
+            "name": "MAT-BIN-2022-68486",
+            "warehouse": "Luzira Main - KDUG",
+            "item_code": "Lugazi Brown Sugar 50Kg",
+            "actual_qty": 0,
+            "valuation_rate": 169140.135599695,
+            "stock_uom": "BAG",
+            "modified": "2022-11-22 00:01:27.329127",
+            "idx": 325
+        },
+        {
+            "name": "MAT-BIN-2022-72347",
+            "warehouse": "Nalukolongo Main - KDUG",
+            "item_code": "Kakira Brown Sugar 10KG",
+            "actual_qty": 0,
+            "valuation_rate": 35595.035771133,
+            "stock_uom": "BAG",
+            "modified": "2022-11-19 16:38:06.135247",
+            "idx": 326
+        },
+        {
+            "name": "MAT-BIN-2022-10-09897",
+            "warehouse": "Nalukolongo Main - KDUG",
+            "item_code": "Roki Cooking Oil 3L",
+            "actual_qty": 0,
+            "valuation_rate": 126440.678,
+            "stock_uom": "CARTON",
+            "modified": "2022-11-18 19:10:41.258321",
+            "idx": 327
+        },
+        {
+            "name": "MAT-BIN-2022-92852",
+            "warehouse": "Nalukolongo Main - KDUG",
+            "item_code": "Always Cotton Soft Maxi Thick Extra Long Sanitary Pads",
+            "actual_qty": 0,
+            "valuation_rate": 24051.741674663,
+            "stock_uom": "CARTON",
+            "modified": "2022-11-16 11:30:04.312628",
+            "idx": 328
+        },
+        {
+            "name": "MAT-BIN-2022-80107",
+            "warehouse": "Luzira Main - KDUG",
+            "item_code": "Royco Mchuzi Mix Beef Ground Spices 200g",
+            "actual_qty": 0,
+            "valuation_rate": 84745.7628,
+            "stock_uom": "CARTON",
+            "modified": "2022-11-15 00:01:44.244582",
+            "idx": 329
+        },
+        {
+            "name": "MAT-BIN-2022-77981",
+            "warehouse": "Luzira Main - KDUG",
+            "item_code": "Nomi Laundry & Detergents 250g",
+            "actual_qty": 0,
+            "valuation_rate": 38813.559327085,
+            "stock_uom": "CARTON",
+            "modified": "2022-11-15 00:01:44.215955",
+            "idx": 330
+        },
+        {
+            "name": "MAT-BIN-2022-64384",
+            "warehouse": "Luzira Main - KDUG",
+            "item_code": "Magic  Washing Powder 1KG",
+            "actual_qty": 0,
+            "valuation_rate": 57900,
+            "stock_uom": "CARTON",
+            "modified": "2022-11-15 00:01:44.176522",
+            "idx": 331
+        },
+        {
+            "name": "MAT-BIN-2022-80106",
+            "warehouse": "Luzira Main - KDUG",
+            "item_code": "Royco Mchuzi Mix Beef Ground Spices 10g",
+            "actual_qty": 0,
+            "valuation_rate": 16949.1525,
+            "stock_uom": "CARTON",
+            "modified": "2022-11-15 00:01:40.948698",
+            "idx": 332
+        },
+        {
+            "name": "MAT-BIN-2022-10-11858",
+            "warehouse": "Kawempe Main - KDUG",
+            "item_code": "Softcare Small Diapers High Counts 48PC",
+            "actual_qty": 0,
+            "valuation_rate": 0,
+            "stock_uom": "OUTER",
+            "modified": "2022-11-14 20:09:56.990784",
+            "idx": 333
+        },
+        {
+            "name": "MAT-BIN-2022-75732",
+            "warehouse": "Nalukolongo Main - KDUG",
+            "item_code": "Britania Glucose Biscuits 84Pkts",
+            "actual_qty": 0,
+            "valuation_rate": 14723.358662601,
+            "stock_uom": "CARTON",
+            "modified": "2022-11-14 10:13:16.322129",
+            "idx": 334
+        },
+        {
+            "name": "MAT-BIN-2022-60162",
+            "warehouse": "Luzira Main - KDUG",
+            "item_code": "Test Item Brown Sugar 50kg",
+            "actual_qty": 2279,
+            "valuation_rate": 25,
+            "stock_uom": "BAG",
+            "modified": "2022-11-14 05:02:21.169319",
+            "idx": 335
+        },
+        {
+            "name": "MAT-BIN-2022-80105",
+            "warehouse": "Luzira Main - KDUG",
+            "item_code": "Royco Mchuzi Beef Mix Ground Spices 60g",
+            "actual_qty": 0,
+            "valuation_rate": 50828.813667,
+            "stock_uom": "CARTON",
+            "modified": "2022-11-12 00:00:44.233624",
+            "idx": 336
+        },
+        {
+            "name": "MAT-BIN-2022-76891",
+            "warehouse": "Luzira Main - KDUG",
+            "item_code": "Geisha Pink Bath Soap 200g",
+            "actual_qty": 0,
+            "valuation_rate": 61367.796667,
+            "stock_uom": "CARTON",
+            "modified": "2022-11-11 00:00:58.125174",
+            "idx": 337
+        },
+        {
+            "name": "MAT-BIN-2022-93253",
+            "warehouse": "Kawempe Main - KDUG",
+            "item_code": "Always Cotton Soft Maxi Thick Extra Long Sanitary Pads",
+            "actual_qty": 0,
+            "valuation_rate": 34776.305087625,
+            "stock_uom": "CARTON",
+            "modified": "2022-11-08 05:17:30.352930",
+            "idx": 338
+        },
+        {
+            "name": "MAT-BIN-2022-78177",
+            "warehouse": "Nalukolongo Main - KDUG",
+            "item_code": "Royco Mchuzi Beef Mix Ground Spices 60g",
+            "actual_qty": 0,
+            "valuation_rate": 50644.067735849,
+            "stock_uom": "CARTON",
+            "modified": "2022-11-08 00:00:40.259954",
+            "idx": 339
+        },
+        {
+            "name": "MAT-BIN-2022-64377",
+            "warehouse": "Luzira Main - KDUG",
+            "item_code": "White Star Bar Soap 1Kg",
+            "actual_qty": 0,
+            "valuation_rate": 61500,
+            "stock_uom": "PC",
+            "modified": "2022-11-03 10:07:30.681585",
+            "idx": 340
+        },
+        {
+            "name": "MAT-BIN-2022-93401",
+            "warehouse": "Luzira Main - KDUG",
+            "item_code": "Always Cotton Soft Maxi Thick Extra Long Sanitary Pads",
+            "actual_qty": 0,
+            "valuation_rate": 31577.033186887,
+            "stock_uom": "CARTON",
+            "modified": "2022-11-03 07:25:18.539230",
+            "idx": 341
+        },
+        {
+            "name": "MAT-BIN-2022-67674",
+            "warehouse": "Luzira Main - KDUG",
+            "item_code": "Kinyara Brown Sugar 25Kg",
+            "actual_qty": 0,
+            "valuation_rate": 83500,
+            "stock_uom": "BAG",
+            "modified": "2022-11-02 00:01:03.723130",
+            "idx": 342
+        },
+        {
+            "name": "MAT-BIN-2022-10-02265",
+            "warehouse": "Nalukolongo Main - KDUG",
+            "item_code": "Chapa  Mandashi Baking Powder 100g",
+            "actual_qty": 0,
+            "valuation_rate": 9610.16949175,
+            "stock_uom": "DOZEN",
+            "modified": "2022-10-31 00:01:20.159486",
+            "idx": 343
+        },
+        {
+            "name": "MAT-BIN-2022-93254",
+            "warehouse": "Kawempe Main - KDUG",
+            "item_code": "Always maxi Thick Extra Long Sanitary Pads",
+            "actual_qty": 0,
+            "valuation_rate": 37950.485621584,
+            "stock_uom": "CARTON",
+            "modified": "2022-10-27 14:01:01.603107",
+            "idx": 344
+        },
+        {
+            "name": "MAT-BIN-2022-94392",
+            "warehouse": "Makindye Main - KDUG",
+            "item_code": "Yaket Drinking Water 550ML",
+            "actual_qty": 0,
+            "valuation_rate": 3644.0678,
+            "stock_uom": "CARTON",
+            "modified": "2022-10-27 12:26:49.022762",
+            "idx": 345
+        },
+        {
+            "name": "MAT-BIN-2022-85859",
+            "warehouse": "Kawempe Main - KDUG",
+            "item_code": "Yaket Drinking Water 550ML",
+            "actual_qty": 0,
+            "valuation_rate": 4092.167440319,
+            "stock_uom": "CARTON",
+            "modified": "2022-10-27 12:26:27.721557",
+            "idx": 346
+        },
+        {
+            "name": "MAT-BIN-2022-104114",
+            "warehouse": "Makindye Main - KDUG",
+            "item_code": "Nomi Laundry & Detergents 250g",
+            "actual_qty": 0,
+            "valuation_rate": 38813.5594,
+            "stock_uom": "CARTON",
+            "modified": "2022-10-27 12:24:56.208319",
+            "idx": 347
+        },
+        {
+            "name": "MAT-BIN-2022-88784",
+            "warehouse": "Makindye Main - KDUG",
+            "item_code": "Riham Biscuits 19g",
+            "actual_qty": 0,
+            "valuation_rate": 15200,
+            "stock_uom": "CARTON",
+            "modified": "2022-10-27 12:23:47.624814",
+            "idx": 348
+        },
+        {
+            "name": "MAT-BIN-2022-92853",
+            "warehouse": "Nalukolongo Main - KDUG",
+            "item_code": "Always maxi Thick Extra Long Sanitary Pads",
+            "actual_qty": 0,
+            "valuation_rate": 32216.949148,
+            "stock_uom": "CARTON",
+            "modified": "2022-10-26 13:16:07.826225",
+            "idx": 349
+        },
+        {
+            "name": "MAT-BIN-2022-69946",
+            "warehouse": "Luzira Main - KDUG",
+            "item_code": "Macdo   Tomato Sauce 50PC",
+            "actual_qty": 0,
+            "valuation_rate": 5500,
+            "stock_uom": "PACKET",
+            "modified": "2022-10-25 13:59:13.163531",
+            "idx": 350
+        },
+        {
+            "name": "MAT-BIN-2022-10-03615",
+            "warehouse": "Nalukolongo Main - KDUG",
+            "item_code": "Softcare Diapers Low Counts 11PC",
+            "actual_qty": 0,
+            "valuation_rate": 0,
+            "stock_uom": "OUTER",
+            "modified": "2022-10-25 13:26:44.712229",
+            "idx": 351
+        },
+        {
+            "name": "MAT-BIN-2022-85566",
+            "warehouse": "Kawempe Main - KDUG",
+            "item_code": "Chapa  Mandashi Baking Powder 100g",
+            "actual_qty": 0,
+            "valuation_rate": 9610.16949175,
+            "stock_uom": "DOZEN",
+            "modified": "2022-10-24 11:07:29.680982",
+            "idx": 352
+        },
+        {
+            "name": "MAT-BIN-2022-69296",
+            "warehouse": "Luzira Main - KDUG",
+            "item_code": "Fortune Butto Cooking Oil 50ML",
+            "actual_qty": 0,
+            "valuation_rate": 36961.927445537,
+            "stock_uom": "CARTON",
+            "modified": "2022-10-22 08:00:43.862006",
+            "idx": 353
+        },
+        {
+            "name": "MAT-BIN-2022-100123",
+            "warehouse": "Nalukolongo Main - KDUG",
+            "item_code": "Geisha Mixed Colors Bath Soap 200g",
+            "actual_qty": 0,
+            "valuation_rate": 70590,
+            "stock_uom": "CARTON",
+            "modified": "2022-10-21 08:43:15.987321",
+            "idx": 354
+        },
+        {
+            "name": "MAT-BIN-2022-10-01564",
+            "warehouse": "Makindye Main - KDUG",
+            "item_code": "Indomie BBQ Beef Flavored Noodles 70g",
+            "actual_qty": 0,
+            "valuation_rate": 26288.13559976,
+            "stock_uom": "CARTON",
+            "modified": "2022-10-18 11:41:42.633303",
+            "idx": 355
+        },
+        {
+            "name": "MAT-BIN-2022-74750",
+            "warehouse": "Nalukolongo Main - KDUG",
+            "item_code": "Fortune Butto Cooking Oil 50ML",
+            "actual_qty": 0,
+            "valuation_rate": 36361.645424719,
+            "stock_uom": "CARTON",
+            "modified": "2022-10-17 09:55:07.689413",
+            "idx": 356
+        },
+        {
+            "name": "MAT-BIN-2022-101537",
+            "warehouse": "Nalukolongo Main - KDUG",
+            "item_code": "Nomi Laundry & Detergents 250g",
+            "actual_qty": 0,
+            "valuation_rate": 38813.5594,
+            "stock_uom": "CARTON",
+            "modified": "2022-10-14 17:54:23.278315",
+            "idx": 357
+        },
+        {
+            "name": "MAT-BIN-2022-68824",
+            "warehouse": "Luzira Main - KDUG",
+            "item_code": "Star Goldy Cooking Oil 10L",
+            "actual_qty": 0,
+            "valuation_rate": 66949.1526,
+            "stock_uom": "JERICAN",
+            "modified": "2022-10-14 14:41:37.389551",
+            "idx": 358
+        },
+        {
+            "name": "MAT-BIN-2022-10-01515",
+            "warehouse": "Nalukolongo Main - KDUG",
+            "item_code": "Indomie BBQ Beef Flavored Noodles 70g",
+            "actual_qty": 0,
+            "valuation_rate": 26288.1356,
+            "stock_uom": "CARTON",
+            "modified": "2022-10-14 06:10:15.550053",
+            "idx": 359
+        },
+        {
+            "name": "MAT-BIN-2022-84414",
+            "warehouse": "Kawempe Main - KDUG",
+            "item_code": "Riham Biscuits 19g",
+            "actual_qty": 0,
+            "valuation_rate": 12881.356,
+            "stock_uom": "CARTON",
+            "modified": "2022-10-13 11:40:58.627325",
+            "idx": 360
+        },
+        {
+            "name": "MAT-BIN-2022-72619",
+            "warehouse": "Nalukolongo Main - KDUG",
+            "item_code": "Macdo  Tomato Sauce 360g",
+            "actual_qty": 0,
+            "valuation_rate": 24000,
+            "stock_uom": "CARTON",
+            "modified": "2022-10-13 06:33:17.468374",
+            "idx": 361
+        },
+        {
+            "name": "MAT-BIN-2022-100141",
+            "warehouse": "Luzira Main - KDUG",
+            "item_code": "Geisha Mixed Colors Bath Soap 200g",
+            "actual_qty": 0,
+            "valuation_rate": 70590,
+            "stock_uom": "CARTON",
+            "modified": "2022-10-13 05:19:11.692453",
+            "idx": 362
+        },
+        {
+            "name": "MAT-BIN-2022-84726",
+            "warehouse": "Kawempe Main - KDUG",
+            "item_code": "Fortune Butto Cooking Oil 50ML",
+            "actual_qty": 0,
+            "valuation_rate": 35762.711862687,
+            "stock_uom": "CARTON",
+            "modified": "2022-10-12 16:00:36.796541",
+            "idx": 363
+        },
+        {
+            "name": "MAT-BIN-2022-99967",
+            "warehouse": "Nalukolongo Main - KDUG",
+            "item_code": "Royco Mchuzi Mix Beef PC Ground Spices 200g",
+            "actual_qty": 0,
+            "valuation_rate": 4063,
+            "stock_uom": "PC",
+            "modified": "2022-10-11 12:37:20.837608",
+            "idx": 364
+        },
+        {
+            "name": "MAT-BIN-2022-97527",
+            "warehouse": "Nalukolongo Main - KDUG",
+            "item_code": "Star Goldy Cooking Oil 10L",
+            "actual_qty": 0,
+            "valuation_rate": 79500,
+            "stock_uom": "JERICAN",
+            "modified": "2022-10-10 16:29:40.996227",
+            "idx": 365
+        },
+        {
+            "name": "MAT-BIN-2022-100142",
+            "warehouse": "Luzira Main - KDUG",
+            "item_code": "Royco Mchuzi Mix Beef PC Ground Spices 200g",
+            "actual_qty": 0,
+            "valuation_rate": 4063,
+            "stock_uom": "PC",
+            "modified": "2022-10-10 12:09:52.360379",
+            "idx": 366
+        },
+        {
+            "name": "MAT-BIN-2022-95673",
+            "warehouse": "Kawempe Main - KDUG",
+            "item_code": "Britania Glucose Biscuits 84Pkts",
+            "actual_qty": 0,
+            "valuation_rate": 14723.358662601,
+            "stock_uom": "CARTON",
+            "modified": "2022-10-09 06:22:17.840954",
+            "idx": 367
+        },
+        {
+            "name": "MAT-BIN-2022-82013",
+            "warehouse": "Nalukolongo Main - KDUG",
+            "item_code": "Britania Milk  Biscuits 30g",
+            "actual_qty": 0,
+            "valuation_rate": 28813.5594,
+            "stock_uom": "CARTON",
+            "modified": "2022-10-08 05:39:18.307098",
+            "idx": 368
+        },
+        {
+            "name": "MAT-BIN-2022-72683",
+            "warehouse": "Nalukolongo Main - KDUG",
+            "item_code": "Fortune Butto Cooking Oil 200ML",
+            "actual_qty": 0,
+            "valuation_rate": 35677.966,
+            "stock_uom": "CARTON",
+            "modified": "2022-10-07 09:48:29.274362",
+            "idx": 369
+        },
+        {
+            "name": "MAT-BIN-2022-82012",
+            "warehouse": "Nalukolongo Main - KDUG",
+            "item_code": "Britania Gluco Maxi Biscuits 120Pkts",
+            "actual_qty": 0,
+            "valuation_rate": 33305.0848,
+            "stock_uom": "CARTON",
+            "modified": "2022-10-06 10:25:26.238718",
+            "idx": 370
+        },
+        {
+            "name": "MAT-BIN-2022-88812",
+            "warehouse": "Kawempe Main - KDUG",
+            "item_code": "Macdo   Tomato Sauce 50PC",
+            "actual_qty": 0,
+            "valuation_rate": 5500,
+            "stock_uom": "PACKET",
+            "modified": "2022-10-05 11:56:22.224803",
+            "idx": 371
+        },
+        {
+            "name": "MAT-BIN-2022-95629",
+            "warehouse": "Makindye Main - KDUG",
+            "item_code": "Fortune Butto Cooking Oil 50ML",
+            "actual_qty": 0,
+            "valuation_rate": 35762.711862687,
+            "stock_uom": "CARTON",
+            "modified": "2022-10-03 00:04:55.968643",
+            "idx": 372
+        },
+        {
+            "name": "MAT-BIN-2022-70151",
+            "warehouse": "Luzira Main - KDUG",
+            "item_code": "Kakira  Sweets Ice Green Hard Boiled  Mints 20PC",
+            "actual_qty": 0,
+            "valuation_rate": 4583.333333,
+            "stock_uom": "PACKET",
+            "modified": "2022-10-01 22:01:55.602728",
+            "idx": 373
+        },
+        {
+            "name": "MAT-BIN-2022-72358",
+            "warehouse": "Luzira Main - KDUG",
+            "item_code": "Nomi   Washing Powder 1 KG",
+            "actual_qty": 0,
+            "valuation_rate": 56300,
+            "stock_uom": "CARTON",
+            "modified": "2022-10-01 21:56:16.189375",
+            "idx": 374
+        },
+        {
+            "name": "MAT-BIN-2022-76890",
+            "warehouse": "Luzira Main - KDUG",
+            "item_code": "Geisha Green Bath Soap 200g",
+            "actual_qty": 0,
+            "valuation_rate": 61367.796667,
+            "stock_uom": "CARTON",
+            "modified": "2022-10-01 21:56:16.178387",
+            "idx": 375
+        },
+        {
+            "name": "MAT-BIN-2022-76892",
+            "warehouse": "Luzira Main - KDUG",
+            "item_code": "Geisha Yellow  Bath Soap 200g",
+            "actual_qty": 0,
+            "valuation_rate": 61367.796667,
+            "stock_uom": "CARTON",
+            "modified": "2022-10-01 21:56:16.161209",
+            "idx": 376
+        },
+        {
+            "name": "MAT-BIN-2022-76893",
+            "warehouse": "Luzira Main - KDUG",
+            "item_code": "Geisha White Bath Soap 200g",
+            "actual_qty": 0,
+            "valuation_rate": 61367.796667,
+            "stock_uom": "CARTON",
+            "modified": "2022-10-01 21:56:16.152416",
+            "idx": 377
+        },
+        {
+            "name": "MAT-BIN-2022-90306",
+            "warehouse": "Luzira Main - KDUG",
+            "item_code": "Comfort Tissue Rolls 10PCS",
+            "actual_qty": 0,
+            "valuation_rate": 9440,
+            "stock_uom": "OUTER",
+            "modified": "2022-10-01 21:55:57.588369",
+            "idx": 378
+        },
+        {
+            "name": "MAT-BIN-2022-95598",
+            "warehouse": "Makindye Main - KDUG",
+            "item_code": "Comfort Tissue Rolls 10PCS",
+            "actual_qty": 0,
+            "valuation_rate": 9440,
+            "stock_uom": "OUTER",
+            "modified": "2022-10-01 21:51:54.030983",
+            "idx": 379
+        },
+        {
+            "name": "MAT-BIN-2022-75731",
+            "warehouse": "Nalukolongo Main - KDUG",
+            "item_code": "Kinyara Brown Sugar 50Kg",
+            "actual_qty": 0,
+            "valuation_rate": 165000,
+            "stock_uom": "BAG",
+            "modified": "2022-10-01 21:51:45.063935",
+            "idx": 380
+        },
+        {
+            "name": "MAT-BIN-2022-95708",
+            "warehouse": "Nalukolongo Main - KDUG",
+            "item_code": "Comfort Tissue Rolls 10PCS",
+            "actual_qty": 0,
+            "valuation_rate": 9440,
+            "stock_uom": "OUTER",
+            "modified": "2022-10-01 21:51:43.983451",
+            "idx": 381
+        },
+        {
+            "name": "MAT-BIN-2022-74749",
+            "warehouse": "Nalukolongo Main - KDUG",
+            "item_code": "Fortune Butto Cooking Oil 100ML",
+            "actual_qty": 0,
+            "valuation_rate": 28766.378625963,
+            "stock_uom": "CARTON",
+            "modified": "2022-10-01 21:51:05.295193",
+            "idx": 382
+        },
+        {
+            "name": "MAT-BIN-2022-95672",
+            "warehouse": "Kawempe Main - KDUG",
+            "item_code": "Britania Gluco Maxi Biscuits 120Pkts",
+            "actual_qty": 0,
+            "valuation_rate": 35706.156146437,
+            "stock_uom": "CARTON",
+            "modified": "2022-09-30 07:10:52.990946",
+            "idx": 383
+        },
+        {
+            "name": "MAT-BIN-2022-88813",
+            "warehouse": "Kawempe Main - KDUG",
+            "item_code": "Macdo  Tomato Sauce 360g",
+            "actual_qty": 0,
+            "valuation_rate": 24000,
+            "stock_uom": "CARTON",
+            "modified": "2022-09-29 20:37:41.600096",
+            "idx": 384
+        },
+        {
+            "name": "MAT-BIN-2022-85799",
+            "warehouse": "Kawempe Main - KDUG",
+            "item_code": "Star Goldy Cooking Oil 10L",
+            "actual_qty": 0,
+            "valuation_rate": 69067.7966,
+            "stock_uom": "JERICAN",
+            "modified": "2022-09-29 06:34:02.401621",
+            "idx": 385
+        },
+        {
+            "name": "MAT-BIN-2022-72353",
+            "warehouse": "Nalukolongo Main - KDUG",
+            "item_code": "Aqua Sipi Drinking Water 500ml",
+            "actual_qty": 0,
+            "valuation_rate": 4200,
+            "stock_uom": "CARTON",
+            "modified": "2022-09-24 06:15:33.521901",
+            "idx": 386
+        },
+        {
+            "name": "MAT-BIN-2022-95674",
+            "warehouse": "Kawempe Main - KDUG",
+            "item_code": "Comfort Tissue Rolls 10PCS",
+            "actual_qty": 0,
+            "valuation_rate": 9440,
+            "stock_uom": "OUTER",
+            "modified": "2022-09-24 05:07:40.168266",
+            "idx": 387
+        },
+        {
+            "name": "MAT-BIN-2022-78179",
+            "warehouse": "Nalukolongo Main - KDUG",
+            "item_code": "Royco Mchuzi Mix Beef Ground Spices 200g",
+            "actual_qty": 0,
+            "valuation_rate": 84745.7628,
+            "stock_uom": "CARTON",
+            "modified": "2022-09-22 12:36:21.875243",
+            "idx": 388
+        },
+        {
+            "name": "MAT-BIN-2022-78183",
+            "warehouse": "Nalukolongo Main - KDUG",
+            "item_code": "Geisha Yellow  Bath Soap 200g",
+            "actual_qty": 0,
+            "valuation_rate": 61367.796667,
+            "stock_uom": "CARTON",
+            "modified": "2022-09-21 14:29:59.255497",
+            "idx": 389
+        },
+        {
+            "name": "MAT-BIN-2022-78181",
+            "warehouse": "Nalukolongo Main - KDUG",
+            "item_code": "Geisha Pink Bath Soap 200g",
+            "actual_qty": 0,
+            "valuation_rate": 61367.796667,
+            "stock_uom": "CARTON",
+            "modified": "2022-09-21 14:29:59.230061",
+            "idx": 390
+        },
+        {
+            "name": "MAT-BIN-2022-78182",
+            "warehouse": "Nalukolongo Main - KDUG",
+            "item_code": "Geisha White Bath Soap 200g",
+            "actual_qty": 0,
+            "valuation_rate": 61367.796667,
+            "stock_uom": "CARTON",
+            "modified": "2022-09-21 14:29:59.206039",
+            "idx": 391
+        },
+        {
+            "name": "MAT-BIN-2022-78180",
+            "warehouse": "Nalukolongo Main - KDUG",
+            "item_code": "Geisha Green Bath Soap 200g",
+            "actual_qty": 0,
+            "valuation_rate": 61367.796667,
+            "stock_uom": "CARTON",
+            "modified": "2022-09-21 14:29:59.180784",
+            "idx": 392
+        },
+        {
+            "name": "MAT-BIN-2022-75937",
+            "warehouse": "Nalukolongo Main - KDUG",
+            "item_code": "Yaket Drinking Water 550ML",
+            "actual_qty": 0,
+            "valuation_rate": 3644.0678,
+            "stock_uom": "CARTON",
+            "modified": "2022-09-20 06:58:07.223141",
+            "idx": 393
+        },
+        {
+            "name": "MAT-BIN-2022-75700",
+            "warehouse": "Nalukolongo Main - KDUG",
+            "item_code": "Habari  Salt 200G",
+            "actual_qty": 0,
+            "valuation_rate": 5932.203333,
+            "stock_uom": "CARTON",
+            "modified": "2022-09-19 18:49:12.713483",
+            "idx": 394
+        },
+        {
+            "name": "MAT-BIN-2022-95599",
+            "warehouse": "Makindye Main - KDUG",
+            "item_code": "Fortune Butto Cooking Oil 100ML",
+            "actual_qty": 0,
+            "valuation_rate": 28784.28818763,
+            "stock_uom": "CARTON",
+            "modified": "2022-09-16 18:37:57.538850",
+            "idx": 395
+        },
+        {
+            "name": "MAT-BIN-2022-88811",
+            "warehouse": "Kawempe Main - KDUG",
+            "item_code": "Meru  Star Bar Soap 1 KG",
+            "actual_qty": 0,
+            "valuation_rate": 52551.635123935,
+            "stock_uom": "CARTON",
+            "modified": "2022-09-14 07:43:21.309228",
+            "idx": 396
+        },
+        {
+            "name": "MAT-BIN-2022-72302",
+            "warehouse": "Nalukolongo Main - KDUG",
+            "item_code": "Meru  Star Bar Soap 1 KG",
+            "actual_qty": 0,
+            "valuation_rate": 52551.635123935,
+            "stock_uom": "CARTON",
+            "modified": "2022-09-10 14:57:26.108534",
+            "idx": 397
+        },
+        {
+            "name": "MAT-BIN-2022-68485",
+            "warehouse": "Luzira Main - KDUG",
+            "item_code": "Lugazi Brown Sugar 25Kg",
+            "actual_qty": 0,
+            "valuation_rate": 86000,
+            "stock_uom": "BAG",
+            "modified": "2022-09-05 06:39:11.544361",
+            "idx": 398
+        },
+        {
+            "name": "MAT-BIN-2022-75733",
+            "warehouse": "Nalukolongo Main - KDUG",
+            "item_code": "Lugazi Brown Sugar 25Kg",
+            "actual_qty": 0,
+            "valuation_rate": 83500,
+            "stock_uom": "BAG",
+            "modified": "2022-08-28 07:42:54.099736",
+            "idx": 399
+        },
+        {
+            "name": "MAT-BIN-2022-75699",
+            "warehouse": "Nalukolongo Main - KDUG",
+            "item_code": "Habari  Salt 500G",
+            "actual_qty": 0,
+            "valuation_rate": 15677.966143,
+            "stock_uom": "CARTON",
+            "modified": "2022-08-28 07:42:48.619543",
+            "idx": 400
+        },
+        {
+            "name": "MAT-BIN-2022-75734",
+            "warehouse": "Nalukolongo Main - KDUG",
+            "item_code": "Kinyara Brown Sugar 25Kg",
+            "actual_qty": 0,
+            "valuation_rate": 83500,
+            "stock_uom": "BAG",
+            "modified": "2022-08-28 07:42:41.578191",
+            "idx": 401
+        },
+        {
+            "name": "MAT-BIN-2022-75730",
+            "warehouse": "Nalukolongo Main - KDUG",
+            "item_code": "Lugazi Brown Sugar 50Kg",
+            "actual_qty": 0,
+            "valuation_rate": 165500,
+            "stock_uom": "BAG",
+            "modified": "2022-08-28 07:38:22.201605",
+            "idx": 402
+        },
+        {
+            "name": "MAT-BIN-2022-85846",
+            "warehouse": "Kawempe Main - KDUG",
+            "item_code": "Nomi Laundry & Detergents 250g",
+            "actual_qty": 0,
+            "valuation_rate": 0,
+            "stock_uom": "CARTON",
+            "modified": "2022-08-25 11:14:43.126036",
+            "idx": 403
+        },
+        {
+            "name": "MAT-BIN-2022-85845",
+            "warehouse": "Kawempe Main - KDUG",
+            "item_code": "Magic  Washing Powder 500G",
+            "actual_qty": 0,
+            "valuation_rate": 0,
+            "stock_uom": "CARTON",
+            "modified": "2022-08-25 11:14:43.122921",
+            "idx": 404
+        },
+        {
+            "name": "MAT-BIN-2022-86204",
+            "warehouse": "Kawempe Main - KDUG",
+            "item_code": "Kinyara Brown Sugar 50Kg",
+            "actual_qty": 0,
+            "valuation_rate": 165000,
+            "stock_uom": "BAG",
+            "modified": "2022-08-25 10:16:31.917943",
+            "idx": 405
+        },
+        {
+            "name": "MAT-BIN-2022-85692",
+            "warehouse": "Kawempe Main - KDUG",
+            "item_code": "Top Up  Tomato Sauce 400g",
+            "actual_qty": 0,
+            "valuation_rate": 0,
+            "stock_uom": "CARTON",
+            "modified": "2022-08-24 08:12:04.126574",
+            "idx": 406
+        },
+        {
+            "name": "MAT-BIN-2022-85691",
+            "warehouse": "Kawempe Main - KDUG",
+            "item_code": "Royco Mchuzi Beef Mix Ground Spices 60g",
+            "actual_qty": 0,
+            "valuation_rate": 0,
+            "stock_uom": "CARTON",
+            "modified": "2022-08-24 08:12:04.115581",
+            "idx": 407
+        }
+    ]
+}
