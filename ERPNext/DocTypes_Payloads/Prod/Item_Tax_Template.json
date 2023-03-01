@@ -1,0 +1,31 @@
+{
+    "name": "Kenya Tax - KDKE",
+    "owner": "Administrator",
+    "creation": "2022-01-31 16:27:21.270772",
+    "modified": "2023-01-31 21:37:21.234647",
+    "modified_by": "mchoksi@aakvatech.com",
+    "idx": 0,
+    "docstatus": 0,
+    "title": "Kenya Tax",
+    "company": "KYOSK DIGITAL SERVICES LTD (KE)",
+    "disabled": 0,
+    "doctype": "Item Tax Template",
+    "taxes": [
+        {
+            "name": "646149b710",
+            "owner": "Administrator",
+            "creation": "2022-01-31 16:27:21.270772",
+            "modified": "2023-01-31 21:37:21.234647",
+            "modified_by": "mchoksi@aakvatech.com",
+            "parent": "Kenya Tax - KDKE",
+            "parentfield": "taxes",
+            "parenttype": "Item Tax Template",
+            "idx": 1,
+            "docstatus": 0,
+            "tax_type": "21020005 - VAT Payable - KDKE",
+            "tax_rate": 16,
+            "doctype": "Item Tax Template Detail"
+        }
+    ],
+    "__last_sync_on": "2023-03-01T08:48:15.700Z"
+}
