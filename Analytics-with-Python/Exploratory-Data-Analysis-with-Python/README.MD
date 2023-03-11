@@ -9,8 +9,6 @@
 - [Descriptive statistics.](#descriptive-statistics)
 - [How to check for Duplicates](#how-to-check-for-duplicates)
 - [DATA CLEANING](#data-cleaning)
-
-
 # Description
 * __Exploratory data analysis__ (EDA) is an essential step in the data science process which involves use of both _statistical methods_ and _data visualization techniques_ to:
   * uncover patterns, trends, 
