@@ -19,8 +19,8 @@
   * that do not contain NaN values.
   * __Filter__: Using this method, we can also filter for a subset of data.
 
-# Sample Data Source
-* In this illustration, we use our popular [Online Retail Data](https://raw.githubusercontent.com/nyangweso-rodgers/Data_Analytics/main/Datasets/Online_Retail.csv)
+# Data Source
+* For this project, we the [online_retail_data_without_null_values.csv](https://raw.githubusercontent.com/nyangweso-rodgers/Data_Analytics/main/Analytics-with-Python/Python-Modules-for-Data-Analysis/Pandas-Module/How-to-Handle-Missing-Data-in-Pandas-DataFrame/online_retail_data_without_null_values.csv) dataset from the original, [Online Retail Store Data](https://raw.githubusercontent.com/nyangweso-rodgers/Data_Analytics/main/Datasets/Online_Retail.csv)
   
 # Examples Of Filtering
 1. Get Transactions from Brazil
