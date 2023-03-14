@@ -1,6 +1,13 @@
 # Pandas
 
 ## Table Of Contents
+- [Introduction to Pandas]() 
+  
+- [How to in Pandas]() 
+  - [How to Handle Missing Data]() 
+  - [How to Aggregate Data]() 
+  - [How to Filter Data]() 
+  
 - [Google Colab Directory](https://drive.google.com/drive/folders/12esk9Y1lUeDZhGslh5snJ69CUXdfbO2O)
     1. [Pandas Series Objects](https://colab.research.google.com/drive/1e27Ll8OhynbsR4s7lCYf6RYB--xfkajf#scrollTo=1f_LLbwcjGoX)
     2. [Pandas DataFrame Object](https://colab.research.google.com/drive/1iCdhQvNUQX0KZjkc-kJT1znI270F_SUK)
