@@ -1,11 +1,8 @@
 # How To Filter Pandas DataFrame
 
 ## Table Of Contents
-- [How To Filter Pandas DataFrame](#how-to-filter-pandas-dataframe)
-  - [Table Of Contents](#table-of-contents)
-- [Description](#description)
-- [Sample Data Source](#sample-data-source)
-- [Examples Of Filtering](#examples-of-filtering)
+- [Further Reading]() 
+  - [Different methods to filter a Pandas DataFrame](https://dev.to/aviatorifeanyi/different-methods-to-filter-a-pandas-dataframe-48of)
 
 
 # Description
