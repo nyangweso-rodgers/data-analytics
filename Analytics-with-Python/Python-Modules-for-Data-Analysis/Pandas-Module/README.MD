@@ -4,9 +4,9 @@
 - [Introduction to Pandas]() 
   
 - [How to in Pandas]() 
-  - [How to Handle Missing Data]() 
-  - [How to Aggregate Data]() 
-  - [How to Filter Data]() 
+  1. [How to Handle Missing Data](https://github.com/nyangweso-rodgers/Data_Analytics/tree/main/Analytics-with-Python/Python-Modules-for-Data-Analysis/Pandas-Module/How-to-Handle-Missing-Data-in-Pandas-DataFrame) 
+  2. [How to Aggregate Data](https://github.com/nyangweso-rodgers/Data_Analytics/tree/main/Analytics-with-Python/Python-Modules-for-Data-Analysis/Pandas-Module/How-to-Aggregate-Pandas-DataFrame) 
+  3. [How to Filter Data](https://github.com/nyangweso-rodgers/Data_Analytics/tree/main/Analytics-with-Python/Python-Modules-for-Data-Analysis/Pandas-Module) 
   
 - [Google Colab Directory](https://drive.google.com/drive/folders/12esk9Y1lUeDZhGslh5snJ69CUXdfbO2O)
     1. [Pandas Series Objects](https://colab.research.google.com/drive/1e27Ll8OhynbsR4s7lCYf6RYB--xfkajf#scrollTo=1f_LLbwcjGoX)
