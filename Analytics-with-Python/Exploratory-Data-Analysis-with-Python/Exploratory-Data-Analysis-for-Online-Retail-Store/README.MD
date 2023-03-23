@@ -17,3 +17,8 @@
 
 
 # Analysis & Insights
+* 37 Unique Countries from the Dataset.
+# CSV Output Raw Links in CSV
+1. [Grouped Country Data]()
+2. [Grouped Monthly Data]()
+3. [Grouped Customers Data]()
