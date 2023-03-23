@@ -19,6 +19,6 @@
 # Analysis & Insights
 * 37 Unique Countries from the Dataset.
 # CSV Output Raw Links in CSV
-1. [Grouped Country Data]()
-2. [Grouped Monthly Data]()
-3. [Grouped Customers Data]()
+1. [Grouped Country DataFrame](https://raw.githubusercontent.com/nyangweso-rodgers/Data_Analytics/main/Analytics-with-Python/Exploratory-Data-Analysis-with-Python/Exploratory-Data-Analysis-for-Online-Retail-Store/grouped_country_data.csv)
+2. [Grouped Daily Country DataFrame](https://github.com/nyangweso-rodgers/Data_Analytics/blob/main/Analytics-with-Python/Exploratory-Data-Analysis-with-Python/Exploratory-Data-Analysis-for-Online-Retail-Store/grouped_daily_country_df.csv)
+3. [Grouped Daily Customers Data](https://raw.githubusercontent.com/nyangweso-rodgers/Data_Analytics/main/Analytics-with-Python/Exploratory-Data-Analysis-with-Python/Exploratory-Data-Analysis-for-Online-Retail-Store/grouped_daily_customer_data.csv)
