@@ -11,3 +11,4 @@
 # Dataset Description
 * We start by using the __Recency__, __Frequency__, __MonetaryValue__, and __Tenure__.
 * With this, we can expect to group together like-minded customers and the analyze these different groups for insights and trend to help formulate future business decisions.
+* We start by importing the [RFM Segments](https://raw.githubusercontent.com/nyangweso-rodgers/Data_Analytics/main/Analytics-with-Python/Customer-Segmentation-Analysis/Customer-Segmentation-using-RFM-Analysis/RFM_Segments_df.csv) dataset, generated from the [Customer Segmentation using RFM Analysis](https://github.com/nyangweso-rodgers/Data_Analytics/tree/main/Analytics-with-Python/Customer-Segmentation-Analysis/Customer-Segmentation-using-RFM-Analysis) of this GitHub Project
