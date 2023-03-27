@@ -1,17 +1,8 @@
 # Exploratory Data Analysis (EDA) with Python
 
 ## Table Of Contents
-- [Exploratory Data Analysis (EDA) with Python](#exploratory-data-analysis-eda-with-python)
-  - [Table Of Contents](#table-of-contents)
-- [Description](#description)
-- [Why Exploratory data analysis (EDA) is an essential task](#why-exploratory-data-analysis-eda-is-an-essential-task)
-- [Exploratory data analysis (EDA) steps.](#exploratory-data-analysis-eda-steps)
-- [Descriptive statistics.](#descriptive-statistics)
-- [How to check for Duplicates](#how-to-check-for-duplicates)
-- [DATA CLEANING](#data-cleaning)
-- [Univariate Analysis.](#univariate-analysis)
-- [Bivariate Analysis](#bivariate-analysis)
-- [Multivariate Analysis](#multivariate-analysis)
+- [Further Reading]() 
+  - [Dev Community - How to Perform Exploratory Data Analysis with Python](https://dev.to/phylis/how-to-perform-exploratory-data-analysis-with-python-l8j)
 # Description
 * __Exploratory data analysis__ (EDA) is an essential step in the data science process which involves use of both _statistical methods_ and _data visualization techniques_ to:
   * uncover patterns, trends, 
