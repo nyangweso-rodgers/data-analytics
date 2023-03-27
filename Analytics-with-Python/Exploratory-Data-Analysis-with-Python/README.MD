@@ -9,6 +9,9 @@
 - [Descriptive statistics.](#descriptive-statistics)
 - [How to check for Duplicates](#how-to-check-for-duplicates)
 - [DATA CLEANING](#data-cleaning)
+- [Univariate Analysis.](#univariate-analysis)
+- [Bivariate Analysis](#bivariate-analysis)
+- [Multivariate Analysis](#multivariate-analysis)
 # Description
 * __Exploratory data analysis__ (EDA) is an essential step in the data science process which involves use of both _statistical methods_ and _data visualization techniques_ to:
   * uncover patterns, trends, 
@@ -45,3 +48,10 @@
 * __Data cleaning__ is the process of fixing or removing incorrect, corrupted, incorrectly formatted, duplicate, or incomplete data within a dataset. It involves
   * handling missing values and 
   * handling outliers
+
+# Univariate Analysis.
+* __Univariate analysis__ is a form of exploratory data analysis (EDA) that involves the examination of a single variable. It is used to summarize the data and gain insight into the data's distribution, central tendency, and variability. It can be used to answer questions such as what is the range of the data, what is the most common value, and is there any outliers. It is also used to identify any trends or patterns in the data.
+# Bivariate Analysis
+* Bivariate analysis involves analyzing data with two variables or columns. This is usually a way to explore the relationships between these variables and how they influence each other, if at all.
+# Multivariate Analysis
+* Involves examining more than two variables at once in order to better understand relationships between them.
