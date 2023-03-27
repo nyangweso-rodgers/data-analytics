@@ -8,11 +8,11 @@ with delivery_note_with_index as (
                             --and posting_date between '2022-08-01' and '2023-02-28'
                             --and company = 'KYOSK DIGITAL SERVICES LTD (KE)'
                             --and territory in ('Athi River')
-                            where name in ('DN-MTWM-BYSQ', 'DN-MTWM-ABBY')
+                            --where name in ('DN-MTWM-BYSQ', 'DN-MTWM-ABBY')
+                            where posting_date = '2023-03-25'
                             ),
 delivery_note_summary as(
-                            select distinct dn.name,
-                            dn.workflow_state 
-                            from delivery_note_with_index dn --where index = 1
+                            select count(distinct dn.name),
+                            from delivery_note_with_index dn where index = 1
                             )
 select * from delivery_note_summary
