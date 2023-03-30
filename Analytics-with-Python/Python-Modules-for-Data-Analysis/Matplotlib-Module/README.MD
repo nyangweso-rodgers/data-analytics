@@ -15,6 +15,7 @@
   
 - [Further Reading]()
   - [Dev Community - Subplotting with matplotlib and seaborn](https://dev.to/thalesbruno/subplotting-with-matplotlib-and-seaborn-5ei8)
+  - [Towards Data Science - Make Your Charts Look Glorious](https://towardsdatascience.com/make-your-charts-look-glorious-9ce3fa310b70)
 
 # Data Description
 1. [Grouped Country DataFrame](https://raw.githubusercontent.com/nyangweso-rodgers/Data_Analytics/main/Analytics-with-Python/Exploratory-Data-Analysis-with-Python/Exploratory-Data-Analysis-for-Online-Retail-Store/grouped_country_data.csv)
