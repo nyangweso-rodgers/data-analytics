@@ -18,12 +18,8 @@ sales_invoice_summary as (
 
 sales_invoice_lists as (
                         select distinct si.name,
-                        date(creation) as creation_date,
-                        posting_date,
-                        date_diff(posting_date, date(creation), day) as date_var
                         from sales_invoice_with_index si where index = 1
-                        order by 2 desc
                         )
 
-select * from sales_invoice_lists
-where date_var > 0
+select distinct po_no, min(posting_date) from sales_invoice_with_index where index = 1
+group by 1 order by 2
