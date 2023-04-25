@@ -12,7 +12,6 @@ select
       cast(SAFE_DIVIDE(count(distinct this_week.shop_id) , 
       coalesce(count(distinct last_week.shop_id),null))as float64) as retention
       from deliveries as last_week
-      left join deliveries as this_week on last_week.shop_id = this_week.shop_id 
-                                        and this_week.week = date_add(last_week.week, interval 1 week)
+      left join deliveries as this_week on last_week.shop_id = this_week.shop_id and this_week.week = date_add(last_week.week, interval 1 week)
       group by 1
       order by 1
