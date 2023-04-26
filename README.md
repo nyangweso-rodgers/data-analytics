@@ -1,15 +1,28 @@
 # Data Analytics
 
 ## Table Of Contents
-- [Analytics with Google BigQuery]()
-- [Analytics with PostgreSQL]()
+- [Analytics with Google BigQuery](https://github.com/nyangweso-rodgers/Data_Analytics)
+  - [Customer Analtics with Google BigQuery]()
+    - [Customer Segmentation Analysis using RFM Score]()
+
+
 - [Analytics with Python](https://github.com/nyangweso-rodgers/Data_Analytics/tree/main/Analytics_with_Python)
     - [Retention Analysis](https://github.com/nyangweso-rodgers/Data_Analytics/tree/main/Analytics_with_Python/Retention_Analysis)
     - [Web Scrapping](https://github.com/nyangweso-rodgers/Data_Analytics/tree/main/Analytics_with_Python/Web_Scrapping)
-- [Dashboards]()
-    - [Google Data Studio]()
-    - [Microsoft PowerBI]()
 
+
+# Data Analytics
+
+# Data Analytics Use Cases
+1. Resource Planning
+   1. Forecasting and Optimization
+2. 236 degrees view of Customer Metrics and Insights
+   1. Customer Acquisition and Retention
+
+3. Product Recommendations
+4. Fraud Prediction and Prevention
+
+   
 # Popular Open Source Data Sources
 Index | Name | Source | Description
 |----- | ----- | ----- | ----- |
