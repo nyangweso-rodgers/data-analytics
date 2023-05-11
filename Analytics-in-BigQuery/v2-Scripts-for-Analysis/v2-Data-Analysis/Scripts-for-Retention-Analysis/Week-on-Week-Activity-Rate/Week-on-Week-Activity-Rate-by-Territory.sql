@@ -35,7 +35,6 @@ weekly_customers_count as (
                                 count(distinct(case when customer_status = 'ACQUIRED' then customer else null end)) as acquired_customers,
                                 count(distinct(case when customer_status = 'RETAINED' then customer else null end)) as retained_customers
                                 from customer_lists_with_index
-                                --where customer = 'EFRN-Royal enterprise sofia00001'
                                 group by 1,2
                                 --order by 2,1
                                 ),
