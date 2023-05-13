@@ -1,4 +1,4 @@
----------------------------------- Method 2: Week on Week Retention Analysis -----------------------------
+---------------------------------- Method 2: Week on Week Activity Rate -----------------------------
 ----------------------------------- Overall -----------------------
 ---------------------------------- Created By: Rodgers -----------------------------------------
 with
@@ -7,7 +7,7 @@ weekly_customer_lists as (
                             customer, 
                             FROM `kyosk-prod.erp_scheduled_queries.erp_paid_and_delivered_dns` 
                             where company = 'KYOSK DIGITAL SERVICES LTD (KE)'
-                            --and territory = 'Athi River'
+                            --AND territory in ('Juja', 'Eldoret')
                             ),
 customer_lists_with_index as (
                               select *, case when posting_week_index = 1 then 'ACQUIRED' else 'RETAINED' end as customer_status
@@ -32,6 +32,11 @@ weekly_summary as (
                     from
                     (select * from weekly_customers_count)
                     )
-                    )
-select *, coalesce(safe_divide(retained_customers , active_customer_base),0) as percent_retention   from weekly_summary
-order by 1
+                    ),
+activity_rate_report as (
+                        select *, 
+                        coalesce(safe_divide(retained_customers , active_customer_base),0) as percent_retention   
+                        from weekly_summary
+                        order by 1 desc
+                        )
+select * from activity_rate_report

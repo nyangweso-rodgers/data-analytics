@@ -1,4 +1,4 @@
----------------------------------- Method 2: Week on Week Retention ------------------
+---------------------------------- Method 2: Week on Week Activity Rate ------------------
 ----------------------------------Analysis By Territory -----------------------------
 ---------------------------------- Created By: Rodgers -----------------------------------------
 with
@@ -51,6 +51,6 @@ activity_rate_report as (
                           select *, 
                           coalesce(safe_divide(retained_customers , active_customer_base),0) as percent_retention   
                           from weekly_summary
-                          order by 2,1
+                          order by 2,1 desc
                           )
 select * from activity_rate_report

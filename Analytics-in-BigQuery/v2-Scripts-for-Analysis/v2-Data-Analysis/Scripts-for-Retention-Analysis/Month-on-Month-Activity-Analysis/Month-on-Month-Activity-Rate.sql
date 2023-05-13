@@ -1,4 +1,5 @@
 ----------------------------------Month on Month Activity Rate -----------------------------
+-------------------------- Overall ------------------------
 ---------------------------------- Created By: Rodgers -----------------------------------------
 with
 mothly_customer_lists as (
@@ -6,7 +7,7 @@ mothly_customer_lists as (
                             customer, 
                             FROM `kyosk-prod.erp_scheduled_queries.erp_paid_and_delivered_dns` 
                             where company = 'KYOSK DIGITAL SERVICES LTD (KE)'
-                            --and territory = 'Athi River'
+                            and territory in ('Juja', 'Eldoret')
                             ),
 customer_lists_with_index as (
                               select *, case when posting_month_index = 1 then 'ACQUIRED' else 'RETAINED' end as customer_status
@@ -24,13 +25,13 @@ monthly_customers_count as (
                                 --where customer = 'EFRN-Royal enterprise sofia00001'
                                 group by 1
                                 ),
-report as (
-                    select *, coalesce(lag(total_customers)over(order by posting_month asc),0) as active_customer_base
-                    from
-                    (select *, sum(acquired_customers)over(order by posting_month asc) total_customers
-                    from
-                    (select * from monthly_customers_count)
-                    )
-                    )
-select *, coalesce(safe_divide(retained_customers , active_customer_base),0) as percent_retention   from report
-order by 1
+activity_rate_report as (
+                        select *, coalesce(lag(total_customers)over(order by posting_month asc),0) as active_customer_base
+                        from
+                        (select *, sum(acquired_customers)over(order by posting_month asc) total_customers
+                        from
+                        (select * from monthly_customers_count)
+                        )
+                        )
+select *, coalesce(safe_divide(retained_customers , active_customer_base),0) as percent_retention   from activity_rate_report
+order by 1 desc
