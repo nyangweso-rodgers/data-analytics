@@ -2,7 +2,7 @@
 ------------------------------------ Created By: Rodgers ----------------
 with
 
-dates as (SELECT * FROM  UNNEST(GENERATE_DATE_ARRAY('2022-03-01',date_add(CURRENT_DATE(),interval 31 day), INTERVAL 1 DAY)) AS date),
+date_array as (SELECT * FROM  UNNEST(GENERATE_DATE_ARRAY('2022-03-01',date_add(CURRENT_DATE(),interval 31 day), INTERVAL 1 DAY)) AS date),
 daily_sale_days as (select * from dates where FORMAT_DATE('%A',date) <> 'Sunday' ),
 
 dates_2 as (SELECT * FROM  UNNEST(GENERATE_DATE_ARRAY('2022-02-06',last_day(CURRENT_DATE()), INTERVAL 1 DAY)) AS date),
