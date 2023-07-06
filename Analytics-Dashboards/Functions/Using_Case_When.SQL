@@ -1,1 +1,0 @@
-COUNT_DISTINCT(case when otif_status = 'EARLY' then delivery_note else null end) / COUNT_DISTINCT(delivery_note)
