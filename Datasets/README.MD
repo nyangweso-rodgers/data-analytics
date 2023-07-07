@@ -1,7 +1,10 @@
 # Datasets
 
 # Description
-Repository for open source datasets used in various analysis and models in this project.
+* Lists of various datasets used for Analytics Project in this repository. 
 
 # Dataset Lists
-* Online Retail - Source: [Index of /ml/machine-learning-databases/00352](http://archive.ics.uci.edu/ml/machine-learning-databases/00352/)
+
+# Dataset 1: Online Retail Dataset
+* Source: http://archive.ics.uci.edu/ml/machine-learning-databases/00352/
+* Github Raw: https://raw.githubusercontent.com/nyangweso-rodgers/Data_Analytics/main/Datasets/online-retail.csv
