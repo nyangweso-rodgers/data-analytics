@@ -39,5 +39,6 @@
 
 # Links
 * Looker Studio Data Source Link: https://lookerstudio.google.com/datasources/28765f40-c49f-4980-bacd-c80fbbed07a5
-* Looker Studio Dashboard Link: https://lookerstudio.google.com/reporting/86462191-b7d1-4808-ae55-21c8126c5d8d/page/k5SWD
-* ![](images/dashboard-output-1.png)
+* Looker Studio Dashboard Link: https://lookerstudio.google.com/reporting/86462191-b7d1-4808-ae55-21c8126c5d8d/page/k5SWD. (_Click the link to request for view access_.)
+
+![](images/dashboard-output-1.png)
