@@ -1,5 +1,10 @@
 # Project: Ecommerce Dashboard
 
+## Table of Contents
+- [Project Description](#Project-Description)
+- [Data Source Description](#Data-Source-Description)
+
+
 # Project Description
 * We leverage the power of `Google BigQuery` to store a sample Ecommerce data, retrieve the data using a `Connector` and finally perform visualization using the `Google Looker Studio`.
 
@@ -15,33 +20,37 @@
         -- Output: 536,641
     ```
 
-# Data Source Query with standard `sql`
-```sql
-    with
-        online_retail as (
-                            SELECT distinct date(InvoiceDate) as InvoiceDate,
-                            Country,
-                            SAFE_CAST(CustomerID as string) as CustomerID,
-                            SAFE_CAST(InvoiceNo as string) as InvoiceNo,
-                            SAFE_CAST(StockCode as string) as StockCode,
-                            Description,
-                            Quantity,
-                            UnitPrice,
-                            Quantity * UnitPrice as amount
-                            FROM `general-364419.table_uploads.online_retail`
-                            )
+# Analysis
+* Sales Summary which shows
+   * Scorecards wth the following Metrics
+      1. Count Of Countries (38)
+      2. Count Of Customers (4,339)
+      3. Count Of Invoices Generated (20,728)
+      4. Quantity Sold (5,645,017)
+      5. Revenue ($ 10,619,983)
+      6. Basket Value ($512) : _average sales invoice value_
+      7. Average Customer Value ($2,448): _average customer spend_2
 
-        select *
-        from oneline_retail
-        where Quantity > 0
-        and FORMAT_DATE('%Y%m%d', InvoiceDate) between @DS_START_DATE and @DS_END_DATE
-```
+    * Monthly Trend Analysis
+      1. Revenue trend: (_Nov.2021 had the highest Revenue at $1.5_)
+      2. Unique Customers Invoiced trend
+    
+    * Comparison Analysis
 
+* Retention Analysis which shows
+    * Monthly Cohort Retention: 
+      * shows the count and prcent of returning customers after joining month.
 # Links
-* Looker Studio Data Source Link: https://lookerstudio.google.com/datasources/28765f40-c49f-4980-bacd-c80fbbed07a5
-* Looker Studio Dashboard Link: https://lookerstudio.google.com/reporting/86462191-b7d1-4808-ae55-21c8126c5d8d/page/k5SWD. (_Click the link to request for view access_.)
+* Looker Studio Dashboard:
+    1. [Sales Summary](https://lookerstudio.google.com/reporting/86462191-b7d1-4808-ae55-21c8126c5d8d/page/k5SWD)
+    2. [Monthly Cohort Retention Analysis](https://lookerstudio.google.com/reporting/86462191-b7d1-4808-ae55-21c8126c5d8d/page/p_unzspo5u7c)
+
+* Looker Studio Data Source Links (these are `sql` scripts)
+    1. [Sales Summary](https://lookerstudio.google.com/datasources/28765f40-c49f-4980-bacd-c80fbbed07a5)
+
+    2. [Monthly Cohort Retention](https://lookerstudio.google.com/datasources/6b8c22a0-890d-4373-91b1-812f2dc2f340)
+
 
 ![](images/dashboard-output-1.png)
 
-# Additional Customer Analysis Query
-# Monthly Customer Cohort Retention
+![](images/dashboard-output-2.png)
