@@ -42,3 +42,6 @@
 * Looker Studio Dashboard Link: https://lookerstudio.google.com/reporting/86462191-b7d1-4808-ae55-21c8126c5d8d/page/k5SWD. (_Click the link to request for view access_.)
 
 ![](images/dashboard-output-1.png)
+
+# Additional Customer Analysis Query
+# Monthly Customer Cohort Retention
