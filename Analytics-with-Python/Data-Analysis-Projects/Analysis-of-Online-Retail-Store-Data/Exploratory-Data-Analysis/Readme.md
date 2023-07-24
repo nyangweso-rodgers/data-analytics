@@ -15,3 +15,5 @@
     1. [Data Visualization]()
     2. [Customer Retention Analysis]()
     3. [Customer Segmentation Analysis]()
+
+* Data Link: https://raw.githubusercontent.com/nyangweso-rodgers/Data_Analytics/main/Analytics-with-Python/Data-Analysis-Projects/Analysis-of-Online-Retail-Store-Data/Exploratory-Data-Analysis/v3_df.csv
