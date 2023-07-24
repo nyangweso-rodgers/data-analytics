@@ -1,7 +1,14 @@
 # EDA - Online Retail Store
 
 ## Table Of Contents
+- [Analysis of Online Retail Store Data]()
+   1. [Exploratory Data Analysis]()
+   2. [Data Visualization]()
+   3. [Retention Analysis]()
+   4. [Customer Segmentation Analysis]()
 
+- [Further Reading]()
+   1. [Medium -Building Interactive Data Visualizations with Python — The Art of Storytelling ](https://towardsdatascience.com/building-interactive-data-visualizations-with-python-the-art-of-storytelling-ceb43db67488)
 
 # Project Description
 * Perform Exploratory Data Analysis (EDA) for an [Online Retail Store Data](https://raw.githubusercontent.com/nyangweso-rodgers/Data_Analytics/main/Datasets/Online_Retail.csv) dataset.
