@@ -1,9 +1,25 @@
 # Exploratory Data Analysis (EDA) with Python
 
 ## Table Of Contents
+-  [Data Analysis Projects]()
+   -  [Data Analysis for an Online Retail Store Data]()
+      -  [Exploratory Data Analysis]()
+      -  [Data Visualization]()
+      -  [Customer Retention Analysis]()
+      -  [Customer Segmentation Analysis]()
+
 - [Further Reading]() 
   - [Dev Community - How to Perform Exploratory Data Analysis with Python](https://dev.to/phylis/how-to-perform-exploratory-data-analysis-with-python-l8j)
 # Description
+* This folder contains various data analysis projects based on different datasets. The major components of the analyses are:
+    1. Exploratory Data Analysis
+    2. Data Visualizations
+    3. Customer Analytics
+       1. Retention Analytics
+       2. Segmentation Analytics
+
+
+# Exploratory Data Analysis (EDA)
 * __Exploratory data analysis__ (EDA) is an essential step in the data science process which involves use of both _statistical methods_ and _data visualization techniques_ to:
   * uncover patterns, trends, 
   * understand relationships and 
@@ -32,8 +48,7 @@
 # Descriptive statistics.
 * The __describe()__ function in pandas is used to generate descriptive statistics that summarize the central tendency, dispersion and shape of a dataset's distribution, excluding NaN values. It provides the count, mean, standard deviation, minimum, maximum, 25th percentile, 50th percentile (median) and 75th percentile of the data.
 
-# How to check for Duplicates
-* The __pandas.DataFrame.duplicated.sum()__ function returns a Series or DataFrame containing the sum of the boolean values (True or False) in the duplicate rows of the DataFrame.
+
 
 # DATA CLEANING
 * __Data cleaning__ is the process of fixing or removing incorrect, corrupted, incorrectly formatted, duplicate, or incomplete data within a dataset. It involves
