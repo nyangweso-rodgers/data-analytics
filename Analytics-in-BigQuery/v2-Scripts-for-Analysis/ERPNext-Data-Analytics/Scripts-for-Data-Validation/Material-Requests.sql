@@ -1,4 +1,4 @@
--------------------------------- Material Requests ---------------------
+--------------------------------ERPNext - QA - Material Requests ---------------------
 with
 material_request_with_index as(
                                 SELECT *, row_number()over(partition by name order by modified desc) as index
@@ -6,10 +6,9 @@ material_request_with_index as(
                                 where material_request_type = 'Purchase'
   								              --territory not in ("Kyosk TZ HQ", "Kampala","Uganda","DKasarani","Kyosk HQ", "Kenya")
                                and company =  'KYOSK DIGITAL SERVICES LTD (KE)'
-                               and set_warehouse = 'Eldoret Receiving Bay - KDKE'
-                               and date(creation) between '2023-06-01' and '2023-06-11'
+                               --and set_warehouse = 'Eldoret Receiving Bay - KDKE'
+                               and date(creation) between '2023-01-01' and '2023-06-28'
                               )
-SELECT count(distinct name)
+SELECT date(creation), name, material_request_type
  FROM material_request_with_index
  WHERE index = 1
- --NAME = 'MAT-MR-2023-23745'
