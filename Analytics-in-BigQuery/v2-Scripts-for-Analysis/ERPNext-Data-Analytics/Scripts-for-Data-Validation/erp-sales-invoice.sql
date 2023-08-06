@@ -5,7 +5,7 @@ sales_invoice_with_index as (
                             row_number()over(partition by name order by modified desc) as index 
                             FROM `kyosk-prod.erp_reports.sales_invoice` 
                             --where date(creation) >= '2023-04-01'
-                            --where posting_date between '2023-07-01' and '2023-07-16'
+                            where posting_date between '2023-08-01' and '2023-08-06'
                             --and company = 'KYOSK DIGITAL SERVICES LTD (KE)'
                             ),
 sales_invoice_summary as (

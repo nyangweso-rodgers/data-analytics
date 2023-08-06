@@ -6,7 +6,7 @@ payment_entry_with_index as (
                               where payment_type = "Receive"
                               --and company =  'KYOSK DIGITAL SERVICES LTD (KE)'
                               --and date(creation) = '2023-07-27'
-                              and posting_date between '2023-07-01' and '2023-07-27'
+                              and posting_date between '2023-08-01' and '2023-08-06'
                               ),                            
 payment_entry_lists as (
                           select distinct name, paid_amount

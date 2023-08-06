@@ -4,9 +4,9 @@ delivery_note_with_index as (
                             SELECT *, 
                             row_number()over(partition by name order by modified desc) as index 
                             FROM `kyosk-prod.erp_reports.delivery_note` 
-                            where territory not in ("Kyosk TZ HQ", "Kampala","Uganda","DKasarani","Kyosk HQ", "Kenya")
-                            and workflow_state in ('PAID')
-                            and posting_date between '2023-07-01' and '2023-07-27'
+                            where workflow_state in ('PAID')
+                            --territory not in ("Kyosk TZ HQ", "Kampala","Uganda","DKasarani","Kyosk HQ", "Kenya") 
+                            and posting_date between '2023-08-01' and '2023-08-06'
                             --and company = 'KYOSK DIGITAL SERVICES LTD (KE)'
                             ),
 delivery_note_summary as(
