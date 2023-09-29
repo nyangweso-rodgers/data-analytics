@@ -1,4 +1,5 @@
--------------------- QA - Purchase Receipts ------------------
+-------------------- ERPNext ---------------
+------------------ Purchase Receipts ------------------
 with
 purchase_receipt_with_index as (
                                 SELECT *, 
@@ -12,19 +13,16 @@ purchase_receipt_with_index as (
                                 --and name in ('MAT-PRE-2022-00036', 'MAT-PRE-2022-05238', 'MAT-PRE-2022-05711', 'MAT-PRE-2022-06738', 'MAT-PRE-2022-13367')
                                 --and docstatus <> 1
                                 and company = 'KYOSK DIGITAL SERVICES LTD (KE)'
-                                --and posting_date between '2022-02-01' and '2022-02-28'
+                                and posting_date between '2023-06-01' and '2023-09-29'
                                 ),
 stock_items as (
-                  select distinct pr.company, 
-                  --pri.item_group, 
-                  pri.item_code,
-                  max(pr.posting_date) as last_posting_date,
-                  current_date as current_date,
-                  date_diff(current_date, max(pr.posting_date), month ) as months_since_last_posting_date,
-                  string_agg(distinct pr.supplier_name,"/" order by pr.supplier_name) as supplier_names
+                  select distinct pr.territory,
+                  item_code,
+                  max(posting_date) as last_posting_date,
+                  date_diff(current_date,max(posting_date), day ) as days
                   from purchase_receipt_with_index pr, unnest(items) pri where index = 1
                   group by 1,2
-                  order by 2
                   )
  
 select * from stock_items
+order by 4 desc
