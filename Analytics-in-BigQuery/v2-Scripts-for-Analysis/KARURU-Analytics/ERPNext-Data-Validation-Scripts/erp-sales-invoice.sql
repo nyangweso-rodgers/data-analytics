@@ -14,7 +14,7 @@ sales_invoice_summary as (
                           si.grand_total,
                           status
                           from sales_invoice_with_index si where index = 1 
-                          and territory not in ('Test UG Territory', 'Test NG Territory', 'Test KE Territory', 'Kyosk HQ', 'Test TZ Territory', 'Kyosk TZ HQ')
+                            
                           --and company = 'KYOSK DIGITAL SERVICES LTD (KE)'
                           --and company = 'KYOSK DIGITAL SOLUTIONS NIGERIA LIMITED'
                           )
