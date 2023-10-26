@@ -6,7 +6,8 @@ karuru_dns as (
                 row_number()over(partition by code order by updated_at desc) as index
                 FROM `kyosk-prod.karuru_reports.delivery_notes` dn
                 where territory_id not in ('Test NG Territory', 'Kyosk TZ HQ', 'Test TZ Territory', 'Kyosk HQ','DKasarani', 'Test KE Territory', 'Test UG Territory')
-                and date(created_at) > '2023-07-01'
+                --and date(created_at) > '2023-07-01'
+                and date(created_at) <= '2023-10-25'
                 and is_pre_karuru = false
                 ),
 dns_report as (
@@ -15,7 +16,8 @@ dns_report as (
                 id,
                 code,
                 dn.status,
-                --dni.product_bundle_id,
+                dni.product_bundle_id,
+                dn.retailer_id,
                 from karuru_dns dn, unnest(order_items) dni
                 where index = 1
                 ),
@@ -44,3 +46,4 @@ dn_si_report as (
 select *
 from dn_si_report
 where status in ('PAID', 'DELIVERED') and name is null
+order by id
