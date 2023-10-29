@@ -6,20 +6,16 @@ erp_dns as (
             row_number()over(partition by name order by modified desc) as index 
             FROM `kyosk-prod.erp_reports.delivery_note` 
             where  territory not in ('Test NG Territory', 'Kyosk TZ HQ', 'Test TZ Territory', 'Kyosk HQ','DKasarani', 'Test KE Territory', 'Test UG Territory')
-            --where date(creation) between '2023-01-01' and '2023-09-02'
+            --and date(creation) between '2023-10-01' and '2023-10-29'
             ),
 dns_summary as (
                 select distinct 
-                territory,
+                dn.territory,
                 customer,
-                name,
-                posting_date,
-                grand_total
-                from erp_dns dn 
+                dn.name,
+                from erp_dns dn, unnest(items) dni
                 where index = 1
-                --and workflow_state in ('PAID', 'DELIVERED')
-                --and posting_date between '2023-05-01' and '2023-09-18'
+                and against_sales_order in ('SAL-ORD-EMBRGNL', 'SAL-ORD-KISWU5H')
                 )
 select *
 from dns_summary
-where customer = 'oliv shop mathare3'
