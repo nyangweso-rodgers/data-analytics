@@ -7,7 +7,7 @@ karuru_dns as (
                 FROM `kyosk-prod.karuru_reports.delivery_notes` dn
                 where territory_id not in ('Test NG Territory', 'Kyosk TZ HQ', 'Test TZ Territory', 'Kyosk HQ','DKasarani', 'Test KE Territory', 'Test UG Territory')
                 --and date(created_at) > '2023-07-01'
-                and date(created_at) <= '2023-10-25'
+                and date(created_at) <= '2023-10-29'
                 and is_pre_karuru = false
                 ),
 dns_report as (
