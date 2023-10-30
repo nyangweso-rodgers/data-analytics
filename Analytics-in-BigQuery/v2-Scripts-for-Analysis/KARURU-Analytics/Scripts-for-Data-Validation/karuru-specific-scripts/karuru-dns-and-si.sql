@@ -13,6 +13,7 @@ karuru_dns as (
 dns_report as (
                 select distinct date(created_at) as created_at,
                 country_code,
+                territory_id,
                 id,
                 code,
                 dn.status,
@@ -46,4 +47,5 @@ dn_si_report as (
 select *
 from dn_si_report
 where status in ('PAID', 'DELIVERED') and name is null
+and territory_id = 'Ruai'
 order by id
