@@ -7,7 +7,7 @@ karuru_dts as (
                 FROM `kyosk-prod.karuru_reports.delivery_trips` 
                 --where date_trunc(date(created_at),month) >= date_sub(date_trunc(current_date, month), interval 3 month)
                 where date(created_at) >= '2023-07-01'
-                and territory_id not in ('Test UG Territory', 'Test NG Territory', 'Kyosk TZ HQ', 'Test TZ Territory', 'Kyosk HQ','DKasarani', 'Test KE Territory')
+                and territory_id not in ('Test UG Territory', 'Test NG Territory', 'Kyosk TZ HQ', 'Test TZ Territory', 'Kyosk HQ','DKasarani', 'Test KE Territory', 'Test Fresh TZ Territory')
                 and is_pre_karuru = false
                 and country_code = 'KE'
               ),
