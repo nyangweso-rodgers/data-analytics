@@ -6,7 +6,7 @@ karuru_dns as (
                 row_number()over(partition by code order by updated_at desc) as index
                 FROM `kyosk-prod.karuru_reports.delivery_notes` dn
                 where territory_id not in ('Test NG Territory', 'Kyosk TZ HQ', 'Test TZ Territory', 'Kyosk HQ','DKasarani', 'Test KE Territory', 'Test UG Territory', 'Test Fresh TZ Territory')
-                and date(created_at) > '2023-07-01'
+                and date(created_at) > '2023-08-05'
                 and is_pre_karuru = false
                 ),
 dns_items as (
