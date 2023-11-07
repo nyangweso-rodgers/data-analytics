@@ -2,6 +2,8 @@
 
 ## Table Of Contents
 
+![Google BigQuery Image](../images/Google-BigQuery.png.png)
+
 # Join Operations
 
 ## Join Operation: `inner join` or `join`
