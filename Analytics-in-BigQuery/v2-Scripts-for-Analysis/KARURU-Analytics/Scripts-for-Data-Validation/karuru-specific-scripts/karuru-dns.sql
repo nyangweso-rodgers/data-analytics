@@ -3,7 +3,7 @@
 with
 karuru_dns as (
                 SELECT *,
-                row_number()over(partition by code order by updated_at desc) as index
+                row_number()over(partition by id order by updated_at desc) as index
                 FROM `kyosk-prod.karuru_reports.delivery_notes` dn
                 where territory_id not in ('Test NG Territory', 'Kyosk TZ HQ', 'Test TZ Territory', 'Kyosk HQ','DKasarani', 'Test KE Territory', 'Test UG Territory', 'Test Fresh TZ Territory')
                 and date(created_at) > '2023-08-05'
@@ -14,6 +14,7 @@ dns_items as (
               country_code,
               id,
               code,
+              dn.sale_order_id,
               dn.status,
               dni.product_bundle_id,
               dni.item_group_id
