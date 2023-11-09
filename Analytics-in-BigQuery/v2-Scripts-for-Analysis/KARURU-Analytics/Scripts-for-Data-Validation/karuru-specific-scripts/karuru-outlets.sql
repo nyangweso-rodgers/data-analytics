@@ -1,20 +1,21 @@
 ----------------- Karuru ------------
 -------------Outlets ---------------
 with
-outlets_with_index as (
-                        SELECT distinct --date(created_at) as created_at,
+karuru_outlets as (
+                  SELECT *,
+                  row_number()over(partition by id order by updated_at desc) as index
+                  FROM `kyosk-prod.karuru_reports.outlets` 
+                  WHERE date(created_at) > '2022-01-01'
+                  ),
+karuru_outlets_lists as (
+                        SELECT distinct date(created_at) as created_at,
                         id,
-                        retailer_id,
-                        erp_id,
-                        name,
-                        outlet_code,
-                        --market.company,
-                        --market.market_name,
-                        row_number()over(partition by id order by updated_at desc) as index
-                        FROM `kyosk-prod.karuru_reports.outlets` 
-                        WHERE date(created_at) > '2022-01-01'
-                        and market.market_name not in ('Test NG Territory', 'Kyosk TZ HQ', 'Test TZ Territory', 'Kyosk HQ','DKasarani', 'Test KE Territory', 'Test UG Territory')
+                        market.market_name as market_name,
+                        FROM karuru_outlets--.market
+                        --left join unnest(market) as market
+                        WHERE index = 1
                         )
 select *
-from outlets_with_index
-where index = 1
+from karuru_outlets_lists
+where (market_name is null)
+and (market_name not in ('Test NG Territory', 'Kyosk TZ HQ', 'Test TZ Territory', 'Kyosk HQ','DKasarani', 'Test KE Territory', 'Test UG Territory'))
