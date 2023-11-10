@@ -11,6 +11,7 @@ karuru_dns as (
                 ),
 dns_list as (
               select distinct date(created_at) as created_at,
+              -- coalesce(date(delivery_date), date(updated_at)) as delivery_date,
               country_code,
               id,
               --code,
