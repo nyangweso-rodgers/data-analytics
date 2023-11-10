@@ -6,11 +6,12 @@ karuru_dns as (
                 row_number()over(partition by id order by updated_at desc) as index
                 FROM `kyosk-prod.karuru_reports.delivery_notes` dn
                -- where date(created_at) >= '2022-02-01'
-                where date(created_at) between '2022-02-01' and '2023-11-08'
+                where date(created_at) between '2022-02-01' and '2022-09-30'
                 ),
 karuru_dns_items as (
                       select distinct  date(created_at) as created_at,
-                      --date(delivery_date) as delivery_date,
+                      delivery_date,
+                      id,
                       code, 
                       dn.status as dn_status,
                       --oi.item_group_id,
@@ -24,13 +25,13 @@ karuru_dns_items as (
                       and is_pre_karuru = true
                       and dn.status in ('PAID', 'DELIVERED')
                       and oi.status = 'ITEM_FULFILLED'
-                      group by 1,2,3,4,5,6
+                      group by 1,2,3,4,5,6,7,8
                       ),
 erp_dns as (
             SELECT *, 
             row_number()over(partition by name order by modified desc) as index 
             FROM `kyosk-prod.erp_reports.delivery_note` 
-            where date(creation) between '2022-02-01' and '2023-11-08'
+            where date(creation) between '2022-02-01' and '2022-09-30'
             --where territory not in ('Test NG Territory', 'Kyosk TZ HQ', 'Test TZ Territory', 'Kyosk HQ','DKasarani', 'Test KE Territory', 'Test UG Territory')
             ),
 erp_dns_items as (
@@ -47,13 +48,13 @@ erp_dns_items as (
                   from erp_dns dn, unnest(items) dni 
                   where index = 1
                   and workflow_state in ('PAID', 'DELIVERED')
-                  and posting_date between '2022-02-01' and '2023-08-31'
-                  --and company = 'KYOSK DIGITAL SERVICES LIMITED (TZ)'
+                  and dni.item_code not in (SELECT * FROM `kyosk-prod.karuru_reports.dn_items_with_null_uom`)
                   group by 1,2,3,4,5,6
                   ),
 erp_vs_karuru_items_mashup as (
                             select e.*, k.*,
                             e.creation = k.created_at as check_created_at,
+                            e.uom = k.uom as check_uom,
                             --posting_date = delivery_date as date_check,
                             item_code = product_bundle_id as item_check,
                             --item_group = item_group_id as category_check,
@@ -80,4 +81,4 @@ monthly_agg as (
 
 select *
 from monthly_agg
---where check_created_at = false
+--where check_uom is not true
