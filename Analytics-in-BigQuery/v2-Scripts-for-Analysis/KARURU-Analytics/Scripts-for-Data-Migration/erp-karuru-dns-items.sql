@@ -6,7 +6,7 @@ karuru_dns as (
                 row_number()over(partition by id order by updated_at desc) as index
                 FROM `kyosk-prod.karuru_reports.delivery_notes` dn
                -- where date(created_at) >= '2022-02-01'
-                where date(created_at) between '2022-02-01' and '2022-09-30'
+                where date(created_at) between '2022-02-01' and '2023-11-13'
                 ),
 karuru_dns_items as (
                       select distinct  date(created_at) as created_at,
@@ -31,7 +31,7 @@ erp_dns as (
             SELECT *, 
             row_number()over(partition by name order by modified desc) as index 
             FROM `kyosk-prod.erp_reports.delivery_note` 
-            where date(creation) between '2022-02-01' and '2022-09-30'
+            where date(creation) between '2022-02-01' and '2023-11-13'
             --where territory not in ('Test NG Territory', 'Kyosk TZ HQ', 'Test TZ Territory', 'Kyosk HQ','DKasarani', 'Test KE Territory', 'Test UG Territory')
             ),
 erp_dns_items as (
