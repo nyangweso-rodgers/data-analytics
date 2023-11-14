@@ -24,7 +24,7 @@ karuru_dn_items as (
                     sum(oi.total_delivered) as total_delivered
                     from karuru_dns dn, unnest(order_items) oi
                     where index = 1
-                    AND dn.status not IN ('PAID', 'DELIVERED', 'CASH_COLLECTED')
+                    AND dn.status IN ('PAID', 'DELIVERED', 'CASH_COLLECTED')
                     and oi.status = 'ITEM_FULFILLED'
                     group by 1,2,3,4,5,6,7
                     )
