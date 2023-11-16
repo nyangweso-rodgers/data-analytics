@@ -1,4 +1,5 @@
 # Analytics in MongoDB
+![](images/mongodb-image.png)
 
 ## Table Of Contents
 
