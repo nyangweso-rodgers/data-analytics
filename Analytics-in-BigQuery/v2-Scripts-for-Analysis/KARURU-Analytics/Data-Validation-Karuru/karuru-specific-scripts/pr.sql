@@ -30,7 +30,7 @@ pr_with_settlement as (
                         from karuru_pr pr, unnest(settlement) s
                         where index = 1
                         )
-select *
+select distinct status, count(distinct id)
 from pr_summary
---where id = '0DK8SF0P96110'
-where status = 'FAILED'
+group by 1
+order by 2 desc
