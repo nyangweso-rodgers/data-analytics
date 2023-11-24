@@ -5,19 +5,9 @@
 ## Table Of Contents
 
 - [Further Reading]()
-  1. [mongodb.com/basics - Explaining BSON with Examples](https://www.mongodb.com/basics/bson#:~:text=BSON%20Document%20Example-,What%20is%20BSON%3F,data%20across%20web%20based%20applications.)
+  1.
 
 # Introduction to MongoDB
-
-# Binary JavaScript Object Notation (BSON)
-
-- **BSON** is a textual object notation widely used to transmit and store data across web based applications.
-- **JSON** is easier to understand as it is human-readable, but compared to BSON, it supports fewer data types. **BSON** encodes type and length information, too, making it easier for machines to parse.
-- `BSON` can be compared to other binary formats, like [Protocol Buffers](https://en.wikipedia.org/wiki/Protocol_Buffers). The greater difference is that `BSON` is more "Schema-less" than **Protocol Buffers**, providing the advantage of flexibility and the slight disadvantage of space efficiency.
-- Advantages of `BSON` include:
-  1. Compact
-  2. Traversable
-  3. Handles additional data types like `Integer`, `Float`, `Decimal128`, `Date`, `Binary`, `GeoJSON` e.t.c.
 
 # The MongoDB Query API
 
@@ -36,12 +26,31 @@
 ## `db.collection.find()`
 
 - Match, sort, or count multiple documents
+- Query 1:
+  - find `PAID` transactions and limit to fields you want
+    ```sh
+      db.collection.find({"status":"PAID"}, {id, status})
+    ```
+- Query 2:
+  - using `sort`
+    ```sh
+        db.collection.find({"status":"PAID"}).sort({"amount": -1})
+    ```
 
 ## `db.collection.aggregate()`
 
 - Match, combine and aggregate documents.
 
-# Performing Range Queries using Greater than & Less than
+# Performing Queries using `.count()`
+
+- Query 1:
+  - count transactions with status `COMPLETED`
+    ```sh
+      #
+      db.collection.find({"status":"DELIVERED"}).count()
+    ```
+
+# Performing Range Queries using `>=` & `<=` (`$gt` and `$lt`)
 
 - find documents in a collection by a range query.
 
