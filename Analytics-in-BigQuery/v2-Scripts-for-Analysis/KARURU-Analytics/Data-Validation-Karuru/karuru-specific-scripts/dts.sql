@@ -6,15 +6,15 @@ karuru_dts as (
                 row_number()over(partition by id order by updated_at desc) as index
                 FROM `kyosk-prod.karuru_reports.delivery_trips` 
                 --where date_trunc(date(created_at),month) >= date_sub(date_trunc(current_date, month), interval 3 month)
-                --where date(created_at) >= '2023-08-07'
-                where date(created_at) <= '2023-11-08'
+                where date(created_at) >= '2023-08-07'
+                --where date(created_at) <= '2023-11-08'
                 and territory_id not in ('Test UG Territory', 'Test NG Territory', 'Kyosk TZ HQ', 'Test TZ Territory', 'Kyosk HQ','DKasarani', 'Test KE Territory', 'Test Fresh TZ Territory')
                 and is_pre_karuru = false
                 --and country_code = 'KE'
               ),
 dts_summary as (
-                select distinct date(created_at) as created_at,
-                date(completed_time) as completed_time,
+                select distinct --date(created_at) as created_at,
+                --date(completed_time) as completed_time,
                 country_code,
                 territory_id,
                 id as delivery_trip_id,
@@ -27,7 +27,8 @@ dts_summary as (
                 --vehicle.id as vehicle_id,
                 from karuru_dts
                 where index = 1
-                and status not in ('COMPLETED', 'CANCELLED')
+                --and status not in ('COMPLETED', 'CANCELLED')
               )
 select*
 from dts_summary
+where delivery_trip_id in ()

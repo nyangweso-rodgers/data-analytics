@@ -8,15 +8,20 @@ karuru_outlets as (
                   WHERE date(created_at) > '2022-01-01'
                   ),
 outlets_lists as (
-                    SELECT distinct date(created_at) as created_at,
+                    SELECT distinct --ate(created_at) as created_at,
+                    outlet_code,
                     id,
-                    name,
-                    market.market_name as market_name,
+                    --name,
+                    --market.market_name as market_name,
                     FROM karuru_outlets--.market
                     --left join unnest(market) as market
                     WHERE index = 1
                     )
-select *
-from karuru_outlets_lists
-where (market_name is null)
-and (market_name not in ('Test NG Territory', 'Kyosk TZ HQ', 'Test TZ Territory', 'Kyosk HQ','DKasarani', 'Test KE Territory', 'Test UG Territory'))
+select distinct outlet_code,
+count(distinct id) as x
+from outlets_lists
+group by 1
+having x > 1
+order by 2 desc
+--where (market_name is null)
+--and (market_name not in ('Test NG Territory', 'Kyosk TZ HQ', 'Test TZ Territory', 'Kyosk HQ','DKasarani', 'Test KE Territory', 'Test UG Territory'))

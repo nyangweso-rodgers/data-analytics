@@ -10,9 +10,9 @@ karuru_dns as (
                 and is_pre_karuru = false
                 ),
 dns_list as (
-              select distinct date(created_at) as created_at,
+              select distinct --date(created_at) as created_at,
               -- coalesce(date(delivery_date), date(updated_at)) as delivery_date,
-              country_code,
+              --country_code,
               id,
               --code,
               --dn.sale_order_id,
@@ -20,8 +20,9 @@ dns_list as (
               from karuru_dns dn
               where index = 1
               --and country_code = 'TZ'
-              AND dn.status not IN ('PAID', 'DELIVERED')
+              --AND dn.status not IN ('PAID', 'DELIVERED')
               --and dni.status = 'ITEM_FULFILLED'
               )
 select *
 from dns_list
+where id in ()
