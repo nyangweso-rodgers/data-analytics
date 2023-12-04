@@ -10,11 +10,10 @@ karuru_dts as (
                 --where date(created_at) <= '2023-11-08'
                 and territory_id not in ('Test UG Territory', 'Test NG Territory', 'Kyosk TZ HQ', 'Test TZ Territory', 'Kyosk HQ','DKasarani', 'Test KE Territory', 'Test Fresh TZ Territory')
                 and is_pre_karuru = false
-                --and country_code = 'KE'
+                and country_code = 'KE'
               ),
 dts_summary as (
                 select distinct --date(created_at) as created_at,
-                --date(completed_time) as completed_time,
                 country_code,
                 territory_id,
                 id as delivery_trip_id,
@@ -28,7 +27,20 @@ dts_summary as (
                 from karuru_dts
                 where index = 1
                 --and status not in ('COMPLETED', 'CANCELLED')
-              )
+              ),
+dts_with_timestamps as (
+                        select distinct date(created_at) as created_at,
+                        date(status_change_history.change_time) as completed_date,
+                        country_code,
+                        territory_id,
+                        id,
+                        code,
+                        status,
+                        from karuru_dts, unnest(status_change_history) status_change_history
+                        where index = 1
+                        and status_change_history.to_status = 'COMPLETED'
+                        ORDER BY 1 DESC
+                      )
 select*
-from dts_summary
-where delivery_trip_id in ()
+from dts_with_timestamps
+--where id = '0EDDC4PK2ZW49'
