@@ -1,33 +1,34 @@
 ----------------------------- Monthly Customer & Revenue Cohort Retention ------------------
 ----------------------------- Created By : Rodgers ----------------------------------------
 with
-delivery_note_with_index as (
-                            SELECT *, 
-                            row_number()over(partition by name order by modified desc) as index  
-                            FROM `kyosk-prod.erp_reports.delivery_note` 
-                            where workflow_state in ('PAID', 'DELIVERED')
-                            and territory not in ("Kyosk TZ HQ", "Kampala","Uganda","DKasarani","Kyosk HQ", "Kenya")
-                            and company = 'KYOSK DIGITAL SERVICES LTD (KE)'
+erp_dns as (
+            SELECT *, 
+            row_number()over(partition by name order by modified desc) as index  
+            FROM `kyosk-prod.erp_reports.delivery_note` 
+            where workflow_state in ('PAID', 'DELIVERED')
+            and territory not in ("Kyosk TZ HQ", "Kampala","Uganda","DKasarani","Kyosk HQ", "Kenya")
+            and company = 'KYOSK DIGITAL SERVICES LTD (KE)'
+            ),
+monthly_dns as (
+                select date_trunc(posting_date, month) as posting_month,
+                customer,
+                sum(grand_total) as grand_total,
+                count(distinct name) as count_of_delivery_notes
+                from erp_dns
+                where index = 1
+                group by 1,2
+                ),
+monthly_dns_with_index as (
+                            select *, 
+                            row_number()over(partition by customer order by posting_month asc) as posting_month_index 
+                            from monthly_dns
                             ),
-monthly_delivery_notes as (
-                            select date_trunc(posting_date, month) as posting_month,
-                            customer,
-                            sum(grand_total) as grand_total,
-                            count(distinct name) as count_of_delivery_notes
-                            from delivery_note_with_index
-                            where index = 1
-                            group by 1,2
-                            ),
-monthly_delivery_notes_with_index as (
-                                      select *, row_number()over(partition by customer order by posting_month asc) as posting_month_index 
-                                      from monthly_delivery_notes
-                                      ),
 cohort_joining_month as (
                           select distinct customer, 
                           posting_month as joining_month,
                           grand_total,
                           count_of_delivery_notes
-                          from monthly_delivery_notes_with_index  
+                          from monthly_dns_with_index  
                           where posting_month_index = 1
                           ),
 -- find the size of each cohort by by counting the number of customer that show up for the first time in a month
@@ -46,7 +47,7 @@ customer_activities as (
                         date_diff(mdn.posting_month, cjm.joining_month, month) as month_number, 
                         mdn.grand_total,
                         mdn.count_of_delivery_notes
-                        from monthly_delivery_notes mdn
+                        from monthly_dns mdn
                         left join cohort_joining_month cjm on mdn.customer = cjm.customer
                         order by 1,2
                         ),
