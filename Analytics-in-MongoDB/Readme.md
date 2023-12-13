@@ -136,3 +136,15 @@
       #
       db.users.find({[{ active_status: 'true}, { age: { $lt: 50}}]})
     ```
+
+# Data Pipelines
+
+- Tools for building Pipelines include:
+  1. Compass
+  2. Atlas Data Explorer
+  3. MongoDB for VS Code
+
+# Data Modelling
+
+- Data Modelling is important to store and retrieve data efficiently.
+- There are 12 "official" MongoDB data Modelling patterns.
