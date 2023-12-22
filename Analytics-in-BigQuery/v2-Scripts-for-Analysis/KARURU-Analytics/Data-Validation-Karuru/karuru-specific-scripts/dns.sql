@@ -10,10 +10,7 @@ karuru_dns as (
                 and is_pre_karuru = false
                 ),
 dns_list as (
-              select distinct --date(created_at) as created_at,
-              created_at,
-              updated_at,
-              bq_upload_time,
+              select distinct date(created_at) as created_at,
               -- coalesce(date(delivery_date), date(updated_at)) as delivery_date,
               --country_code,
               id,
@@ -23,8 +20,8 @@ dns_list as (
               from karuru_dns dn
               where index = 1
               --and country_code = 'TZ'
-              --AND dn.status IN ('PAID', 'DELIVERED')
+              --AND dn.status IN ('UNRECOGNIZED')
               --and dni.status = 'ITEM_FULFILLED'
               )
-select max(created_at), max(updated_at), max(bq_upload_time)
+select DISTINCT status
 from dns_list
