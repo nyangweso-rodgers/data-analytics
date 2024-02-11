@@ -26,6 +26,7 @@ pr_items as (
               --avg(rate) as rate,
               --sum(received_qty) as received_qty,
               --sum(amount) as amount
+              supplier_group
               from karuru_pr pr, unnest(items) as i
               where index = 1
               and buying_type in ('PURCHASING')
@@ -36,6 +37,10 @@ pr_items as (
               --and item_id = 'Everyday Milk Chocolate Biscuits 8.5g'
               --group by 1,2,3,4,5,6,7
               )
-select distinct company_id, supplier
+select distinct posting_date, supplier_group, name
+--distinct supplier_group, count(distinct name)
 from pr_items
-order by 1,2
+--where supplier_group not in ('Manufacturer', 'Distributor', 'Local')
+--group by 1
+--order by 2 desc
+where (supplier_group is null) or (supplier_group = '')

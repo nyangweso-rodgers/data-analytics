@@ -8,8 +8,7 @@ karuru_vehicle as (
                     WHERE date(created_at) >= '2023-10-01'
                     ),
 vehicles as (
-              select distinct created_at,
-              updated_at,
+              select distinct
               id,
               license_plate,
               code,

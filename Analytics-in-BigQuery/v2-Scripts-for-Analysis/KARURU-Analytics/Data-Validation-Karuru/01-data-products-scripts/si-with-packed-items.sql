@@ -1,5 +1,5 @@
 ------------------------- KARURU - 
-----------Sales Invoice with packed items ------------------------------------
+----------SI with packed items ------------------------------------
 with
 
 karuru_si as (
@@ -8,10 +8,12 @@ karuru_si as (
               FROM `kyosk-prod.karuru_reports.sales_invoice`
               --where date(created) between '2023-08-01' and  '2023-09-06'
               --WHERE date(created) >= date_sub(current_date, interval 1 month)
-              where date(created) between '2022-01-01'  and "2023-11-25" 
+              --where date(created) between '2022-01-01'  and "2023-11-25" 
               --and docstatus = 1
               --and is_karuru_applied = true
+               where date(created) = '2024-01-02'
               and territory_id not in ('Test NG Territory', 'Kyosk TZ HQ', 'Test TZ Territory', 'Kyosk HQ','DKasarani', 'Test KE Territory', 'Test UG Territory')
+              and name = "SI-AJLA-0EPD65CWQ86A3-2024"
               ),
 si_items as (
               select distinct date(created) as created,
@@ -40,7 +42,7 @@ si_with_packed_items as (
                           from karuru_si si, unnest(packed_items) pi
                           where index =1
                           --and si.territory_id in ('Kawempe', 'Luzira', 'Mukono')
-                          and item_code = 'Singida  Cooking Oil 1L'
+                          --and item_code = 'Singida  Cooking Oil 1L'
                           )
 
 select *

@@ -10,25 +10,27 @@ karuru_dns as (
                 and is_pre_karuru = false
                 ),
 dn_items as (
-              select distinct date(created_at) as created_at,
-              --coalesce(date(delivery_date), date(updated_at)) as delivery_date,
-              country_code,
+              select distinct --date(created_at) as created_at,
+              coalesce(date(delivery_date), date(updated_at)) as delivery_date,
+              --country_code,
               id,
-              code,
+              --code,
+              --outlet_id,
               dn.status,
               --dn.outlet_id,
+              dn.agent_name as market_developer,
               oi.status as item_status,
               case 
                 when dn.territory_id in ('Kano-Sabongari', 'Kano-Zoo') then 'Gandu'
                 when dn.territory_id in ('Abuja-Bwari', 'Nassarawa-Karu') then 'Kubwa'
               else dn.territory_id end as territory_id,
-              oi.product_bundle_id,  
+              --oi.product_bundle_id,  
               sum(oi.total_delivered) as total_delivered
               from karuru_dns dn, unnest(order_items) oi
               where index = 1
               --AND dn.status IN ('PAID', 'DELIVERED', 'CASH_COLLECTED')
-              and oi.status = 'UNRECOGNIZED'
-              group by 1,2,3,4,5,6,7,8
+              --and oi.status = 'ITEM_FULFILLED'
+              group by 1,2,3,4,5,6
               )
-select *
+select distinct status, item_status
 from dn_items

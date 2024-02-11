@@ -8,9 +8,10 @@ karuru_outlets as (
                   WHERE date(created_at) > '2022-01-01'
                   ),
 outlets_lists as (
-                    SELECT distinct --ate(created_at) as created_at,
+                    SELECT distinct date(created_at) as created_at,
                     outlet_code,
                     id,
+                    retailer_id
                     --name,
                     --market.market_name as market_name,
                     FROM karuru_outlets--.market
