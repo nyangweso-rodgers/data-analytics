@@ -37,10 +37,9 @@ pr_items as (
               --and item_id = 'Everyday Milk Chocolate Biscuits 8.5g'
               --group by 1,2,3,4,5,6,7
               )
-select distinct posting_date, supplier_group, name
---distinct supplier_group, count(distinct name)
+select distinct supplier_group, count(distinct name)
 from pr_items
---where supplier_group not in ('Manufacturer', 'Distributor', 'Local')
---group by 1
---order by 2 desc
-where (supplier_group is null) or (supplier_group = '')
+--where supplier_group in ('Manufacturer', 'Distributor', 'Local')
+--where (supplier_group is null) or (supplier_group = '')
+group by 1
+order by 2 desc

@@ -11,7 +11,7 @@ karuru_dns as (
                 and is_pre_karuru = false
                 ),
 dns_list as (
-              select distinct --date(created_at) as created_at,
+              select distinct date(created_at) as created_at,
               --coalesce(date(delivery_date), date(updated_at)) as delivery_date,
               --country_code,
               --territory_id,
@@ -19,10 +19,11 @@ dns_list as (
               --code,
               --dn.sale_order_id,
               --dn.status,
-              payment_request_id,
+              delivery_trip_id,
+              --payment_request_id,
               --agent_name as market_developer,
-              outlet.phone_number,
-              outlet_id,
+              --outlet.phone_number,
+              --outlet_id,
               --outlet.name as outlet_name,
               --outlet.outlet_code as outlet_code,
               --route_id,
