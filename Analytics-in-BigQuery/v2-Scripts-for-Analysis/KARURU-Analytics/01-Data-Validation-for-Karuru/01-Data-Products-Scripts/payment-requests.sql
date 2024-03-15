@@ -6,7 +6,9 @@ karuru_pr as (
                 row_number()over(partition by id order by last_modified desc) as index
                 FROM `kyosk-prod.karuru_reports.payment_requests` pr
                 --WHERE DATE(created_at) >= "2023-01-01" 
-                where DATE(created_at) <= '2024-01-07'
+                --where DATE(created_at) <= '2024-01-07'
+                where date(created_at) <= date_sub(date_trunc(current_date, month),interval 1 day)
+                and and country_code = 'UG'
                 ),
 pr_summary as (
             select distinct --created_at,
@@ -27,6 +29,7 @@ pr_with_settlement as (
                         --payment_reference,
                         --s.transaction_reference,
                         --s.channel,
+                        s.settlement_type,
                         --s.amount as settlement_amount
                         from karuru_pr pr, unnest(settlement) s
                         where index = 1

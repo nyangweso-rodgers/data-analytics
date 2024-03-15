@@ -19,4 +19,4 @@ vehicles as (
               )
 select *
 from vehicles
-where license_plate = "KAW 634K"
+where license_plate like "%T463AMS%"

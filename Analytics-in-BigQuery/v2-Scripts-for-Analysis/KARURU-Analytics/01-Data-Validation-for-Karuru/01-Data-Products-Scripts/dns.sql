@@ -6,26 +6,30 @@ karuru_dns as (
                 row_number()over(partition by id order by updated_at desc) as index
                 FROM `kyosk-prod.karuru_reports.delivery_notes` dn
                 where territory_id not in ('Test NG Territory', 'Kyosk TZ HQ', 'Test TZ Territory', 'Kyosk HQ','DKasarani', 'Test KE Territory', 'Test UG Territory', 'Test Fresh TZ Territory')
-                --and date(created_at) > '2023-08-05'
                 and date(created_at) > '2023-08-01'
-                and is_pre_karuru = false
+                --and is_pre_karuru = false
                 ),
 dns_list as (
-              select distinct date(created_at) as created_at,
+              select distinct --date(created_at) as created_at,
               --coalesce(date(delivery_date), date(updated_at)) as delivery_date,
               --country_code,
-              --territory_id,
+              territory_id,
+              route_id,
+              route_name,
               id,
-              --code,
+              code,
               --dn.sale_order_id,
               --dn.status,
-              delivery_trip_id,
+              --delivery_trip_id,
               --payment_request_id,
               --agent_name as market_developer,
               --outlet.phone_number,
-              --outlet_id,
-              --outlet.name as outlet_name,
+              outlet_id,
+              outlet.name as outlet_name,
               --outlet.outlet_code as outlet_code,
+              outlet.latitude,
+              outlet.longitude,
+              bq_upload_time
               --route_id,
               from karuru_dns dn
               where index = 1
@@ -33,6 +37,8 @@ dns_list as (
               --and territory_id in ('Vingunguti')
               --AND dn.status IN ('PAID','DELIVERED','CASH_COLLECTED')
               --and dni.status = 'ITEM_FULFILLED'
+              --and code = 'DN-KISU-0F9FTCVAYHHHK'
+              --and outlet_id = '0EEAGHXA8Y5KP'
               ),
 dns_with_settlement as (
                         select distinct code,
@@ -45,8 +51,8 @@ dns_with_settlement as (
                         where index = 1
                         and country_code = 'UG'
                         )
-select * from dns_list
-select distinct territory_id, outlet_id, outlet_name, outlet_code, route_id, phone_number,
-last_value(market_developer)over(partition by outlet_id order by delivery_date asc ROWS BETWEEN UNBOUNDED PRECEDING AND UNBOUNDED FOLLOWING) as market_developer
-from dns_list
-where delivery_date between '2023-06-01' and '2023-12-31'
+select distinct outlet_id from dns_list
+--select distinct territory_id, outlet_id, outlet_name, outlet_code, route_id, phone_number,
+--last_value(market_developer)over(partition by outlet_id order by delivery_date asc ROWS BETWEEN UNBOUNDED PRECEDING AND UNBOUNDED FOLLOWING) as market_developer
+--where delivery_date between '2023-06-01' and '2023-12-31'
+where (latitude is null) or (longitude is null) or (outlet_name is null)
