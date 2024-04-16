@@ -1,0 +1,1 @@
+SELECT * FROM `kyosk-prod.karuru_reports.purchase_invoice` WHERE date(date_created) > "2022-04-15" and id = 'ACC-PINV-2023-45294'
