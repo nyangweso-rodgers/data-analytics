@@ -197,14 +197,30 @@ credit_performance_with_user_access as (
                                         from credit_performance_with_cumulative cpr
                                         --left join dashboard_users_with_territories duwt on cpr.territory_id = duwt.user_territory_list
                                         left join territory_region_mapping trm on trm.original_territory_id = cpr.territory_id
-                                        )
-select distinct country_code, start_month, sum(credit_id_disbursed_amount) as credit_id_disbursed_amount,
-sum(amount_repaid) as amount_repaid,
-sum(npl_credit_amount) as npl_credit_amount, sum(outstanding_amount) as outstanding_amount
-from credit_performance_with_user_access
-where country_code in ('KE')
+                                        ),
+
+monthly_credit_summary as (
+                            select distinct country_code, 
+                            start_month, 
+                            sum(credit_id_disbursed_amount) as credit_id_disbursed_amount,
+                            sum(amount_repaid) as amount_repaid,
+                            sum(npl_credit_amount) as npl_credit_amount, 
+                            sum(outstanding_amount) as outstanding_amount
+                            from credit_performance_with_user_access
+                            where country_code in ('KE')
+                            group by 1,2 
+                            ),
+cumulative_monthly_credit_summary as (
+                                      select distinct country_code, 
+                                      start_month, 
+                                      credit_id_disbursed_amount,
+                                      sum(credit_id_disbursed_amount)
+                                      npl_credit_amount,
+                                      from monthly_credit_summary
+                                      )
+select *
+from cumulative_monthly_credit_summary
 --and FORMAT_DATE('%Y%m%d', start_month) between @DS_START_DATE and @DS_END_DATE
 --and REGEXP_CONTAINS(user_email,@DS_USER_EMAIL)
 --order by id, start_month
-group by 1,2 
 order by start_month
