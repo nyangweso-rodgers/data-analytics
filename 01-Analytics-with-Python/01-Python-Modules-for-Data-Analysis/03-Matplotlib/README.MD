@@ -17,6 +17,13 @@
   - [Dev Community - Subplotting with matplotlib and seaborn](https://dev.to/thalesbruno/subplotting-with-matplotlib-and-seaborn-5ei8)
   - [Towards Data Science - Make Your Charts Look Glorious](https://towardsdatascience.com/make-your-charts-look-glorious-9ce3fa310b70)
 
+# Data Visualization in Python using Matplotlib
+
+# Visualizing Data In One Dimension (1-D)
+
+- **Univariate Analysis** is one of the steps in **Exploratory Data Analysis**.
+- **Univariate analysis** can be described using **Central Tendency**, **Dispersion**, **Quartiles**, **Bar charts**, **Histograms**, **Pie charts**, and **Frequency** distribution tables.
+
 # Data Description
 
 1. [Grouped Country DataFrame](https://raw.githubusercontent.com/nyangweso-rodgers/Data_Analytics/main/Analytics-with-Python/Exploratory-Data-Analysis-with-Python/Exploratory-Data-Analysis-for-Online-Retail-Store/grouped_country_data.csv)
