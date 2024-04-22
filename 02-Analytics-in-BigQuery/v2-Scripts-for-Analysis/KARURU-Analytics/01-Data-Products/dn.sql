@@ -1,4 +1,4 @@
---------------------- Karuru ---------------
+--------------------- Data Product ---------------
 ------------------ DNs  ------------------------
 with
 karuru_dns as (
@@ -10,12 +10,14 @@ karuru_dns as (
                 --and is_pre_karuru = false
                 ),
 dns_list as (
-              select distinct --date(created_at) as created_at,
+              select distinct --date(created_at) as 
+              created_at,
+              updated_at,
               --coalesce(date(delivery_date), date(updated_at)) as delivery_date,
               --country_code,
               territory_id,
-              route_id,
-              route_name,
+              --route_id,
+              --route_name,
               id,
               code,
               --dn.sale_order_id,
@@ -24,11 +26,11 @@ dns_list as (
               --payment_request_id,
               --agent_name as market_developer,
               --outlet.phone_number,
-              outlet_id,
-              outlet.name as outlet_name,
+              --outlet_id,
+              --outlet.name as outlet_name,
               --outlet.outlet_code as outlet_code,
-              outlet.latitude,
-              outlet.longitude,
+              --outlet.latitude,
+              --outlet.longitude,
               bq_upload_time
               --route_id,
               from karuru_dns dn
@@ -37,22 +39,6 @@ dns_list as (
               --and territory_id in ('Vingunguti')
               --AND dn.status IN ('PAID','DELIVERED','CASH_COLLECTED')
               --and dni.status = 'ITEM_FULFILLED'
-              --and code = 'DN-KISU-0F9FTCVAYHHHK'
-              --and outlet_id = '0EEAGHXA8Y5KP'
-              ),
-dns_with_settlement as (
-                        select distinct code,
-                        outlet.name as outlet_name,
-                        outlet.phone_number,
-                        dn.payment_request_id,
-                        s.channel,
-                        transaction_reference
-                        from karuru_dns dn, unnest(settlements) s
-                        where index = 1
-                        and country_code = 'UG'
-                        )
-select distinct outlet_id from dns_list
---select distinct territory_id, outlet_id, outlet_name, outlet_code, route_id, phone_number,
---last_value(market_developer)over(partition by outlet_id order by delivery_date asc ROWS BETWEEN UNBOUNDED PRECEDING AND UNBOUNDED FOLLOWING) as market_developer
---where delivery_date between '2023-06-01' and '2023-12-31'
-where (latitude is null) or (longitude is null) or (outlet_name is null)
+              )
+select distinct max(created_at),max(updated_at), max(bq_upload_time)
+from dns_list
