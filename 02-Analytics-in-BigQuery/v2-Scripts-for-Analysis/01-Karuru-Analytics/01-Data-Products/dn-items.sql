@@ -1,41 +1,56 @@
---------------------- Delivery Notes ---------------
------------------- DNs Items  ------------------------
+--------------------- Delivery Note ---------------
 with
 delivery_notes as (
-                  SELECT *,
-                  row_number()over(partition by id order by updated_at desc) as index
-                  FROM `kyosk-prod.karuru_reports.delivery_notes` dn
-                  --where date(created_at) > '2024-01-01'
-                  where date(created_at) between '2023-10-01' and '2023-12-31'
-                  ),
-delivery_note_items as (
-                        select distinct created_at,
-                        --coalesce(date(delivery_date), date(updated_at)) as delivery_date,
-                        country_code,
-                        id,
-                        --code,
-                        --dn.status,
-                        dn.outlet_id,
-                        --outlet.name as outlet_name,
-                        --outlet.phone_number,
-                        --dn.agent_name as market_developer,
-                        --oi.status as item_status,
-                        dn.territory_id ,
-                        oi.product_bundle_id,
-                        --oi.uom,  
-                        sum(oi.qty_delivered) as qty,
-                        sum(oi.total_delivered) as total_delivered,
-                        --sum(oi.total_delivered) / sum(oi.qty_delivered) as unit_price
-                        from delivery_notes dn, unnest(order_items) oi
-                        where index = 1
-                        AND dn.status IN ('PAID', 'DELIVERED', 'CASH_COLLECTED')
-                        and oi.status = 'ITEM_FULFILLED'
-                        group by 1,2,3,4,5,6
-                        )
-select *except(country_code),
---rank()over(partition by country_code order by product_bundle_id asc)
-from delivery_note_items
+                SELECT *,
+                row_number()over(partition by id order by updated_at desc) as index
+                FROM `kyosk-prod.karuru_reports.delivery_notes` dn
+                --where date(created_at) = current_date
+                where date(created_at) > date_sub(current_date, interval 10 month)
+                --where date(created_at) > date_sub(current_date, interval 30 day)
+                --and is_pre_karuru = false
+                ),
+delivery_notes_items as (
+                          select distinct --date(created_at) as 
+                          created_at,
+                          updated_at,
+                          bq_upload_time,
+                          date(delivery_date) as delivery_date,
+                          date_diff(date(updated_at), date(delivery_date), day) as check_delivery_date_diff,
+                          --coalesce(date(delivery_date), date(updated_at)) as delivery_date,
+                          country_code,
+                          territory_id,
+                          --route_id,
+                          --route_name,
+                          id,
+                          --code,
+                          --dn.sale_order_id,
+                          --dn.status,
+                          --delivery_trip_id,
+                          --payment_request_id,
+                          --agent_name as market_developer,
+                          --outlet.phone_number,
+                          --outlet_id,
+                          --outlet.name as outlet_name,
+                          --outlet.outlet_code as outlet_code,
+                          --outlet.latitude,
+                          --outlet.longitude,
+                          oi.product_bundle_id,
+                          oi.item_group_id,
+                          LAST_VALUE(agent_name) OVER (PARTITION BY route_name ORDER BY created_at ASC ROWS BETWEEN UNBOUNDED PRECEDING AND UNBOUNDED FOLLOWING) as market_developer_name
+                          from delivery_notes dn, unnest(order_items) oi
+                          where index = 1
+                          --and country_code = 'TZ'
+                          --and territory_id in ('Vingunguti')
+                          AND dn.status IN ('PAID','DELIVERED','CASH_COLLECTED')
+                          and oi.status = 'ITEM_FULFILLED'
+                          )
+select distinct check_delivery_date_diff, count(distinct id)
+--max(created_at), max(updated_at), max(bq_upload_time)
+from delivery_notes_items
 where territory_id not in ('Test NG Territory', 'Kyosk TZ HQ', 'Test TZ Territory', 'Kyosk HQ','DKasarani', 'Test KE Territory', 'Test UG Territory', 'Test Fresh TZ Territory')
-and country_code = 'KE'
---and delivery_date between '2024-01-01' and '2024-03-31'
---and delivery_date = '2024-05-22'
+--and delivery_date is null
+and check_delivery_date_diff > 0
+--where id = '0G4DPSFMYGDFS'
+--where code = 'DN-KARA-0FWK97MDPQNST'
+group by 1
+order by 2 desc

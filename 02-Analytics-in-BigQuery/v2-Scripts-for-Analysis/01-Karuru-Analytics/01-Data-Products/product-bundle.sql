@@ -9,10 +9,11 @@ product_bundle as (
                     and disabled = false
                     ),
 product_bundle_report as (
-                        select distinct id,
-                        --si.conversion_factor,
-                        round((si.dimension.length * si.dimension.width * si.dimension.height * si.conversion_factor),3) as catalog_volume,
-                        si.dimension.weight
+                        select distinct pb.id,
+                        --uom,
+                        item_group_id,
+                        si.stock_item_id,
+                        si.stock_uom
                         from product_bundle pb,unnest(stock_items) si
                         where index = 1
                         )
