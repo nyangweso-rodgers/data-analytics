@@ -1,13 +1,14 @@
---------------------- Delivery Note ---------------
+--------------------- Delivery Note Item ---------------
 with
 delivery_notes as (
                 SELECT *,
                 row_number()over(partition by id order by updated_at desc) as index
                 FROM `kyosk-prod.karuru_reports.delivery_notes` dn
                 --where date(created_at) = current_date
-                where date(created_at) > date_sub(current_date, interval 10 month)
+                --where date(created_at) > date_sub(current_date, interval 1 month)
                 --where date(created_at) > date_sub(current_date, interval 30 day)
                 --and is_pre_karuru = false
+                where date(created_at) between '2024-06-01' and '2024-06-30'
                 ),
 delivery_notes_items as (
                           select distinct --date(created_at) as 
@@ -29,7 +30,7 @@ delivery_notes_items as (
                           --payment_request_id,
                           --agent_name as market_developer,
                           --outlet.phone_number,
-                          --outlet_id,
+                          outlet_id,
                           --outlet.name as outlet_name,
                           --outlet.outlet_code as outlet_code,
                           --outlet.latitude,
@@ -43,14 +44,20 @@ delivery_notes_items as (
                           --and territory_id in ('Vingunguti')
                           AND dn.status IN ('PAID','DELIVERED','CASH_COLLECTED')
                           and oi.status = 'ITEM_FULFILLED'
-                          )
-select distinct check_delivery_date_diff, count(distinct id)
+                          ),
+monthly_delivey_notes_items as (
+                                select distinct date_trunc(date(created_at), month) as created_at_month,
+                                count(distinct id) as count_id,
+                                count(distinct outlet_id) as outlet_id
+                                from delivery_notes_items
+                                group by 1
+                                )
+select *
+--distinct check_delivery_date_diff, count(distinct id)
 --max(created_at), max(updated_at), max(bq_upload_time)
-from delivery_notes_items
-where territory_id not in ('Test NG Territory', 'Kyosk TZ HQ', 'Test TZ Territory', 'Kyosk HQ','DKasarani', 'Test KE Territory', 'Test UG Territory', 'Test Fresh TZ Territory')
+from monthly_delivey_notes_items
+--where territory_id not in ('Test NG Territory', 'Kyosk TZ HQ', 'Test TZ Territory', 'Kyosk HQ','DKasarani', 'Test KE Territory', 'Test UG Territory', 'Test Fresh TZ Territory')
 --and delivery_date is null
-and check_delivery_date_diff > 0
+--and check_delivery_date_diff > 0
 --where id = '0G4DPSFMYGDFS'
 --where code = 'DN-KARA-0FWK97MDPQNST'
-group by 1
-order by 2 desc

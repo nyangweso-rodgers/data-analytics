@@ -44,4 +44,4 @@ market_activators_assignment_report as (
 select *
 from market_activators_assignment_report
 where route_id = '0CW5Y2F5NETG1'
-order by market_activator_id
+order by market_activator_id, valid_from

@@ -6,16 +6,16 @@ sales_order as (
               FROM `kyosk-prod.karuru_reports.sales_order` so
               --where date(created_date) = current_date
         
-              where date(created_date) between '2024-06-01' and '2024-06-20'
-              --where  date(created_date) >= date_sub(current_date, interval 2 month)
+              --where date(created_date) between '2024-06-01' and '2024-06-20'
+              where  date(created_date) >= date_sub(current_date, interval 1 month)
               --where date(created_date) >= '2024-01-01'
               --and is_pre_karuru = false
               ),
-so_report as (
+sales_order_cte as (
                 select distinct --date(created_date) as created_date,
                 created_date,
-                --last_modified_date,
-                --bq_upload_time,
+                last_modified_date,
+                bq_upload_time,
                 so.territory.country_id,
                 so.territory_id,
                 so.route_id,
@@ -27,16 +27,7 @@ so_report as (
                 so.created_by,
                 market_developer.id as market_developer_id,
                 so.market_developer_name,
-                
                 --so.route_name,
-                
-                
-                --
-                
-                --
-                
-                --
-                --
                 --market_developer.first_name,
                 --market_developer.last_name,
                 --market_developer.phone_number,
@@ -51,11 +42,18 @@ so_report as (
                 --and name in ('SOIHHVO2024')
                 --and market_developer_name in ('yvonne irungu')
                 --group by 1,2,3,4,5,6,7,8
-                )
-select *
---max(created_date), max(last_modified_date), max(bq_upload_time)
-from so_report
+                ),
+get_latest_sales_order_data as (
+                                select distinct outlet_id,
+                                last_value(route_id)over(partition by outlet_id order by created_date asc ROWS BETWEEN UNBOUNDED PRECEDING AND UNBOUNDED FOLLOWING) as latest_route_id,
+                                last_value(market_developer_id)over(partition by outlet_id order by created_date asc ROWS BETWEEN UNBOUNDED PRECEDING AND UNBOUNDED FOLLOWING) as latest_market_developer_id,
+                                last_value(market_developer_name)over(partition by outlet_id order by created_date asc ROWS BETWEEN UNBOUNDED PRECEDING AND UNBOUNDED FOLLOWING) as latest_market_developer_name
+                                from sales_order_cte
+                                )
+select 
+max(created_date) as max_created_date, max(last_modified_date) as max_last_modified_date, max(bq_upload_time) as max_bq_upload_time
+from sales_order_cte
 where territory_id not in ('Test NG Territory', 'Kyosk TZ HQ', 'Test TZ Territory', 'Kyosk HQ','DKasarani', 'Test KE Territory', 'Test UG Territory','Test Fresh TZ Territory')
-and country_id = 'Uganda'
-and route_id = '0CW5Y2F5NETG1'
-order by territory_id, created_date desc, route_id
+--and country_id = 'Uganda'
+--and route_id = '0CW5Y2F5NETG1'
+--order by territory_id, created_date desc, route_id

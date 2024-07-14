@@ -7,7 +7,7 @@ sales_order as (
                 --where date(created_date) between '2023-08-01' and '2023-10-31'
                 --where date(created_date) >= date_sub(current_date, interval 1 month)
                 --and is_pre_karuru = false
-                where date(created_date) between '2024-06-01' and '2024-06-20'
+                where date(created_date) between '2024-06-24' and '2024-06-28'
                 --where date(created_date) = '2024-06-10'
                 ),
 sales_order_item as (
@@ -64,7 +64,6 @@ outlets_with_multiple_orders as (
                                   ),
 analysis_report as (
                     select owmo.*,
-                    
                     lag(sob.product_bundle_id)over(partition by created_date, outlet_id order by created_datetime asc) as previous_count_sku,
                     sob.product_bundle_id as count_sku,
                     sob.product_bundle_id - lag(sob.product_bundle_id)over(partition by created_date, outlet_id order by created_datetime asc) as sku_delta
@@ -78,4 +77,5 @@ where territory_id not in ('Test NG Territory', 'Kyosk TZ HQ', 'Test TZ Territor
 and country_id = 'Kenya'
 --country_code = 'ke'
 --and outlet_id in ('0CW5YAXE5TA2F', '0CW5YD12XHJJA', '0CW610NQWRN4W', '0CW612RA45RRY')
-and outlet_id = 'SO-0GA4HBX1JAK01'
+--and outlet_id = 'SO-0GA4HBX1JAK01'
+--and created_by in ('salehshifa100@gmail.com')

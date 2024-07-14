@@ -7,7 +7,7 @@ sales_order as (
                 --where date(created_date) = '2024-06-01' 
                 --where date(created_date) >= date_sub(current_date, interval 1 month)
                 --and is_pre_karuru = false
-                where date(created_date) between '2024-06-01' and '2024-06-30'
+                where date(created_date) between '2022-04-01' and '2024-06-30'
                 ),
 sales_order_item as (
                     select distinct  created_date,
@@ -40,9 +40,10 @@ delivery_notes as (
                 SELECT *,
                 row_number()over(partition by id order by updated_at desc) as index
                 FROM `kyosk-prod.karuru_reports.delivery_notes` dn
-                where date(created_at)  > '2024-06-01' 
+                --where date(created_at)  > '2024-06-01' 
                 --where date(created_at) >= date_sub(current_date, interval 1 month)
                 --where date(created_at) between '2024-06-01' and '2024-06-30'
+                where date(created_at) between '2022-04-01' and '2024-06-30'
                 ),
 delivery_notes_items as (
                         select distinct created_at,
@@ -70,21 +71,20 @@ delivery_notes_items as (
                         --group by 1,2,3,4,5
                         ),
 sales_order_and_delivery_notes_mashup as (
-                                          select distinct --date(soi.created_date) as sales_order_creation_date,
+                                          select distinct date(soi.created_date) as sales_order_creation_date,
                                           --date(dni.created_at) as delivery_note_creation_date,
                                           soi.created_date as sales_order_creation_datetime,
                                           dni.created_at as delivery_note_creation_datetime,
-
                                           soi.country_code,
-                                          soi.territory_id,
+                                          /*soi.territory_id,
                                           soi.route_id,
                                           dni.route_name,
                                           soi.market_developer_id,
-                                          soi.market_developer_name,
+                                          soi.market_developer_name,*/
                                           soi.outlet_id,
                                           soi.created_on_app,
                                           soi.id as sale_order_id,
-                                          dni.id as delvery_note_id,
+                                          /*dni.id as delvery_note_id,
                                           soi.name as sale_order_code,
                                           dni.code as delivery_note_code,
                                           soi.order_status as sales_order_status,
@@ -93,6 +93,7 @@ sales_order_and_delivery_notes_mashup as (
                                           soi.uom,
                                           dni.total_orderd,
                                           dni.total_delivered,
+                                          */
                                           --count(distinct soi.order_date) as count_order_dates,
                                           --count(distinct soi.id) as count_sale_orders,
                                           --count(distinct soi.get_sale_order_day) as count_sale_order_week_days
@@ -101,6 +102,15 @@ sales_order_and_delivery_notes_mashup as (
                                           where rescheduled_dn_index =1
                                           --group by 1,2
                                           ),
+monthly_kpis as (
+                select distinct country_code,
+                date_trunc(sales_order_creation_date, month) as month,
+                count(distinct sale_order_id) as count_sale_orders,
+                count(distinct outlet_id) as count_oulets,
+                from sales_order_and_delivery_notes_mashup
+                group by 1,2
+                order by 1,2
+                )/*,
 route_analysis as (
                   select distinct country_code,
                   territory_id,
@@ -119,15 +129,16 @@ route_analysis as (
                   sum(total_delivered) as total_delivered
                   from sales_order_and_delivery_notes_mashup
                   group by 1,2,3,4
-                  )
+                  )*/
 select *
 --distinct sales_order_id, count(distinct delvery_note_id) as delvery_note_id
 --distinct sales_order_status, delivery_note_status
 --from sales_order_and_delivery_notes_mashup
-from route_analysis
+--from route_analysis
 --from delivery_notes_items
 --from sales_order_item
-where territory_id not in ('Test NG Territory', 'Kyosk TZ HQ', 'Test TZ Territory', 'Kyosk HQ','DKasarani', 'Test KE Territory', 'Test UG Territory', 'Test Fresh TZ Territory')
-and country_code = 'ke'
+from monthly_kpis
+--where territory_id not in ('Test NG Territory', 'Kyosk TZ HQ', 'Test TZ Territory', 'Kyosk HQ','DKasarani', 'Test KE Territory', 'Test UG Territory', 'Test Fresh TZ Territory')
+---and country_code = 'ke'
 --and sale_order_id = 'SO-0G76VRKHC05AK'
-order by 1,2,3
+--order by 1,2,3
