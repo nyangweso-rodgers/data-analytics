@@ -10,7 +10,57 @@
 4. [Customer Segmentation Analysis]()
 5. [Customer Lifetime Value Analysis]()
 
+# 1. Exploratory Data Analysis (EDA)
+
+- **Exploratory data analysis** (EDA) is an essential step in the data science process which involves use of both _statistical methods_ and _data visualization techniques_ to:
+  - uncover patterns, trends,
+  - understand relationships and
+  - gain meaningful insights from data in order to understand the problem and make informed decisions.
+
+## Why Exploratory data analysis (EDA) is an essential task
+
+- EDA helps data practitioners understand and gain insights from data before applying machine learning and statistical techniques.
+- EDA helps identify patterns, anomalies, and relationships within the data so as to make informed decisions and develop effective strategies.
+- The EDA process aims in detecting faulty points in data such as errors or missing values which can be corrected by analysis.
+
+## Data Cleaning
+
+- **Data cleaning** is the process of fixing or removing incorrect, corrupted, incorrectly formatted, duplicate, or incomplete data within a dataset. It involves
+  - handling missing values and
+  - handling outliers
+
+## Univariate Analysis.
+
+- **Univariate analysis** is a form of exploratory data analysis (EDA) that involves the examination of a single variable. It is used to summarize the data and gain insight into the data's distribution, central tendency, and variability. It can be used to answer questions such as what is the range of the data, what is the most common value, and is there any outliers. It is also used to identify any trends or patterns in the data.
+
+## Bivariate Analysis
+
+- **Bivariate analysis** involves analyzing data with two variables or columns. This is usually a way to explore the relationships between these variables and how they influence each other, if at all.
+
+## Multivariate Analysis
+
+- Involves examining more than two variables at once in order to better understand relationships between them.
+
+## Charts
+
+1. Line Charts
+2. Bar Charts
+3. Pie Charts
+4. Histogram
+5. Scatter Plots
+6. Box Plot
+7. Violing Plot
+8. Heatmap
+9. Area Chart
+10. Radar Chart
+
 # 2. Retention Analytics
+
+- **Churn analysis** is the process of studying customer behavior to identify factors that contribute to a customer's decision to stop doing business with a company.
+
+## Build a churn prediction model
+
+- This may involve using techniques such as **logistic regression** or **decision trees** to predict whether or not a customer is likely to churn based on their behavior.
 
 # 4. Customer Segmentation Analsis
 
@@ -80,6 +130,7 @@
 
 # Resources and Further Reading
 
-1. [https://www.mth548.org/Tools/Seaborn/seaborn_plot_types.html](https://www.mth548.org/Tools/Seaborn/seaborn_plot_types.html)
-2. [Predicting and Preventing the Churn of High Value Customers Using Machine Learning](https://towardsdatascience.com/predicting-and-preventing-the-churn-of-high-value-customers-using-machine-learning-adbb4a61095d)
-3. [Towards Data Science - Divide and Conquer: segment your customers using RFM analysis](https://towardsdatascience.com/divide-and-conquer-segment-your-customers-using-rfm-analysis-68aee749adf6)
+1. [Dev Community - How to Perform Exploratory Data Analysis with Python](https://dev.to/phylis/how-to-perform-exploratory-data-analysis-with-python-l8j)
+2. [https://www.mth548.org/Tools/Seaborn/seaborn_plot_types.html](https://www.mth548.org/Tools/Seaborn/seaborn_plot_types.html)
+3. [Predicting and Preventing the Churn of High Value Customers Using Machine Learning](https://towardsdatascience.com/predicting-and-preventing-the-churn-of-high-value-customers-using-machine-learning-adbb4a61095d)
+4. [Towards Data Science - Divide and Conquer: segment your customers using RFM analysis](https://towardsdatascience.com/divide-and-conquer-segment-your-customers-using-rfm-analysis-68aee749adf6)
