@@ -17,6 +17,14 @@ delivery_trips_report as (
                           --bq_upload_time,
                           country_code,
                           territory_id,
+                          --warehouse_location, -- to be added
+                          --driver_provider_id, -- to be added
+                          --vehicle_provider_id,-- to be added
+                          --is_preplanned, -- to be added
+                          dispatch_time.dispatch_window_type,
+
+                          driver_wh_id,
+                          fulfillment_center_id,
                           id,
                           code,
                           status,
@@ -26,7 +34,7 @@ delivery_trips_report as (
                           delivery_note_ids as delivery_note_id,
                           --driver.id as driver_id,
                           --driver.code as driver_code,
-                          --driver.name as driver_name,
+                          driver.name as driver_name,
                           --vehicle_id,
                           --service_provider.id as service_provider_id,
                           --service_provider.name as service_provider_name

@@ -1,28 +1,43 @@
+--------------------------------------- Purchase Order & Purchase Receipt Items ---------------------------
 with
 purchase_order as (
                     SELECT *,
                     row_number()over(partition by id  order by modified desc) as index
                     FROM `kyosk-prod.karuru_reports.purchase_order` 
-                    WHERE date(creation) < current_date
-                    --where date(creation) >= date_sub(date_trunc(current_date, month), interval 6 month)
+                    --WHERE TIMESTAMP_TRUNC(creation, DAY) > TIMESTAMP("2022-02-05")
+                    --WHERE date(creation) >= date_trunc(current_date, month)
+                    where date(creation) between '2024-06-01' and '2024-06-30' 
                     ),
 purchase_order_items as (
-                          select distinct date(creation) as creation,
+                          select distinct date(creation) as creation_date,
                           date(purchase_order_date) as purchase_order_date,
-                          date_diff(date(purchase_order_date), date(creation), day) as date_delta,
+                          --creation,
+                          --modified,
+                          --bq_upload_time,
                           fulfillment_date,
+                          po.expiry_date,
+                          po.company,
+                          po.territory,
+                          po.set_warehouse,
+                          po.warehouse_territory,
+                          po.
                           id,
                           purchase_order_no,
+                          po.buying_type,
+                          po.workflow_state,
+                          po.supplier,
+                          po.supplier_name,
                           i.warehouse_id,
-                          i.item_group,
                           i.item_code_id,
                           i.item_name,
-                          sum(i.qty) as qty,
-                          sum(i.stock_qty) as stock_qty,
-                          --i.item_group
+                          i.item_group,
+                          i.uom,
+                          i.stock_uom,
+                          i.qty,
+                          i.stock_qty,
+                          i.item_group
                           from purchase_order po, unnest(items) i
                           where index =1
-                          group by 1,2,3,4,5,6,7,8,9,10
                           ),
 purchase_receipt as (
               SELECT *,
@@ -55,33 +70,40 @@ purchase_receipt_items as (
                             --supplier_group
                             from purchase_receipt pr, unnest(items) as i
                             where index = 1
-                            and buying_type in ('PURCHASING')
+                            --and buying_type in ('PURCHASING')
                             group by 1,2,3,4,5,6,7,8,9,10,11
                             ),
 purchase_order_and_purchase_receipt as (
-                                        select distinct poi.creation as purchase_order_creation_date,
+                                        select distinct poi.creation_date as purchase_order_creation_date,
                                         pri.date_created as purchase_receipt_creation_date,
-                                        poi.purchase_order_date,
-                                        poi.fulfillment_date as purcase_order_fulfillment_date,
+                                        --poi.purchase_order_date,
+                                        --poi.fulfillment_date as purcase_order_fulfillment_date,
                                         pri.posting_date as purchase_receipt_posting_date,
+                                        poi.company as company_id,
+                                        poi.warehouse_id,
+                                        poi.set_warehouse,
+                                        poi.warehouse_territory,
+
                                         poi.id,
                                         poi.purchase_order_no,
-                                        poi.warehouse_id,
+                                        poi.workflow_state as worflow_state_of_purchase_order,
+                                        pri.name as purchase_receipt_name,
+                                        pri.workflow_state as purchase_receipt_workflow_state,
                                         poi.item_code_id,
                                         poi.item_name,
                                         poi.qty as purchase_order_qty,
                                         poi.stock_qty as purchase_order_stock_qty,
                                         pri.received_qty as purchase_receipt_received_qty,
-                                        pri.amount as purchase_receipt_amount,
-                                        pri.company_id,
-                                        pri.name as purchase_receipt_name,
-                                        pri.supplier,
-                                        pri.workflow_state as purchase_receipt_workflow_state
+                                        --pri.amount as purchase_receipt_amount,
+                                        poi.supplier,
+                                        
                                         from purchase_order_items poi
                                         left join purchase_receipt_items pri on poi.purchase_order_no = pri.purchase_order and poi.item_code_id = pri.item_code
+                                        where poi.buying_type in ("Purchasing")
+                                        and poi.workflow_state not in ('CANCELLED', 'REJECTED')
                                         )
 select *
-from purchase_order_items
---where company_id = 'KYOSK DIGITAL SERVICES LTD (KE)'
+from purchase_order_and_purchase_receipt
+where company_id = 'KYOSK DIGITAL SERVICES LTD (KE)'
 --where company_id in ('KYOSK DIGITAL SERVICES LIMITED (UG)')
---order by purchase_order_date desc, warehouse_id
+and purchase_order_no = 'PUR-ORD-2024-13650'

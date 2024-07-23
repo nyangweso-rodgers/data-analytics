@@ -4,10 +4,10 @@ sales_order as (
               SELECT *,
               row_number()over(partition by id  order by last_modified_date desc) as index
               FROM `kyosk-prod.karuru_reports.sales_order` so
-              --where date(created_date) = current_date
-        
+              where date(created_date) = current_date
               --where date(created_date) between '2024-06-01' and '2024-06-20'
-              where  date(created_date) >= date_sub(current_date, interval 1 month)
+              --where  date(created_date) >= date_sub(current_date, interval 1 month)
+              --where date(created_date) >= date_sub(date_trunc(current_date,month), interval 2 day)
               --where date(created_date) >= '2024-01-01'
               --and is_pre_karuru = false
               ),
@@ -19,18 +19,23 @@ sales_order_cte as (
                 so.territory.country_id,
                 so.territory_id,
                 so.route_id,
+                --route.id as route_id,
+                route.route_code,
+                route.route_name,
                 so.outlet_id,
                 so.id,
                 so.name,
                 so.order_status,
+                so.cancellation_reason,
                 so.created_on_app,
+                so.payment_type,
                 so.created_by,
                 market_developer.id as market_developer_id,
                 so.market_developer_name,
                 --so.route_name,
                 --market_developer.first_name,
                 --market_developer.last_name,
-                --market_developer.phone_number,
+                market_developer.phone_number as market_developer_phone_number,
                 --i.fulfilment_status,
                 --sum(i.total) as ordered_amount
                 from sales_order so--, unnest(items) i
@@ -50,10 +55,13 @@ get_latest_sales_order_data as (
                                 last_value(market_developer_name)over(partition by outlet_id order by created_date asc ROWS BETWEEN UNBOUNDED PRECEDING AND UNBOUNDED FOLLOWING) as latest_market_developer_name
                                 from sales_order_cte
                                 )
-select 
-max(created_date) as max_created_date, max(last_modified_date) as max_last_modified_date, max(bq_upload_time) as max_bq_upload_time
+select distinct id
+--max(created_date) as max_created_date, max(last_modified_date) as max_last_modified_date, max(bq_upload_time) as max_bq_upload_time
 from sales_order_cte
 where territory_id not in ('Test NG Territory', 'Kyosk TZ HQ', 'Test TZ Territory', 'Kyosk HQ','DKasarani', 'Test KE Territory', 'Test UG Territory','Test Fresh TZ Territory')
+--and market_developer_phone_number is null
 --and country_id = 'Uganda'
 --and route_id = '0CW5Y2F5NETG1'
 --order by territory_id, created_date desc, route_id
+--and route_id is null
+and market_developer_phone_number is null

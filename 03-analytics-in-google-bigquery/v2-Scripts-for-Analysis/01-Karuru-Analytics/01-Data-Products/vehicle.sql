@@ -9,6 +9,9 @@ karuru_vehicle as (
                     ),
 vehicles as (
               select distinct
+              created_at,
+              updated_at,
+              bq_upload_time,
               id,
               license_plate,
               code,
@@ -18,5 +21,6 @@ vehicles as (
               --where id = '0D6GEQY6YDCP9'
               )
 select *
+--max(created_at) as max_created_at, max(updated_at) as max_updated_at, max(bq_upload_time) as max_bq_upload_time
 from vehicles
-where license_plate like "%T463AMS%"
+--where license_plate like "%T463AMS%"
