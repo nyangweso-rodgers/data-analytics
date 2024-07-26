@@ -1,4 +1,4 @@
----------------------------------- Stock Replienishment Model -----------------------------------
+---------------------------------- Stock Replienishment Model - v1 -----------------------------------
 with
 
 territory_mapping as (

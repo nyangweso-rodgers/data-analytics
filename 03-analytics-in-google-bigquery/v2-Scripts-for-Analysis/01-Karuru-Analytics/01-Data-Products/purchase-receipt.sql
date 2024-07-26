@@ -5,7 +5,8 @@ purchase_receipt as (
               SELECT *,
               row_number()over(partition by id order by date_modified desc) as index
               FROM `kyosk-prod.karuru_reports.purchase_receipt` 
-              WHERE date(date_created) >= date_sub(date_trunc(current_date, month), interval 2 month)
+              WHERE buying_type in ('PURCHASING')
+              and date(date_created) >= date_sub(date_trunc(current_date, month), interval 2 month)
               --where date(date_created) >= '2022-01-01'
               ),
 purchase_receipt_report as (
@@ -23,7 +24,7 @@ purchase_receipt_report as (
                             supplier_group
                             from purchase_receipt pr
                             where index = 1
-                            and buying_type in ('PURCHASING')
+                            
                             --and workflow_state in ('COMPLETED')
                             and company_id in ('KYOSK DIGITAL SERVICES LIMITED (UG)')
                             --and territory_id in ('Kawempe', 'Luzira', 'Mukono')
@@ -33,3 +34,4 @@ purchase_receipt_report as (
                             )
 select max(date_modified), max(bq_upload_time)
 from purchase_receipt_report
+where item_code  in ('Zuri Packed Sugar 1kg', 'Taifa Maize Flour 1kg')

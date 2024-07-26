@@ -6,15 +6,15 @@ delivery_notes as (
                 FROM `kyosk-prod.karuru_reports.delivery_notes` dn
                 --where date(created_at) = current_date
                 --where date(created_at) > date_sub(current_date, interval 1 month)
-                where date(created_at) >= date_sub(date_trunc(current_date,month), interval 1 month)
+                where date(created_at) >= date_sub(date_trunc(current_date,month), interval 5 month)
                 --where date(created_at) between '2024-01-01' and '2024-07-21'
                 --and is_pre_karuru = false
                 ),
 delivery_notes_cte as (
                       select distinct --date(created_at) as 
                       created_at,
-                      updated_at,
-                      bq_upload_time,
+                      --updated_at,
+                      --bq_upload_time,
                       coalesce(date(delivery_date), date(updated_at)) as delivery_date,
                       country_code,
                       territory_id,
@@ -28,28 +28,29 @@ delivery_notes_cte as (
                       --delivery_trip_id,
                       --payment_request_id,
                       agent_name as market_developer,
-                      --outlet.phone_number,
-                      
-                      --outlet.name as outlet_name,
+                      outlet.phone_number as outlet_phone_number,
+                      outlet.name as outlet_name,
                       --outlet.outlet_code as outlet_code,
-                      outlet.latitude,
-                      outlet.longitude,
-                      outlet_coordinates[SAFE_OFFSET(0)] as outlet_coordinates_latiude,
-                      outlet_coordinates[SAFE_OFFSET(1)] as outlet_coordinates_longitude,
+                      --outlet.latitude,
+                      --outlet.longitude,
+                      --outlet_coordinates[SAFE_OFFSET(0)] as outlet_coordinates_latiude,
+                      --outlet_coordinates[SAFE_OFFSET(1)] as outlet_coordinates_longitude,
                       
-                      delivery_coordinates[SAFE_OFFSET(0)] as delivery_coordinates_latitude,
-                      delivery_coordinates[SAFE_OFFSET(1)] as delivery_coordinates_longitude,
+                      --delivery_coordinates[SAFE_OFFSET(0)] as delivery_coordinates_latitude,
+                      --delivery_coordinates[SAFE_OFFSET(1)] as delivery_coordinates_longitude,
                       from delivery_notes dn
                       where index = 1
-                      --AND dn.status IN ('PAID','DELIVERED','CASH_COLLECTED')
-                      --and dni.status = 'ITEM_FULFILLED'
-                      --and outlet_id = '0CW6NN3588WDD'
+                      
                       ),
-get_latest_delivery_notes as (
-                              select distinct  outlet_id,
-                              LAST_VALUE(market_developer) OVER (PARTITION BY route_id ORDER BY created_at ASC ROWS BETWEEN UNBOUNDED PRECEDING AND UNBOUNDED FOLLOWING) as latest_market_developer_on_route
-                              from delivery_notes_cte
-                              ),
+get_latest_outlets_report as (
+                        select distinct  outlet_id,
+                        LAST_VALUE(outlet_name) OVER (PARTITION BY outlet_id ORDER BY created_at ASC ROWS BETWEEN UNBOUNDED PRECEDING AND UNBOUNDED FOLLOWING) as latest_outlet_name,
+                        LAST_VALUE(outlet_phone_number) OVER (PARTITION BY outlet_id ORDER BY created_at ASC ROWS BETWEEN UNBOUNDED PRECEDING AND UNBOUNDED FOLLOWING) as latest_outlet_phone_number,
+                        LAST_VALUE(market_developer) OVER (PARTITION BY outlet_id ORDER BY created_at ASC ROWS BETWEEN UNBOUNDED PRECEDING AND UNBOUNDED FOLLOWING) as latest_market_developer,
+                        LAST_VALUE(route_name) OVER (PARTITION BY outlet_id ORDER BY created_at ASC ROWS BETWEEN UNBOUNDED PRECEDING AND UNBOUNDED FOLLOWING) as latest_route_name,
+                        LAST_VALUE(created_at) OVER (PARTITION BY outlet_id ORDER BY created_at ASC ROWS BETWEEN UNBOUNDED PRECEDING AND UNBOUNDED FOLLOWING) as latest_dn_creation_datetime,
+                        from delivery_notes_cte
+                        ),
 get_weely_outlets_served as (
                             select distinct date_trunc(delivery_date,week) as delivery_week,
                             outlet_id,
@@ -91,11 +92,12 @@ select *
 --max(created_at) as max_created_at, max(updated_at) as max_updated_at, max(bq_upload_time) as max_bq_upload_time
 --max(date(created_at)) as max_created_at_date, max(date(updated_at)) as max_updated_at_date, max(date(bq_upload_time)) as max_bq_upload_date
 --distinct outlet_id, count(distinct route_id) as route_id
-from delivery_notes_cte
+--from delivery_notes_cte
+from get_latest_outlets_report
 --from get_weely_outlets_served
 --from get_weekly_active_outlets_agg
-where territory_id not in ('Test NG Territory', 'Kyosk TZ HQ', 'Test TZ Territory', 'Kyosk HQ','DKasarani', 'Test KE Territory', 'Test UG Territory', 'Test Fresh TZ Territory')
-and country_code = 'KE'
+--where territory_id not in ('Test NG Territory', 'Kyosk TZ HQ', 'Test TZ Territory', 'Kyosk HQ','DKasarani', 'Test KE Territory', 'Test UG Territory', 'Test Fresh TZ Territory')
+--and country_code = 'KE'
 --having route_name > 
 --and route_name is null
 --and route_id is null
