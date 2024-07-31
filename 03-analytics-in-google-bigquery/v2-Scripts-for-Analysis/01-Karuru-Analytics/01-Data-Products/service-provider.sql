@@ -29,4 +29,5 @@ select *
 from service_provider_cte
 where name not in ("Test TZ Supplier")
 --where name in ('WASHA DATA COMPANY LIMITED')
+and id in ('0GGWZH9MRQERG', '0GAGGD5N6Y9AN')
 order by name

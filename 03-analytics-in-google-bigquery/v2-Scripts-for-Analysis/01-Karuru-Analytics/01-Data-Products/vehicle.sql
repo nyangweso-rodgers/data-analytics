@@ -18,13 +18,15 @@ vehicle_cte as (
               vehicle_type_id,
               driver_id,
               service_provider_id,
+              audit.modified_by
               from vehicle
               where index = 1
               --where id = '0D6GEQY6YDCP9'
-              ),
+              )
               
 select *
 --max(created_at) as max_created_at, max(updated_at) as max_updated_at, max(bq_upload_time) as max_bq_upload_time
 from vehicle_cte
+where date(updated_at) = current_date
 --where license_plate like "%T463AMS%"
-where license_plate = 'KMFR 025A'
+--where license_plate = 'KMFR 025A'

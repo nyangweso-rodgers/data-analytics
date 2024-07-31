@@ -12,7 +12,7 @@ promotions_cte as (
                     start_date,
                     end_date,
                     country_code,
-                    territory_id,
+                    --p.territory_id,
                     customer_segment,
                     is_active,
                     approved,
@@ -22,10 +22,24 @@ promotions_cte as (
                     status,
                     promotion_on,
                     promotion_type,
-                    from promotions 
+                    pi.territory_id,
+                    pi.catalog_item_id,
+                    pi.funding,
+                    pi.supplier,
+                    pi.item_code,
+                    pi.item_name,
+                    pi.uom,
+                    pi.discount_type,
+                    pi.discount_amount,
+                    pi.discount_percentage
+                    from promotions p, unnest(promo_items) pi
                     where index =1
                     )
-select *
+select distinct country_code,territory_id, count(distinct name)
 --min(created_at_datetime) as min_created_at_datetime, min(last_modified_datetime) as min_last_modified_datetime,
 --max(created_at_datetime) as max_created_at_datetime, max(last_modified_datetime) as max_last_modified_datetime
 from promotions_cte
+where territory_id not in ('Test254', 'Test FC', 'bin', 'new', 'Test KE Territory', 'Test UG Territory')
+and country_code in ('KE')
+group by 1,2
+order by 1,3 desc
