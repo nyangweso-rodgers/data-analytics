@@ -23,6 +23,54 @@
 - EDA helps identify patterns, anomalies, and relationships within the data so as to make informed decisions and develop effective strategies.
 - The EDA process aims in detecting faulty points in data such as errors or missing values which can be corrected by analysis.
 
+## Exploratory Data Analysis Steps
+
+### Step 1: Understamd Stakeholders Objectives
+
+- Develop a solid understanding of the decisions that the Stakeholders need to make, or the types of changes/ interventions they need to make calls on.
+
+### Step 2: Summarize analysis goals and get alignment
+
+- These conversations will help you determine the analysis goals, i.e., whether you should focus on identifying patterns and relationships, understanding distributions, etc. Summarize your understanding of the goal(s), specify an analysis period and population, and make sure all relevant stakeholders are aligned. At this point, I also like to communicate non-goals of the analysis — things stakeholders should not expect to see as part of my deliverable(s).
+
+### Step 3: Develop a list of research questions
+
+- Create a series of questions related to the analysis goals you would like to answer, and note the **dimensions** you’re interested in exploring within, i.e., specific time periods, new users, users in a certain age bracket or geographical area, etc.
+
+### Step 4: Identify your knowns and unknowns
+
+- Collect any previous research, organizational lore, and widely accepted assumptions related to the analysis topic. Review what’s been previously researched or analyzed to understand what is already known in this arena.
+- Make note of whether there are historical answers to any of your analysis questions. Note: when you’re determining how relevant those answers are, consider the amount of time since any previous analysis, and whether there have been significant changes in the analysis population or product/ service since then.
+
+### Step 5: Understand what is possible with the data you have
+
+- Once you’ve synthesized your goals and key questions, you can identify what relevant data is easily available, and what supplemental data is potentially accessible. Verify your permissions to each data source, and request access from data/ process owners for any supplemental datasets. Spend some time familiarizing yourself with the datasets, and rule out any questions on your list it’s not possible to answer with the data you have.
+
+### Step 6: Set expectations for what constitutes one analysis
+
+- Do a prioritization exercise with the key stakeholder(s), for example, a product manager, to understand which questions they believe are most important. It’s a good idea to T-shirt size (S, M, L) the complexity of the questions on your list before this conversation to illustrate the level of effort to answer them. If the questions on your list are more work than is feasible in a single analysis, use those prioritizations to determine how to stagger them into multiple analyses.
+
+### Step 7: Transform and clean the data as necessary
+
+- If data pipelines are in place and data is already in the format you want, evaluate the need for data cleaning (looking for outliers, missingness/ sparse data, duplicates, etc.), and perform any necessary cleaning steps. If not, create data pipelines to handle any required relocation or transformations before data cleaning.
+
+### Step 8: Use summary statistics to understand the “shape” of data
+
+- Start the analysis with high-level statistical exploration to understand distributions of features and correlations between them. You may notice data sparsity or quality issues that impact your ability to answer questions from your analysis planning exercise. It’s important to communicate early to stakeholders about questions you cannot address, or that will have “noisy” answers less valuable for decision-making.
+
+### Step 9: Answer your analysis questions
+
+- At this stage, you’ll move into answering the specific questions you developed for the analysis. I like to visualize as I go, as this can make it easier to spot patterns, trends, and anomalies, and I can drop interesting visuals right into my write-up draft.
+- Depending on the type of analysis, you may want to generate some additional features (ex: bucket ranges for a numeric feature, indicators for whether a specific action was taken within a given period or more times than a given threshold) to explore correlations further, and look for less intuitive relationships between features using machine learning.
+
+### Step 10: Document your findings
+
+- As you conduct your analysis, note answers you find under each question. Highlight findings you think are interesting, and make notes on any trains of thought a finding sparked.
+
+### Step 11: Share your findings
+
+- When your analysis is ready to share with the original stakeholders, be thoughtful about the format you choose. Depending on the audience, they may respond best to a Slack post, a presentation, a walkthrough of the analysis document, or some combination of the above
+
 ## Data Cleaning
 
 - **Data cleaning** is the process of fixing or removing incorrect, corrupted, incorrectly formatted, duplicate, or incomplete data within a dataset. It involves
@@ -134,3 +182,4 @@
 2. [https://www.mth548.org/Tools/Seaborn/seaborn_plot_types.html](https://www.mth548.org/Tools/Seaborn/seaborn_plot_types.html)
 3. [Predicting and Preventing the Churn of High Value Customers Using Machine Learning](https://towardsdatascience.com/predicting-and-preventing-the-churn-of-high-value-customers-using-machine-learning-adbb4a61095d)
 4. [Towards Data Science - Divide and Conquer: segment your customers using RFM analysis](https://towardsdatascience.com/divide-and-conquer-segment-your-customers-using-rfm-analysis-68aee749adf6)
+5. [towardsdatascience.com - exploratory-data-analysis-in-11-steps-31a36ae0b407](https://towardsdatascience.com/exploratory-data-analysis-in-11-steps-31a36ae0b407)
