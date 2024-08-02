@@ -4,17 +4,18 @@ delivery_notes as (
                 SELECT *,
                 row_number()over(partition by id order by updated_at desc) as index
                 FROM `kyosk-prod.karuru_reports.delivery_notes` dn
-                --where date(created_at) = current_date
+                where date(created_at) = current_date
                 --where date(created_at) > date_sub(current_date, interval 1 month)
-                where date(created_at) >= date_sub(date_trunc(current_date,month), interval 5 month)
+                --where date(created_at) >= date_sub(date_trunc(current_date,month), interval 5 month)
                 --where date(created_at) between '2024-01-01' and '2024-07-21'
                 --and is_pre_karuru = false
                 ),
 delivery_notes_cte as (
                       select distinct --date(created_at) as 
+                      dn.delivery_window.delivery_date as scheduled_delivery_date,
                       created_at,
-                      --updated_at,
-                      --bq_upload_time,
+                      updated_at,
+                      bq_upload_time,
                       coalesce(date(delivery_date), date(updated_at)) as delivery_date,
                       country_code,
                       territory_id,
@@ -38,6 +39,8 @@ delivery_notes_cte as (
                       
                       --delivery_coordinates[SAFE_OFFSET(0)] as delivery_coordinates_latitude,
                       --delivery_coordinates[SAFE_OFFSET(1)] as delivery_coordinates_longitude,
+                      --sum(oi.total_orderd) as total_orderd,
+                      --sum(oi.total_delivered) as  total_delivered
                       from delivery_notes dn
                       where index = 1
                       
@@ -85,18 +88,19 @@ get_weekly_active_outlets_agg as (
                                     )
 
 --weely_outlets_served_with_index as 
-select *
+select 
 --distinct route_id, route_name, min(date(created_at)) as min_created_date, max(date(created_at)) as max_creaed_date
 --distinct route_id, count(distinct route_name) as route_name, string_agg(distinct route_name, "/" order by route_name) as route_names
 --distinct date_trunc(date(created_at), month) as month
---max(created_at) as max_created_at, max(updated_at) as max_updated_at, max(bq_upload_time) as max_bq_upload_time
+max(created_at) as max_created_at, max(updated_at) as max_updated_at, max(bq_upload_time) as max_bq_upload_time
 --max(date(created_at)) as max_created_at_date, max(date(updated_at)) as max_updated_at_date, max(date(bq_upload_time)) as max_bq_upload_date
 --distinct outlet_id, count(distinct route_id) as route_id
 --from delivery_notes_cte
-from get_latest_outlets_report
+from delivery_notes_cte
 --from get_weely_outlets_served
 --from get_weekly_active_outlets_agg
 --where territory_id not in ('Test NG Territory', 'Kyosk TZ HQ', 'Test TZ Territory', 'Kyosk HQ','DKasarani', 'Test KE Territory', 'Test UG Territory', 'Test Fresh TZ Territory')
+--and FORMAT_DATE('%Y%m%d', scheduled_delivery_date) between @DS_START_DATE and @DS_END_DATE
 --and country_code = 'KE'
 --having route_name > 
 --and route_name is null

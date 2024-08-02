@@ -12,6 +12,7 @@ delivery_notes as (
                 ),
 delivery_notes_items as (
                           select distinct --date(created_at) as 
+                          dn.delivery_window.delivery_date as scheduled_delivery_date,
                           created_at,
                           updated_at,
                           bq_upload_time,
@@ -20,8 +21,8 @@ delivery_notes_items as (
                           --coalesce(date(delivery_date), date(updated_at)) as delivery_date,
                           country_code,
                           territory_id,
-                          --route_id,
-                          --route_name,
+                          route_id,
+                          route_name,
                           id,
                           code,
                           --dn.sale_order_id,
@@ -39,6 +40,8 @@ delivery_notes_items as (
                           oi.uom,
                           oi.status as item_status,
                           oi.item_group_id,
+                          sum(oi.total_orderd) as total_orderd,
+                          sum(oi.total_delivered) as  total_delivered,
                           LAST_VALUE(agent_name) OVER (PARTITION BY route_name ORDER BY created_at ASC ROWS BETWEEN UNBOUNDED PRECEDING AND UNBOUNDED FOLLOWING) as market_developer_name
                           from delivery_notes dn, unnest(order_items) oi
                           where index = 1
@@ -61,3 +64,4 @@ where territory_id not in ('Test NG Territory', 'Kyosk TZ HQ', 'Test TZ Territor
 --where code = 'DN-KARA-0FWK97MDPQNST'
 and item_status in ('ITEM_REMOVED')
 --and code in ('DN-KWMP-0GPRGEKQNRB4X')
+and FORMAT_DATE('%Y%m%d', scheduled_delivery_date) between @DS_START_DATE and @DS_END_DATE
