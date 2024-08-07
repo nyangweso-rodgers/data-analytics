@@ -1,4 +1,4 @@
------------ sales orders --------------------
+----------- sales orders, market activators, market activators assignment --------------------
 with
 sales_order as (
               SELECT *,
@@ -49,16 +49,40 @@ sales_order_cte as (
                 --and market_developer_name in ('yvonne irungu')
                 --group by 1,2,3,4,5,6,7,8
                 ),
-get_latest_sales_order_report as (
-                                select distinct outlet_id,
-                                last_value(route_id)over(partition by outlet_id order by created_date asc ROWS BETWEEN UNBOUNDED PRECEDING AND UNBOUNDED FOLLOWING) as latest_route_id,
-                                last_value(market_developer_id)over(partition by outlet_id order by created_date asc ROWS BETWEEN UNBOUNDED PRECEDING AND UNBOUNDED FOLLOWING) as latest_market_developer_id,
-                                last_value(market_developer_name)over(partition by outlet_id order by created_date asc ROWS BETWEEN UNBOUNDED PRECEDING AND UNBOUNDED FOLLOWING) as latest_market_developer_name
-                                from sales_order_cte
-                                )
+----------------------- Market Activators -------------------------
+market_activators as (
+                      select *,
+                      row_number()over(partition by id order by bq_upload_time desc) as index
+                      from `karuru_reports.market_activators`
+                      where date(created_at) >= '2023-08-01'
+                    ),
+market_activators_cte as (
+                          select distinct created_at,
+                          id,
+                          names,
+                          email,
+                          msisdn,
+                          market_id,
+                          active
+                          from market_activators
+                          where index = 1
+                          ),
+----------------- Mashup ----------------------------
+sales_order_report as (
+                        select so.*,
+                        ma.names as market_activator_name,
+                        ma.msisdn as market_activator_msisdn,
+                        ma.email as market_activator_email,
+                        case
+                          when (country_id in ('Uganda', 'Nigeria')) and (created_on_app = 'Duka App') then 'Kyosk App'
+                          when (country_id in ('Uganda', 'Nigeria')) and (created_on_app = 'AgentApp') and (so.created_by = ma.email) then 'Market Activator'
+                        else 'Market Developer' end as created_by_Role
+                        from sales_order_cte so
+                        left join market_activators_cte ma on so.created_by = ma.email 
+                        )
 select *
 --max(created_date) as max_created_date, max(last_modified_date) as max_last_modified_date, max(bq_upload_time) as max_bq_upload_time
-from sales_order_cte
+from sales_order_report
 
 --and market_developer_phone_number is null
 --and country_id = 'Uganda'

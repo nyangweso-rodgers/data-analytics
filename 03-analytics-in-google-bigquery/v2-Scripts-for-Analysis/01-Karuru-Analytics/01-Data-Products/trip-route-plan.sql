@@ -7,12 +7,13 @@ trip_route_plan as (
                     WHERE date(created_at) > "2021-07-26"
                     ),
 trip_route_plan_cte as (
-                        select distinct created_at as created_at_datetime,
-                        updated_at as updated_at_datetime,
+                        select distinct created_at,
+                        updated_at,
+                        bq_upload_time,
                         trip_id
                         from trip_route_plan
                         where index = 1
                         )
-select *
+select count(distinct trip_id)
+--max(created_at) as max_created_at_datetime, max(updated_at) as max_updated_at_datetime, max(bq_upload_time) as max_bq_upload_time_datetime
 from trip_route_plan_cte
-order by created_at_datetime desc

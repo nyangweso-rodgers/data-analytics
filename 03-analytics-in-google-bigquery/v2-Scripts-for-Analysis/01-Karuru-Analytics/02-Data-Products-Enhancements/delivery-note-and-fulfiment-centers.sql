@@ -74,13 +74,33 @@ mashup as (
             dn.status,
             dn.delivery_coordinates_latitude,
             dn.delivery_coordinates_longitude,
-            round(st_distance(ST_GEOGPOINT(fc.longitude, fc.latitude), ST_GEOGPOINT(dn.longitude, dn.latitude)),0) / 1000 as calculate_lateral_distance_from_outlet_registration,
-            round(st_distance(ST_GEOGPOINT(fc.longitude, fc.latitude), ST_GEOGPOINT(dn.delivery_coordinates_longitude, dn.delivery_coordinates_latitude)),0) / 1000 as calculate_lateral_distance_from_outlet_delivery,
+            round(st_distance(ST_GEOGPOINT(fc.longitude, fc.latitude), ST_GEOGPOINT(dn.longitude, dn.latitude)),2) / 1000 as outlet_registration_distance,
+            round(st_distance(ST_GEOGPOINT(fc.longitude, fc.latitude), ST_GEOGPOINT(dn.delivery_coordinates_longitude, dn.delivery_coordinates_latitude)),2) / 1000 as delivery_note_distance,
+            abs(round(st_distance(ST_GEOGPOINT(dn.longitude, dn.latitude), ST_GEOGPOINT(dn.delivery_coordinates_longitude, dn.delivery_coordinates_latitude)) / 1000,2)) as outlet_registration_to_delivery_distance
             from delivery_notes_cte dn
             left join fulfillment_center_cte fc on dn.territory_id = fc.name
-            )
+            ),
+report_with_zones as (
+                        select *,
+                        abs(outlet_registration_distance - delivery_note_distance) as distance_variance,
+                        case
+                          when delivery_note_distance >= 101 then 'Outer Zone'
+                          when delivery_note_distance > 61 then 'Middle Zone'
+                          when delivery_note_distance >= 0 then 'Inner Zone' 
+                        else null end  as delivery_note_zone,
+                        case
+                          when outlet_registration_distance >= 101 then 'Outer Zone'
+                          when outlet_registration_distance > 61 then 'Middle Zone'
+                          when outlet_registration_distance >= 0 then 'Inner Zone' 
+                        else null end  as outlet_registered_zone ,
+                        case
+                          when (outlet_registration_to_delivery_distance between 0 and 0.02) then '20m Location Accuracy'
+                          when (outlet_registration_to_delivery_distance > 0.02) then '>20m Location Accuracy'
+                        else 'UNRECOGNIZED' end as location_accuracy
+                        from mashup
+                        )
 select *
-from mashup
+from report_with_zones
 where territory_id not in ('Test NG Territory', 'Kyosk TZ HQ', 'Test TZ Territory', 'Kyosk HQ','DKasarani', 'Test KE Territory', 'Test UG Territory', 'Test Fresh TZ Territory')
 and country_code = 'KE'
 and status IN ('PAID','DELIVERED','CASH_COLLECTED')
