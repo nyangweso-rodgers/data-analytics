@@ -34,7 +34,19 @@
   select * from sales_order
   ```
 
-
+- Example:
+  ```sql
+    with
+    sales as (
+                select 1 as shop_id, 10 as amount
+                union all (select 2 as shop_id, 20 as amount)
+                )
+    select
+      distinct
+        first_value(shop_id)over(order by amount asc ROWS BETWEEN UNBOUNDED PRECEDING AND UNBOUNDED FOLLOWING) as shop_id_with_least_sales,
+        last_value(shop_id)over(order by amount asc ROWS BETWEEN UNBOUNDED PRECEDING AND UNBOUNDED FOLLOWING) as shop_id_with_highest_sales
+    from sales
+  ```
 
 # `FIRST_VALUE`
 
@@ -65,7 +77,3 @@
             LAST_VALUE(delivery_date) OVER (PARTITION BY customer ORDER BY delivery_date DESC ROWS BETWEEN UNBOUNDED PRECEDING AND UNBOUNDED FOLLOWING) AS last_delivery_date
         from sales_order
     ```
-
-    Output:
-
-    ![Alt text](image-1.png)
