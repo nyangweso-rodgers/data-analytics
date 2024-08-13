@@ -34,9 +34,7 @@
   select * from sales_order
   ```
 
-  Output:
 
-  ![Alt text](image.png)
 
 # `FIRST_VALUE`
 
@@ -51,9 +49,6 @@
             FIRST_VALUE(delivery_date) OVER (PARTITION BY customer ORDER BY delivery_date DESC ROWS BETWEEN UNBOUNDED PRECEDING AND UNBOUNDED FOLLOWING) AS last_delivery_date
         from sales_order
     ```
-    Output:
-
-    ![Alt text](image-2.png)
 
 # `LAST_VALUE`
 
