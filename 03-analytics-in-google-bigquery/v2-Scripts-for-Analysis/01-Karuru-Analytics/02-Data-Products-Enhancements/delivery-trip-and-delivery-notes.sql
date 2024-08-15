@@ -38,6 +38,7 @@ delivery_notes as (
                 SELECT *,
                 row_number()over(partition by id order by updated_at desc) as index
                 FROM `kyosk-prod.karuru_reports.delivery_notes` dn
+                date(created_date) >= date_sub(date_trunc(current_date(), month), interval 1 month)
                 --where date(created_at) = current_date
                 where date(created_at) > date_sub(current_date, interval 1 week)
                 --where date(created_at) > date_sub(current_date, interval 30 day)
@@ -52,7 +53,6 @@ delivery_notes_cte as (
                           --code,
                           --dn.sale_order_id,
                           --dn.status,
-                          --delivery_trip_id,
                           --payment_request_id,
                           --agent_name as market_developer,
                           --outlet.phone_number,

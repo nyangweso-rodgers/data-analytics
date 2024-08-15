@@ -5,9 +5,10 @@ delivery_notes as (
                 SELECT *,
                 row_number()over(partition by id order by updated_at desc) as index
                 FROM `kyosk-prod.karuru_reports.delivery_notes` dn
+                where territory_id not in ('Test NG Territory', 'Kyosk TZ HQ', 'Test TZ Territory', 'Kyosk HQ','DKasarani', 'Test KE Territory', 'Test UG Territory', 'Test Fresh TZ Territory')
                 --where date(created_at) = current_date
                 --where date(created_at) > date_sub(current_date, interval 1 month)
-                where date(created_at) >= date_sub(date_trunc(current_date,month), interval 2 day)
+                and date(created_at) >= date_sub(date_trunc(current_date,month), interval 2 day)
                 --where date(created_at) between '2024-01-01' and '2024-07-21'
                 --and is_pre_karuru = false
                 ),
@@ -74,7 +75,7 @@ mashup as (
             dn.status,
             dn.delivery_coordinates_latitude,
             dn.delivery_coordinates_longitude,
-            round(st_distance(ST_GEOGPOINT(fc.longitude, fc.latitude), ST_GEOGPOINT(dn.longitude, dn.latitude)),2) / 1000 as outlet_registration_distance,
+            round(st_distance(ST_GEOGPOINT(fc.longitude, fc.latitude), ST_GEOGPOINT(dn.outlet_longitude, dn.outlet_latitude)) / 1000,2) as outlet_registration_distance,
             round(st_distance(ST_GEOGPOINT(fc.longitude, fc.latitude), ST_GEOGPOINT(dn.delivery_coordinates_longitude, dn.delivery_coordinates_latitude)),2) / 1000 as delivery_note_distance,
             abs(round(st_distance(ST_GEOGPOINT(dn.longitude, dn.latitude), ST_GEOGPOINT(dn.delivery_coordinates_longitude, dn.delivery_coordinates_latitude)) / 1000,2)) as outlet_registration_to_delivery_distance
             from delivery_notes_cte dn
@@ -101,7 +102,7 @@ report_with_zones as (
                         )
 select *
 from report_with_zones
-where territory_id not in ('Test NG Territory', 'Kyosk TZ HQ', 'Test TZ Territory', 'Kyosk HQ','DKasarani', 'Test KE Territory', 'Test UG Territory', 'Test Fresh TZ Territory')
+
 and country_code = 'KE'
 and status IN ('PAID','DELIVERED','CASH_COLLECTED')
 and delivery_coordinates_latitude is not null

@@ -5,13 +5,12 @@ delivery_trips as (
                 select *,
                 row_number()over(partition by id order by updated_at desc) as index
                 FROM `kyosk-prod.karuru_reports.delivery_trips` 
-                --where date(created_at) = current_date
-                where date_trunc(date(created_at),month) >= date_sub(date_trunc(current_date, month), interval 1 month)
-                --where date(created_at) between '2023-08-01' and '2024-01-23'
-                --and is_pre_karuru = false
+                where territory_id not in ('Test UG Territory', 'Test NG Territory', 'Kyosk TZ HQ', 'Test TZ Territory', 'Kyosk HQ','DKasarani', 'Test KE Territory', 'Test Fresh TZ Territory')
+                --and date(created_at) = '2024-08-07'
+                and date_trunc(date(created_at),month) >= date_sub(date_trunc(current_date, month), interval 1 month)
               ),
 delivery_trips_cte as (
-                      select distinct date(created_at) as dt_creation_date,
+                      select distinct date(created_at) as delivery_trip_creation_date,
                       --created_at,
                       --updated_at,
                       --bq_upload_time,
@@ -27,19 +26,32 @@ delivery_trips_cte as (
                       id,
                       code,
                       status,
+
                       vehicle_id,
+                      vehicle_v2.id as v2_vehicle_id,
+                      vehicle_v2.license_plate as v2_license_plate,
+                      vehicle_v2.type as v2_vehicle_type,
+                      case
+                        when vehicle_v2.load_capacity = '' then null
+                      else vehicle_v2.load_capacity end as v2_load_capacity,
+                      case
+                        when vehicle_v2.volume = '' then null
+                      else vehicle_v2.volume end as v2_volume,
+                      dt.vehicle_provider_id,
                       --vehicle.id as vehicle_id,
-                      vehicle.licence_plate,
-                      vehicle.vehicle_type,
+                      --vehicle.licence_plate,
+                      --vehicle.vehicle_type,
                       vehicle.service_provider_id as vehicle_service_provider_id,
                       --delivery_note_ids as delivery_note_id,
+
                       driver.id as driver_id,
                       driver.code as driver_code,
                       driver.name as driver_name,
-                      driver.service_provider_id as driver_service_provider_id,
-                      service_provider.id as service_provider_id,
-                      service_provider.name as service_provider_name,
-                      from delivery_trips, unnest(delivery_note_ids) delivery_note_ids
+                      dt.driver_provider_id,
+                      --driver.service_provider_id as driver_service_provider_id,
+                      --service_provider.id as service_provider_id,
+                      --service_provider.name as service_provider_name,
+                      from delivery_trips dt--, unnest(delivery_note_ids) delivery_note_ids
                       where index = 1
                       --and status not in ('CANCELLED')
                     ),
@@ -86,22 +98,42 @@ service_provider_cte as (
                           from service_provider
                           where index = 1
                           ),
+-------------------------------- Mashup --------------------
 mashup as (
-            select dt.*,
+            select dt.delivery_trip_creation_date,
+            dt.country_code,
+            dt.territory_id,
+            dt.fulfillment_center_id,
+            dt.id as delivery_trip_id,
+            dt.code as delivery_trip_code,
+            dt.status as delivery_trip_status,
+            dt.vehicle_id,
+            dt.v2_vehicle_id,
             v.license_plate,
+            dt.v2_license_plate,
+            dt.v2_vehicle_type,
+            dt.v2_load_capacity,
+            dt.v2_volume,
+            dt.vehicle_provider_id,
             vsp.name as vehicle_service_provider_name,
+
+            dt.driver_id,
+            dt.driver_code,
+            dt.driver_name,
+            dt.driver_provider_id,
             dsp.name as driver_service_provider_name
             --max(created_at), max(updated_at), max(bq_upload_time)
             from delivery_trips_cte dt
             left join vehicle_cte v on dt.vehicle_id = v.id
-            left join service_provider_cte vsp on dt.vehicle_service_provider_id = vsp.id
-            left join service_provider_cte dsp on dt.driver_service_provider_id = dsp.id
+            left join service_provider_cte vsp on dt.vehicle_provider_id = vsp.id
+            left join service_provider_cte dsp on dt.driver_provider_id = dsp.id
             )
 select *
 from mashup
-where territory_id not in ('Test UG Territory', 'Test NG Territory', 'Kyosk TZ HQ', 'Test TZ Territory', 'Kyosk HQ','DKasarani', 'Test KE Territory', 'Test Fresh TZ Territory')
+--where vehicle_id is null
+where delivery_trip_id = '0GKSHCD6NRPVH'
 --and vehicle_id = '0D6GERDHYDDMR'
-and vehicle_id = '0ECQG3X288SCM'
+--where vehicle_id = '0ECQG3X288SCM'
 --and id = '0FWMQR0X6QQQT'
 --and delivery_note_id = '0FWK97MDPQNST'
-order by vehicle_id
+--order by vehicle_id

@@ -5,10 +5,13 @@ delivery_trips as (
                 select *,
                 row_number()over(partition by id order by updated_at desc) as index
                 FROM `kyosk-prod.karuru_reports.delivery_trips` 
+                where territory_id not in ('Test UG Territory', 'Test NG Territory', 'Kyosk TZ HQ', 'Test TZ Territory', 'Kyosk HQ','DKasarani', 'Test KE Territory', 'Test Fresh TZ Territory')
+                and status not in ('CANCELLED')
                 --where date(created_at) = current_date
                 --where date_trunc(date(created_at),month) >= date_sub(date_trunc(current_date, month), interval 1 week)
-                where date(created_at) between '2024-06-01' and '2024-06-30'
+                and  date(created_at) between '2024-06-01' and '2024-06-30'
                 --and is_pre_karuru = false
+                and country_code = 'KE'
               ),
 delivery_trips_cte as (
                       select distinct date(created_at) as created_at,
@@ -237,9 +240,8 @@ report_with_zones as (
                       )
 select *
 from report_with_zones
-where territory_id not in ('Test UG Territory', 'Test NG Territory', 'Kyosk TZ HQ', 'Test TZ Territory', 'Kyosk HQ','DKasarani', 'Test KE Territory', 'Test Fresh TZ Territory')
+
 --where territory_id in ('Ruiru')
-and dt_status not in ('CANCELLED')
-AND dn_status IN ('PAID','DELIVERED','CASH_COLLECTED')
-and dn_item_status = 'ITEM_FULFILLED'
-and country_code = 'KE'
+
+--where dn_status IN ('PAID','DELIVERED','CASH_COLLECTED')
+--and dn_item_status = 'ITEM_FULFILLED'
