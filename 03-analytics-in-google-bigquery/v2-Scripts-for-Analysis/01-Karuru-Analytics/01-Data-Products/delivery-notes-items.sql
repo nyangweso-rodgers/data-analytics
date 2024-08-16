@@ -4,6 +4,7 @@ delivery_notes as (
                 SELECT *,
                 row_number()over(partition by id order by updated_at desc) as index
                 FROM `kyosk-prod.karuru_reports.delivery_notes` dn
+                where territory_id not in ('Test NG Territory', 'Kyosk TZ HQ', 'Test TZ Territory', 'Kyosk HQ','DKasarani', 'Test KE Territory', 'Test UG Territory', 'Test Fresh TZ Territory')
                 --where date(created_at) = current_date
                 --where date(created_at) > date_sub(current_date, interval 2 month)
                 --where date(created_at) > date_sub(current_date, interval 30 day)
@@ -70,7 +71,6 @@ select *
 --distinct check_delivery_date_diff, count(distinct id)
 --max(created_at), max(updated_at), max(bq_upload_time)
 from monthly_delivey_notes_items
-where territory_id not in ('Test NG Territory', 'Kyosk TZ HQ', 'Test TZ Territory', 'Kyosk HQ','DKasarani', 'Test KE Territory', 'Test UG Territory', 'Test Fresh TZ Territory')
 --and delivery_date is null
 --and check_delivery_date_diff > 0
 --where id = '0G4DPSFMYGDFS'

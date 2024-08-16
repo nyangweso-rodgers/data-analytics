@@ -1,13 +1,14 @@
------------ SO  Items --------------------
+----------- Sale Order Items --------------------
 with
 sales_order as (
                 SELECT *,
                 row_number()over(partition by id  order by last_modified_date desc) as index
                 FROM `kyosk-prod.karuru_reports.sales_order` so
+                where territory_id not in ('Test NG Territory', 'Kyosk TZ HQ', 'Test TZ Territory', 'Kyosk HQ','DKasarani', 'Test KE Territory', 'Test UG Territory','Test Fresh TZ Territory')
                 --where date(created_date) between '2023-08-01' and '2023-10-31'
                 --where date(created_date) >= date_sub(current_date, interval 1 month)
                 --and is_pre_karuru = false
-                where date(created_date) between '2024-06-24' and '2024-06-28'
+                and date(created_date) between '2024-06-24' and '2024-06-28'
                 --where date(created_date) = '2024-06-10'
                 ),
 sales_order_item as (
@@ -73,7 +74,6 @@ analysis_report as (
                     )
 select * 
 from analysis_report
-where territory_id not in ('Test NG Territory', 'Kyosk TZ HQ', 'Test TZ Territory', 'Kyosk HQ','DKasarani', 'Test KE Territory', 'Test UG Territory','Test Fresh TZ Territory')
 and country_id = 'Kenya'
 --country_code = 'ke'
 --and outlet_id in ('0CW5YAXE5TA2F', '0CW5YD12XHJJA', '0CW610NQWRN4W', '0CW612RA45RRY')

@@ -6,8 +6,10 @@ delivery_trips as (
                 row_number()over(partition by id order by updated_at desc) as index
                 FROM `kyosk-prod.karuru_reports.delivery_trips` 
                 where territory_id not in ('Test UG Territory', 'Test NG Territory', 'Kyosk TZ HQ', 'Test TZ Territory', 'Kyosk HQ','DKasarani', 'Test KE Territory', 'Test Fresh TZ Territory')
-                --and date(created_at) = '2024-08-07'
-                and date_trunc(date(created_at),month) >= date_sub(date_trunc(current_date, month), interval 1 month)
+                and date(created_at) between '2024-08-12' and '2024-08-16'
+                --and date_trunc(date(created_at),month) >= date_sub(date_trunc(current_date, month), interval 5 month)
+                and status not in ('CANCELLED')
+                and country_code = 'KE'
               ),
 delivery_trips_cte as (
                       select distinct date(created_at) as delivery_trip_creation_date,
@@ -29,14 +31,10 @@ delivery_trips_cte as (
 
                       vehicle_id,
                       vehicle_v2.id as v2_vehicle_id,
-                      vehicle_v2.license_plate as v2_license_plate,
+                      vehicle_v2.license_plate as vehicle_v2_license_plate,
                       vehicle_v2.type as v2_vehicle_type,
-                      case
-                        when vehicle_v2.load_capacity = '' then null
-                      else vehicle_v2.load_capacity end as v2_load_capacity,
-                      case
-                        when vehicle_v2.volume = '' then null
-                      else vehicle_v2.volume end as v2_volume,
+                      case when vehicle_v2.load_capacity = '' then null else vehicle_v2.load_capacity end as vehicle_v2_load_capacity,
+                      case when vehicle_v2.volume = '' then null else vehicle_v2.volume end as v2_volume,
                       dt.vehicle_provider_id,
                       --vehicle.id as vehicle_id,
                       --vehicle.licence_plate,
@@ -53,7 +51,7 @@ delivery_trips_cte as (
                       --service_provider.name as service_provider_name,
                       from delivery_trips dt--, unnest(delivery_note_ids) delivery_note_ids
                       where index = 1
-                      --and status not in ('CANCELLED')
+                      --and 
                     ),
 -------------------------------------- Vehicle ----------------
 vehicle as (
@@ -63,11 +61,11 @@ vehicle as (
             WHERE date(created_at) >= '2023-10-01'
             ),
 vehicle_cte as (
-              select distinct updated_at,
+              select distinct --updated_at,
               id,
               license_plate,
-              code,
-              vehicle_type_id
+              type,
+              load_capacity,
               from vehicle
               where index = 1
               --where id = '0D6GEQY6YDCP9'
@@ -79,7 +77,6 @@ service_provider as (
                       row_number()over(partition by id order by updated_at desc) as index
                       FROM `kyosk-prod.karuru_reports.service_provider` 
                       WHERE date(created_at) > "2021-01-01"
-                      
                       ),
 
 service_provider_cte as (
@@ -99,20 +96,22 @@ service_provider_cte as (
                           where index = 1
                           ),
 -------------------------------- Mashup --------------------
-mashup as (
+delivery_trips_with_service_providers as (
             select dt.delivery_trip_creation_date,
             dt.country_code,
             dt.territory_id,
-            dt.fulfillment_center_id,
+            --dt.fulfillment_center_id,
             dt.id as delivery_trip_id,
-            dt.code as delivery_trip_code,
+            --dt.code as delivery_trip_code,
             dt.status as delivery_trip_status,
             dt.vehicle_id,
             dt.v2_vehicle_id,
-            v.license_plate,
-            dt.v2_license_plate,
+            --v.license_plate,
+            dt.vehicle_v2_license_plate,
+            coalesce(dt.vehicle_v2_license_plate) as vehicle_license_plate,
             dt.v2_vehicle_type,
-            dt.v2_load_capacity,
+            dt.vehicle_v2_load_capacity,
+            v.load_capacity,
             dt.v2_volume,
             dt.vehicle_provider_id,
             vsp.name as vehicle_service_provider_name,
@@ -129,11 +128,6 @@ mashup as (
             left join service_provider_cte dsp on dt.driver_provider_id = dsp.id
             )
 select *
-from mashup
---where vehicle_id is null
-where delivery_trip_id = '0GKSHCD6NRPVH'
---and vehicle_id = '0D6GERDHYDDMR'
---where vehicle_id = '0ECQG3X288SCM'
---and id = '0FWMQR0X6QQQT'
---and delivery_note_id = '0FWK97MDPQNST'
---order by vehicle_id
+from delivery_trips_with_service_providers
+where vehicle_v2_load_capacity is not null
+and vehicle_license_plate = 'KMFK 690K'
