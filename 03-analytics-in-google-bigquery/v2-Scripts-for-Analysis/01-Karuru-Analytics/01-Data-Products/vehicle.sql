@@ -17,6 +17,7 @@ vehicle_cte as (
               on_trip,
               id,
               license_plate,
+              case when type ='' then null else type end as type,
               case when driver_id = '' then null else driver_id end as driver_id,
               case when service_provider_id = '' then null else service_provider_id end as service_provider_id,
               type,

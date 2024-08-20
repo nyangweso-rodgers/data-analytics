@@ -6,18 +6,22 @@ sales_order as (
               FROM `kyosk-prod.karuru_reports.sales_order` so
               where territory_id not in ('Test NG Territory', 'Kyosk TZ HQ', 'Test TZ Territory', 'Kyosk HQ','DKasarani', 'Test KE Territory', 'Test UG Territory','Test Fresh TZ Territory')
               --where date(created_date) = current_date
-              --where date(created_date) between '2024-07-01' and '2024-07-31'
+              and date(created_date) between '2024-07-01' and '2024-07-31'
               --where  date(created_date) >= date_sub(current_date, interval 1 month)
               --where date(created_date) >= date_sub(date_trunc(current_date,month), interval 2 day)
-              --where date(created_date) >= '2024-01-01'
+              --and date(created_date) >= '2024-08-19'
               --and is_pre_karuru = false
-               and date(created_date) between '2024-07-23' and '2024-08-06'
+               --and date(created_date) between '2024-07-23' and '2024-08-06'
               ),
 sales_order_cte as (
                 select distinct --date(created_date) as created_date,
                 created_date,
+                format_date('%A', date(created_date)) as created_day_of_week,
                 last_modified_date,
                 bq_upload_time,
+                delivery_window.id as delivery_window_id,
+                delivery_window.start_time as delivery_window_start_time,
+                delivery_window.end_time as delivery_window_end_time,
                 so.territory.country_id,
                 so.territory_id,
                 so.route_id,
@@ -55,14 +59,31 @@ get_latest_sales_order_report as (
                                 last_value(market_developer_id)over(partition by outlet_id order by created_date asc ROWS BETWEEN UNBOUNDED PRECEDING AND UNBOUNDED FOLLOWING) as latest_market_developer_id,
                                 last_value(market_developer_name)over(partition by outlet_id order by created_date asc ROWS BETWEEN UNBOUNDED PRECEDING AND UNBOUNDED FOLLOWING) as latest_market_developer_name
                                 from sales_order_cte
-                                )
+                                ),
+outlets_summary as (
+                      select distinct country_id,
+                      outlet_id,
+                      count(distinct id) as count_of_sale_orders,
+                      count(distinct case when created_day_of_week = 'Monday' then id else null end) as mon,
+                      count(distinct case when created_day_of_week = 'Tuesday' then id else null end) as tue,
+                      count(distinct case when created_day_of_week = 'Wednesday' then id else null end) as wed,
+                      count(distinct case when created_day_of_week = 'Thursday' then id else null end) as thurs,
+                      count(distinct case when created_day_of_week = 'Friday' then id else null end) as fri,
+                      count(distinct case when created_day_of_week = 'Saturday' then id else null end) as sat,
+                      count(distinct case when created_day_of_week = 'Sunday' then id else null end) as sun
+                      from sales_order_cte
+                      group by 1,2
+                      order by 3 desc
+                      )
 select *
+--distinct country_id, delivery_window_id, delivery_window_start_time, delivery_window_end_time
 --max(created_date) as max_created_date, max(last_modified_date) as max_last_modified_date, max(bq_upload_time) as max_bq_upload_time
-from sales_order_cte
-
+from outlets_summary
+where country_id = 'Kenya'
 --and market_developer_phone_number is null
 --and country_id = 'Uganda'
 --and route_id = '0CW5Y2F5NETG1'
 --order by territory_id, created_date desc, route_id
 --and route_id is null
 --and market_developer_phone_number is null
+order by 3 desc

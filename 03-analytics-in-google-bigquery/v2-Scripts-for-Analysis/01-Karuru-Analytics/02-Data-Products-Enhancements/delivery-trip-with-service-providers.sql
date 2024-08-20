@@ -1,12 +1,12 @@
 
--------------- DTs ---------------------
+-------------- delivery trips, with service providers ---------------------
 with
 delivery_trips as (
                 select *,
                 row_number()over(partition by id order by updated_at desc) as index
                 FROM `kyosk-prod.karuru_reports.delivery_trips` 
                 where territory_id not in ('Test UG Territory', 'Test NG Territory', 'Kyosk TZ HQ', 'Test TZ Territory', 'Kyosk HQ','DKasarani', 'Test KE Territory', 'Test Fresh TZ Territory')
-                and date(created_at) between '2024-08-12' and '2024-08-16'
+                and date(created_at) between '2024-08-01' and '2024-08-19'
                 --and date_trunc(date(created_at),month) >= date_sub(date_trunc(current_date, month), interval 5 month)
                 and status not in ('CANCELLED')
                 and country_code = 'KE'
@@ -30,11 +30,11 @@ delivery_trips_cte as (
                       status,
 
                       vehicle_id,
-                      vehicle_v2.id as v2_vehicle_id,
+                      vehicle_v2.id as vehicle_v2_vehicle_id,
                       vehicle_v2.license_plate as vehicle_v2_license_plate,
-                      vehicle_v2.type as v2_vehicle_type,
+                      vehicle_v2.type as vehicle_v2_type,
                       case when vehicle_v2.load_capacity = '' then null else vehicle_v2.load_capacity end as vehicle_v2_load_capacity,
-                      case when vehicle_v2.volume = '' then null else vehicle_v2.volume end as v2_volume,
+                      --case when vehicle_v2.volume = '' then null else vehicle_v2.volume end as vehicle_v2_volume,
                       dt.vehicle_provider_id,
                       --vehicle.id as vehicle_id,
                       --vehicle.licence_plate,
@@ -64,8 +64,8 @@ vehicle_cte as (
               select distinct --updated_at,
               id,
               license_plate,
-              type,
-              load_capacity,
+              case when type ='' then null else type end as type,
+              case when load_capacity = '' then null else load_capacity end as load_capacity,
               from vehicle
               where index = 1
               --where id = '0D6GEQY6YDCP9'
@@ -100,19 +100,21 @@ delivery_trips_with_service_providers as (
             select dt.delivery_trip_creation_date,
             dt.country_code,
             dt.territory_id,
-            --dt.fulfillment_center_id,
             dt.id as delivery_trip_id,
-            --dt.code as delivery_trip_code,
+            dt.code as delivery_trip_code,
             dt.status as delivery_trip_status,
             dt.vehicle_id,
-            dt.v2_vehicle_id,
+            dt.vehicle_v2_vehicle_id,
             --v.license_plate,
             dt.vehicle_v2_license_plate,
             coalesce(dt.vehicle_v2_license_plate) as vehicle_license_plate,
-            dt.v2_vehicle_type,
+            dt.vehicle_v2_type,
+            v.type,
+            coalesce(dt.vehicle_v2_type) as vehicle_type,
             dt.vehicle_v2_load_capacity,
             v.load_capacity,
-            dt.v2_volume,
+            coalesce(dt.vehicle_v2_load_capacity) as vehicle_load_capacity,
+            --dt.vehicle_v2_volume,
             dt.vehicle_provider_id,
             vsp.name as vehicle_service_provider_name,
 
@@ -129,5 +131,5 @@ delivery_trips_with_service_providers as (
             )
 select *
 from delivery_trips_with_service_providers
-where vehicle_v2_load_capacity is not null
-and vehicle_license_plate = 'KMFK 690K'
+where territory_id = 'Majengo Mombasa'
+order by delivery_trip_creation_date desc

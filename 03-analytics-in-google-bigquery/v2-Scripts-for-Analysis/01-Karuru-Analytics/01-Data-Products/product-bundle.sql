@@ -1,4 +1,4 @@
---------------------------Product Bundle QA - Catalog SKUs-------------------------------------
+--------------------------Product Bundle - Catalog SKUs-------------------------------------
 with
 
 product_bundle as (
@@ -9,11 +9,19 @@ product_bundle as (
                     and disabled = false
                     ),
 product_bundle_report as (
-                        select distinct pb.id,
-                        --uom,
-                        item_group_id,
-                        si.stock_item_id,
-                        si.stock_uom
+                        select distinct pb.creation,
+                        pb.modified,
+                        pb.bq_upload_time,
+                        pb.id,
+                        pb.non_stock_item_id
+                        uom,
+                        pb.description,
+                        pb.item_group_id,
+                        --si.stock_item_id,
+                        --si.stock_uom
+                        pb.disabled,
+                        dimension.metric as dimesnsion_metric,
+                        dimension.shape as dimension_shape,
                         from product_bundle pb,unnest(stock_items) si
                         where index = 1
                         )
