@@ -16,7 +16,7 @@ sales_order as (
 sales_order_cte as (
                 select distinct --date(created_date) as created_date,
                 created_date,
-                format_date('%A', date(created_date)) as created_day_of_week,
+                format_date('%A', date(created_date)) as sales_order_created_at_day_of_week,
                 last_modified_date,
                 bq_upload_time,
                 delivery_window.id as delivery_window_id,

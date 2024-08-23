@@ -69,14 +69,23 @@ delivery_notes_items as (
                           oi.uom,
                           oi.status as item_status,
                           oi.inventory_items,
-                          sum(oi.original_item_qty) as original_item_qty,
-                          sum(oi.total_orderd)as total_ordered,
-                          sum(oi.total_delivered - (oi.qty_delivered * oi.discount_amount)) as total_delivered,
+                          case
+                            when dn.status in ('DISPATCHED', 'CASH_COLLECTED','DELIVERED', 'PAID', 'DRIVER_CANCELLED', 'RESCHEDULED') 
+                            and oi.status in ('ITEM_CANCELLED', 'ITEM_FULFILLED', 'ITEM_DISPATCHED', 'ITEM_RESCHEDULED') then oi.total_orderd
+                          else 0 end as delivery_note_dispatched_amount,
+                          case when dn.status in ('CASH_COLLECTED','DELIVERED', 'PAID') and oi.status in ('ITEM_FULFILLED') then oi.total_delivered else 0 end as gmv_vat_incl,
+                          case
+                            when dn.status in ('DISPATCHED', 'CASH_COLLECTED','DELIVERED', 'PAID', 'DRIVER_CANCELLED', 'RESCHEDULED') 
+                            and oi.status in ('ITEM_CANCELLED', 'ITEM_FULFILLED', 'ITEM_DISPATCHED', 'ITEM_RESCHEDULED') then oi.original_item_qty
+                          else 0 end as delivery_note_dispatched_qty
+                          --sum(oi.original_item_qty) as original_item_qty,
+                          --sum(oi.total_orderd)as total_ordered,
+                          --sum(oi.total_delivered - (oi.qty_delivered * oi.discount_amount)) as total_delivered,
                           from delivery_notes dn ,unnest(order_items) oi
                           where index = 1 
-                          group by 1,2,3,4,5,6,7,8
+                          --group by 1,2,3,4,5,6,7,8
                         ),
-delivery_notes_inventory_items as (
+delivery_notes_with_inventory_items as (
                                   select distinct  --dn.country_code,
                                   --dn.item_group_id,,
                                   dn.delivery_trip_id,
@@ -89,6 +98,11 @@ delivery_notes_inventory_items as (
                                   ii.conversion_factor,
                                   ii.stock_item_id,
                                   ii.uom as stock_uom,
+                                  ii.dimension.metric as delivery_note_item_dimension_metric,
+                                  ii.dimension.weight as delivery_note_item_dimension_weight,
+                                  dn.delivery_note_dispatched_amount,
+                                  dn.gmv_vat_incl,
+                                  delivery_note_dispatched_qty,
                                   from delivery_notes_items dn, unnest(inventory_items) ii 
                                   ),
 ----------------------------- item -------------
@@ -97,6 +111,7 @@ item as (
         FROM `kyosk-prod.karuru_reports.item` 
         WHERE date(creation) > '2022-02-01'
         --and company_id = 'KYOSK DIGITAL SERVICES LTD (KE)'
+        and maintain_stock = true
         ),
 item_cte as (
               select distinct 
@@ -108,8 +123,12 @@ item_cte as (
               --i.maintain_stock,
               --i.disabled,
               i.stock_uom,
-              i.weight_uom,
-              i.weight_per_unit,
+              case
+                when i.weight_uom = 'Gram' then 'Kg' 
+              else i.weight_uom end as weight_uom,
+              case
+                when i.weight_uom = 'Gram' then i.weight_per_unit / 1000
+              else i.weight_per_unit end as weight_per_unit,
               --i.width,
               --i.height,
               --i.length,
@@ -137,38 +156,57 @@ delivery_trip_with_delivery_note_items as (
                       dt.vehicle_v2_load_capacity,
                       coalesce(v.load_capacity, dt.vehicle_v2_load_capacity, 'UNSET') as vehicle_load_capacity,
                       dt.delivery_note_id,
-                      dn.code as delivery_note_code,
-                      dn.product_bundle_id,
-                      dn.uom,
+                      dnwii.code as delivery_note_code,
+                      dnwii.product_bundle_id,
+                      dnwii.uom,
+                      dnwii.conversion_factor,
+                      dnwii.stock_item_id,
+                      dnwii.stock_uom,
+                      dnwii.delivery_note_item_dimension_metric,
+                      dnwii.delivery_note_item_dimension_weight,
                       item_cte.weight_uom,
                       item_cte.weight_per_unit,
-                      sum(case
-                        when dn.status in ('DISPATCHED', 'CASH_COLLECTED','DELIVERED', 'PAID', 'DRIVER_CANCELLED', 'RESCHEDULED') 
-                        and dn.item_status in ('ITEM_CANCELLED', 'ITEM_FULFILLED', 'ITEM_DISPATCHED', 'ITEM_RESCHEDULED') then dn.total_ordered
-                      else 0 end) as delivery_note_dispatched_amount,
-                      sum(case when dn.status in ('CASH_COLLECTED','DELIVERED', 'PAID') and dn.item_status in ('ITEM_FULFILLED') then dn.total_delivered else 0 end) as gmv_vat_incl,
-                      sum(
-                        case
-                          when dn.status in ('DISPATCHED', 'CASH_COLLECTED','DELIVERED', 'PAID', 'DRIVER_CANCELLED', 'RESCHEDULED') 
-                          and dn.item_status in ('ITEM_CANCELLED', 'ITEM_FULFILLED', 'ITEM_DISPATCHED', 'ITEM_RESCHEDULED') then dn.original_item_qty
-                        else 0 end
-                      ) as delivery_note_dispatched_qty,
+                      (item_cte.weight_per_unit * dnwii.conversion_factor * dnwii.delivery_note_dispatched_qty) as delivery_note_dispatched_weight,
+                      dnwii.delivery_note_dispatched_amount,
+                      dnwii.gmv_vat_incl,
+                      dnwii.delivery_note_dispatched_qty,
                       from delivery_trip_cte dt
-                      left join delivery_notes_items dn on dt.id = dn.delivery_trip_id and dt.delivery_note_id = dn.id
+                      --left join delivery_notes_items dn on dt.id = dn.delivery_trip_id and dt.delivery_note_id = dn.id
+                      left join delivery_notes_with_inventory_items dnwii on dt.id = dnwii.delivery_trip_id and dt.delivery_note_id = dnwii.id
                       left join vehicle_cte v on dt.vehicle_id = v.id
-                      left join item_cte on dn.product_bundle_id = item_cte.item_code and dn.uom = item_cte.stock_uom
-                      group by 1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22
+                      left join item_cte on dnwii.stock_item_id = item_cte.item_code and dnwii.stock_uom = item_cte.stock_uom
+                      --group by 1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25
                       ),
 dispatch_summary_report as (
-          select distinct *
-          --sum(case when dt.status in ('DISPATCHED','DELIVERED', 'COMPLETED') then dn.total_ordered else 0 end) as delivery_trip_dispatched_amount_vat_incl,
-          --sum(case when dn.status in ('CASH_COLLECTED','DELIVERED', 'PAID') and dn.item_status in ('ITEM_FULFILLED') then dn.total_delivered else 0 end) as gmv_vat_incl
+          select distinct delivery_trip_creation_date,
+          --delivery_trip_dispatched_datetime,
+          --delivery_trip_dispatched_datetime_in_local,
+          --delivery_trip_hour_in_local,
+          country_code,
+          territory_id,
+          delivery_trip_id,
+          delivery_trip_code,
+          delivery_trip_status,
+          on_time_dispatch_status,
+          vehicle_id,
+          vehicle_license_plate,
+          vehicle_type,
+          vehicle_load_capacity,
+          delivery_note_id,
+          delivery_note_code,
+          sum(delivery_note_dispatched_weight) as delivery_note_dispatched_weight,
+          sum(delivery_note_dispatched_qty) as delivery_note_dispatched_qty,
+          sum(delivery_note_dispatched_amount) as delivery_note_dispatched_amount,
+          sum(gmv_vat_incl) as gmv_vat_incl
           from delivery_trip_with_delivery_note_items
+          group by 1,2,3,4,5,6,7,8,9,10,11,12,13
           )
 select *
-from delivery_notes_inventory_items
+--from dispatch_summary_report
+from delivery_trip_with_delivery_note_items
+--from delivery_notes_with_inventory_items
 --where FORMAT_DATE('%Y%m%d',delivery_trip_creation_date) between @DS_START_DATE and @DS_END_DATE
 --where delivery_note_code in ('DN-EMBU-0H0NWREV6X5PS')
-where id = '0H0N9K316X4W8'
+--where delivery_note_id = '0H0N9K316X4W8'
 --where product_bundle_id = "210 Wheat Flour 2KG BALE (12.0 PC)"
---order by delivery_trip_creation_date desc
+order by delivery_trip_creation_date desc, delivery_trip_code, delivery_note_code, product_bundle_id

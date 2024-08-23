@@ -4,8 +4,8 @@ vehicle as (
             SELECT *,
             row_number()over(partition by id order by updated_at desc) as index
             FROM `kyosk-prod.karuru_reports.vehicle` 
-            WHERE territory_id not in ("Kyosk HQ","Kyosk TZ HQ","Test FC","Test Fresh TZ Territory","Test KE Territory","Test NG Territory","Test TZ Territory","Test UG Territory","Test254") 
-            and date(created_at) >= '2023-10-01'
+            --WHERE territory_id not in ("Kyosk HQ","Kyosk TZ HQ","Test FC","Test Fresh TZ Territory","Test KE Territory","Test NG Territory","Test TZ Territory","Test UG Territory","Test254") 
+            where date(created_at) >= '2023-10-01'
             ),
 vehicle_cte as (
               select distinct created_at,
