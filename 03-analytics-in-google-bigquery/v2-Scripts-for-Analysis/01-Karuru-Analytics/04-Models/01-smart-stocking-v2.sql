@@ -36,13 +36,14 @@ opening_stock_balance_with_territories as (
                                             from opening_stock_balance osb
                                             inner join territory_mapping tm on osb.warehouse = tm.warehouse_name
                                             ),
-/*
+--------------------- Material Requests ---------------------------------------------------------------
 material_request as(
                     SELECT *, 
                     row_number()over(partition by id order by date_modified desc) as index
                     FROM `kyosk-prod.karuru_reports.material_request` 
-                    where date(date_created) >= date_sub(date_trunc(current_date, month), interval 12 month)
-                    --where date(date_created) >= '2024-06-01'
+                    where date(date_created) >= date_sub(date_trunc(current_date, month), interval 3 month)
+                    and material_request_type = 'PURCHASE'
+                    and workflow_state not in ('REJECTED')
                   ),
 material_request_items as (
                             select distinct date_created,
@@ -54,47 +55,30 @@ material_request_items as (
                             mr.status,
                             --mr.transaction_date,
                             --mr.scheduled_date,
-                            mr.target_warehouse_territory_id as territory_id,
-                            --mri.territory_id,
+                            mr.target_warehouse_territory_id,
+                            i.territory_id,
                             --mri.item_name,
-                            mri.item_name as item_code,
-                            mri.item_group as item_group_id,
-                            mri.warehouse_id,
-                            mri.uom,
-                            sum(mri.qty) as ordered_qty,
+                            i.item_code,
+                            i.item_name,
+                            i.item_group,
+                            i.warehouse_id,
+                            i.uom,
+                            i.qty
+                            --sum(mri.qty) as ordered_qty,
                             --sum(mri.ordered_qty) as ordered_qty ,
                             --sum(mri.received_qty) as received_qty,
                             --mri.rate,
                             --mri.amount                                
-                            from material_request mr, unnest(items) mri
+                            from material_request mr, unnest(items) i
                             where index = 1
-                            and material_request_type = 'PURCHASE'
-                            group by 1,2,3,4,5,6,7,8,9,10
                             ),
-get_pending_material_request as (
-                            select distinct --date(date_created) as creation_date_of_material_request,
-                            --company_id,
-                            territory_id,
-                            --warehouse_id,
-                            item_code,
-                            uom,
-                            count(distinct id) as count_pending_material_requests,
-                            sum(ordered_qty) as pending_qty_of_material_request,
-                            --sum(purchase_receipt_received_qty) as purchase_receipt_received_qty,
-                            from material_request_items
-                            where workflow_state in ('PENDING', 'VERIFIED', 'SUBMITTED')
-                            group by 1,2,3
-                            ),
-*/
 ------------------- Purchase Order --------------------------
 purchase_order as (
                     SELECT *,
                     row_number()over(partition by id  order by modified desc) as index
                     FROM `kyosk-prod.karuru_reports.purchase_order` 
                     where buying_type in ("Purchasing")
-                    --WHERE TIMESTAMP_TRUNC(creation, DAY) > TIMESTAMP("2022-02-05")
                     and date(creation) >= date_sub(date_trunc(current_date, month), interval 12 month)
-                    --where date(creation) between '2024-06-01' and '2024-06-30' 
                     ),
 purchase_order_items as (
                           select distinct date(creation) as purchase_order_creation_date,
@@ -108,8 +92,9 @@ purchase_order_items as (
                           po.territory,
                           --po.set_warehouse,
                           po.warehouse_territory,
-                          po.
-                          id,
+
+                          po.id,
+                          i.material_request,
                           purchase_order_no,
                           --po.buying_type,
                           po.workflow_state,
@@ -139,6 +124,7 @@ purchase_receipt_items as (
                             select distinct date(date_created) as purchase_receipt_creation_date,
                             --date_created as purchase_receipt_creation_datetime,
                             posting_date,
+                            set_warehouse_id,
                             company_id,
                             territory_id,
                             name,
@@ -147,7 +133,7 @@ purchase_receipt_items as (
                             i.item_id,
                             i.item_code,
                             i.item_name,
-                            --i.uom,
+                            i.uom,
                             --i.conversion_factor,
                             i.stock_uom,
                             i.item_group_id,
@@ -155,15 +141,28 @@ purchase_receipt_items as (
                             supplier,
                             --supplier_name,
                             --avg(rate) as rate,
-                            received_qty,
+                            i.received_qty,
                             --sum(amount) as amount
                             --supplier_group
                             from purchase_receipt pr, unnest(items) as i
                             where index = 1
-                            --group by 1,2,3,4,5,6,7,8,9,10,11,12
                             ),
 --------------------------- Mashup --------------------------------------
-purchase_order_and_purchase_receipt as (
+mr_with_po_with_pr_cte as (
+                              select distinct date(mri.date_created) as material_request_creation_date,
+                              mri.warehouse_id,
+                              mri.territory_id,
+                              mri.name as meterial_request,
+                              mri.item_group as item_group_id,
+                              mri.item_code,
+                              mri.item_name,
+                              mri.uom,
+                              mri.qty as material_request_qty
+                              from material_request_items mri
+                              left join purchase_order_items poi on mri.name = poi.material_request and mri.item_name = poi.item_code_id and mri.uom = poi.stock_uom
+                              left join purchase_receipt_items pri on poi.id = pri.purchase_order and poi.item_code_id = pri.item_code and poi.stock_uom = pri.stock_uom
+                              ),
+purchase_order_with_purchase_receipt as (
                                         select distinct poi.purchase_order_creation_date,
                                         pri.purchase_receipt_creation_date,
                                         date_diff(date(pri.purchase_receipt_creation_date), date(poi.purchase_order_creation_date), day) as purchase_order_to_purchase_receipt_lead_time,
@@ -194,26 +193,26 @@ get_item_groups as (
                   select distinct item_code,
                   --stock_uom,
                   last_value(item_group_id)over(partition by item_code order by purchase_order_creation_date asc ROWS BETWEEN UNBOUNDED PRECEDING AND UNBOUNDED FOLLOWING) as item_group_id
-                  from purchase_order_and_purchase_receipt
+                  from purchase_order_with_purchase_receipt
                   ),
-get_pending_purchase_order as (
-                              select distinct --company_id,
-                              territory_id,
-                              item_code,
-                              stock_uom,
-                              max(purchase_order_creation_date) as pending_purchase_order_creation_date,
-                              count(distinct purchase_order_id) as count_of_pending_purchase_order,
-                              sum(qty_of_purchase_order) as qty_of_pending_purchase_order
-                              from purchase_order_and_purchase_receipt
-                              where workflow_state_of_purchase_order in ('PENDING', 'SUBMITTED')
-                              and date(purchase_order_creation_date) >= date_sub(current_date, interval 1 month)
-                              group by 1,2,3
-                              ),
-get_completed_purchase_order_and_purchase_receipts as (
-                                                      select *
-                                                      from purchase_order_and_purchase_receipt
-                                                      where workflow_state_of_purchase_receipt  in ('COMPLETED')
-                                                      ),
+get_pending_po as (
+                    select distinct --company_id,
+                    territory_id,
+                    item_code,
+                    stock_uom,
+                    max(purchase_order_creation_date) as pending_purchase_order_creation_date,
+                    count(distinct purchase_order_id) as count_of_pending_purchase_order,
+                    sum(qty_of_purchase_order) as qty_of_pending_purchase_order
+                    from purchase_order_with_purchase_receipt
+                    where workflow_state_of_purchase_order in ('PENDING', 'SUBMITTED')
+                    and date(purchase_order_creation_date) >= date_sub(current_date, interval 1 month)
+                    group by 1,2,3
+                    ),
+get_completed_po_and_pr as (
+                            select *
+                            from purchase_order_with_purchase_receipt
+                            where workflow_state_of_purchase_receipt  in ('COMPLETED')
+                            ),
 get_latest_suppliers as (
   select distinct 
   --company_id,
@@ -222,9 +221,9 @@ get_latest_suppliers as (
   item_code,
   last_value(supplier)over(partition by territory_id, item_code order by purchase_order_creation_date asc ROWS BETWEEN UNBOUNDED PRECEDING AND UNBOUNDED FOLLOWING) as latest_supplier,
   last_value(posting_date_of_purchase_receipt)over(partition by territory_id, item_code order by purchase_order_creation_date asc ROWS BETWEEN UNBOUNDED PRECEDING AND UNBOUNDED FOLLOWING) as latest_posting_date
-  from get_completed_purchase_order_and_purchase_receipts
+  from get_completed_po_and_pr
   ),
-get_daily_purchase_receipt_received_qty as (
+get_daily_pr_received_qty as (
                             select distinct date(posting_date_of_purchase_receipt) as posting_date_of_purchase_receipt,
                             --company_id,
                             territory_id,
@@ -232,29 +231,29 @@ get_daily_purchase_receipt_received_qty as (
                             item_code,
                             stock_uom, 
                             sum(purchase_receipt_received_qty) as qty_received_from_purchase_receipt,
-                            from get_completed_purchase_order_and_purchase_receipts
+                            from get_completed_po_and_pr
                             group by 1,2,3,4
                             ),
-get_purchase_order_to_purchase_receipt_avg_supplier_lead_time as (
+get_po_to_pr_avg_supplier_lead_time as (
       select distinct --company_id,
       --warehouse_id,
       territory_id,
       supplier,
       round(avg(purchase_order_to_purchase_receipt_lead_time)over(partition by territory_id, supplier order by purchase_order_creation_date asc ROWS BETWEEN UNBOUNDED PRECEDING AND UNBOUNDED FOLLOWING)) as      
       calculated_supplier_lead_time
-      from get_completed_purchase_order_and_purchase_receipts
+      from get_completed_po_and_pr
       ),
 ----------------------------------------- Demand - Delivery Notes ---------------------
 delivery_notes as (
                 SELECT *,
                 row_number()over(partition by id order by updated_at desc) as index
                 FROM `kyosk-prod.karuru_reports.delivery_notes` dn
-                where date(created_at) > date_sub(current_date, interval 4 month)
+                where date(created_at) > date_sub(current_date, interval 2 month)
                 --and date(created_at) > '2023-08-05'
                 ),
 delivery_notes_items as (
                         select dn.delivery_window.delivery_date as scheduled_delivery_date,
-                        date(dn.delivery_date) as delivery_date,
+                        --date(dn.delivery_date) as delivery_date,
                         country_code,
                         dn.territory_id,
                         oi.product_bundle_id, 
@@ -308,7 +307,7 @@ stock_balance_with_purchases_report as (
   osbwt.stock_uom,
   gig.item_group_id,
   gls.latest_supplier,
-  gls.latest_posting_date,
+  gls.latest_posting_date as purchase_receipt_latest_posting_date,
   case
     when gls.latest_posting_date is null then FALSE
   else TRUE end as available_historical_purchase_receipt,
@@ -317,19 +316,19 @@ stock_balance_with_purchases_report as (
   coalesce(utsltt.suplier_lead_time, safe_cast(gpotpraslt.calculated_supplier_lead_time as int64)) + 1 as adjusted_supplier_lead_time,
 
   osbwt.qty_after_transaction as opening_stock_qty,
-  coalesce(gdprrq.qty_received_from_purchase_receipt,0) as qty_received_from_purchase_receipt,
-  osbwt.qty_after_transaction +  coalesce(gdprrq.qty_received_from_purchase_receipt,0) as adjusted_stock_qty,
-  coalesce(gppo.qty_of_pending_purchase_order, 0) as qty_of_pending_purchase_order,
-  coalesce(gppo.count_of_pending_purchase_order, 0) as count_of_pending_purchase_order,
+  coalesce(gdprrq.qty_received_from_purchase_receipt,0) as purchase_receipt_received_qty,
+  --osbwt.qty_after_transaction +  coalesce(gdprrq.qty_received_from_purchase_receipt,0) as adjusted_stock_qty,
+  coalesce(gppo.qty_of_pending_purchase_order, 0) as purchase_order_pending_qty,
+  --coalesce(gppo.count_of_pending_purchase_order, 0) as count_of_pending_purchase_order,
   gppo.pending_purchase_order_creation_date,
   --date_add(gppo.pending_purchase_order_creation_date, interval )
   from opening_stock_balance_with_territories osbwt
   left join get_item_groups gig on osbwt.item_code = gig.item_code --and osbwt.stock_uom = gig.stock_uom
   left join get_latest_suppliers gls on osbwt.original_territory_id = gls.territory_id and osbwt.item_code = gls.item_code
-  left join get_daily_purchase_receipt_received_qty gdprrq on osbwt.original_territory_id = gdprrq.territory_id and osbwt.item_code = gdprrq.item_code and osbwt.stock_uom = gdprrq.stock_uom and osbwt.opening_balance_date = gdprrq.posting_date_of_purchase_receipt
+  left join get_daily_pr_received_qty gdprrq on osbwt.original_territory_id = gdprrq.territory_id and osbwt.item_code = gdprrq.item_code and osbwt.stock_uom = gdprrq.stock_uom and osbwt.opening_balance_date = gdprrq.posting_date_of_purchase_receipt
   left join uploaded_territory_supplier_lead_times_table utsltt on osbwt.original_territory_id = utsltt.territory_id and utsltt.supplier = gls.latest_supplier
-  left join get_purchase_order_to_purchase_receipt_avg_supplier_lead_time gpotpraslt on gls.territory_id = gpotpraslt.territory_id and gls.latest_supplier = gpotpraslt.supplier
-  left join get_pending_purchase_order gppo on osbwt.original_territory_id = gppo.territory_id and osbwt.item_code = gppo.item_code and osbwt.stock_uom = gppo.stock_uom
+  left join get_po_to_pr_avg_supplier_lead_time gpotpraslt on gls.territory_id = gpotpraslt.territory_id and gls.latest_supplier = gpotpraslt.supplier
+  left join get_pending_po gppo on osbwt.original_territory_id = gppo.territory_id and osbwt.item_code = gppo.item_code and osbwt.stock_uom = gppo.stock_uom
   ),
 add_daily_demand_qty_report as (
   select sbwpr.*,
@@ -342,12 +341,6 @@ add_daily_demand_qty_report as (
   left join dns_items_qty dniq on sbwpr.original_territory_id = dniq.territory_id and sbwpr.item_code = dniq.stock_item_id and sbwpr.stock_uom = dniq.stock_uom and sbwpr.adjusted_supplier_lead_time = dniq.scheduled_delivery_date_index
   left join four_weeks_demand_qty_report fwdqr on sbwpr.original_territory_id = fwdqr.territory_id and sbwpr.item_code = fwdqr.stock_item_id and sbwpr.stock_uom = fwdqr.uom and sbwpr.four_week_demand_plan_start_date = fwdqr.four_week_demand_plan_start_date and sbwpr.four_week_demand_plan_end_date = fwdqr.four_week_demand_plan_end_date
   ),
-add_safety_stock_calculation as (
-                                  select *,
-                                  daily_demand_qty_from_supplier_lead_time * adjusted_supplier_lead_time as safety_stock_qty_from_supplier_lead_time,
-                                  daily_demand_qty_from_four_wks_run_rate * adjusted_supplier_lead_time as safety_stock_qty_from_four_wks_run_rate
-                                  from add_daily_demand_qty_report
-                                  ),
 get_stock_status_report as (
                             select *,
                             date_add(pending_purchase_order_creation_date, interval adjusted_supplier_lead_time day) as expected_date_for_pending_purchae_order,
@@ -355,9 +348,9 @@ get_stock_status_report as (
                                 when (available_historical_purchase_receipt is false) then 'Inter-Warehouse Transfer Stock'
                                 when (available_historical_purchase_receipt is true) and (days_of_stock_cover <= 3) then 'Out Of Stock'
                                 when (available_historical_purchase_receipt is true) and (days_of_stock_cover > 7) then 'SLOB'
-                                when (available_historical_purchase_receipt is true) and (days_of_stock_cover between 3.1 and 7 ) then 'Sufficient Stock'
-                            else 'UNRECOGNIZED' end as stock_status
-                            from add_safety_stock_calculation
+                                when (available_historical_purchase_receipt is true) and (days_of_stock_cover between 3.1 and 7 ) then 'In Stock'
+                            else 'UNSET' end as stock_status
+                            from add_daily_demand_qty_report
                             )
 select *
 --distinct stock_status, count(distinct item_code)
@@ -368,7 +361,7 @@ and FORMAT_DATE('%Y%m%d', opening_balance_date) between @DS_START_DATE and @DS_E
 --and opening_balance_date = current_date 
 and company_id in ('KYOSK DIGITAL SERVICES LTD (KE)')
 --and territory_id = 'Ruiru'
-and original_territory_id = 'Majengo Mombasa'
+--and original_territory_id = 'Majengo Mombasa'
 --and warehouse = 'Ruiru Main - KDKE'
 --and item_code = 'Sunsalt Salt 500G'
 --order by item_code, stock_uom, territory_id
