@@ -178,6 +178,7 @@ mr_with_po_with_pr_mashup as (
             mri.qty as mr_qty,
             mri.received_qty as mr_received_qty,
 
+            date(poi.creation) as po_creation_date,
             poi.warehouse_id as po_warehouse_id,
             poi.id as purchase_order_id,
             poi.purchase_order_no,
@@ -187,6 +188,7 @@ mr_with_po_with_pr_mashup as (
             --poi.stock_uom as po_stock_uom,
             poi.supplier as po_supplier,
 
+            date(pri.date_created) as pr_creation_date,
             pri.id as purchase_receipt_id,
             pri.workflow_state as pr_workflow_state,
             pri.received_qty as pr_received_qty,
@@ -209,11 +211,7 @@ mr_with_po_with_pr_mashup as (
             )                          
 select *
 from mr_with_po_with_pr_mashup
---from mr_with_po_with_pr_mashup
---where 
---and mr_company_id =  'KYOSK DIGITAL SERVICES LTD (KE)'
---and material_request_creation_date between '2024-08-01' and '2024-08-31'
---and FORMAT_DATE('%Y%m%d', material_request_creation_date) between @DS_START_DATE and @DS_END_DATE  
+where FORMAT_DATE('%Y%m%d', mr_creation_date) between @DS_START_DATE and @DS_END_DATE  
 --and compnay_id = 'YOSK DIGITAL SOLUTIONS NIGERIA LIMITED'
 --and purchase_order_no in ('PUR-ORD-2024-06989')
 --
