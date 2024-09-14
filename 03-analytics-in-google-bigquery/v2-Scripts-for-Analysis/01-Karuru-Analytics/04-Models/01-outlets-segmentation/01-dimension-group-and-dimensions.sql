@@ -207,7 +207,8 @@ current_month_outlet_segment_array as (
 --select * from get_outlets_dimension_group_and_dimension_array_agg_cte
 --select * from all_outlets_with_monthly_transactions
 --select * from get_outlets_dimension_groups
-select * from monthly_outlet_segment_array
+--select * from monthly_outlet_segment_array
+select * from current_month_outlet_segment_array
 where territory_id not in ('Kyosk TZ HQ', 'Test TZ Territory', 'Test Fresh TZ Territory', 'Test UG Territory', 'Test KE Territory', 'Kyosk HQ', 'Test NG Territory')
 --where outlet_id = '0CWRTG5N1CTJJ'
 --and outlet_id in ('0CWRTG5N1CTJJ', '0CWFVFAFNWVFJ', '0CW7M5CNN7HZ3', '0CW7KGC6YJQQJ', '0CW7D5980441G')

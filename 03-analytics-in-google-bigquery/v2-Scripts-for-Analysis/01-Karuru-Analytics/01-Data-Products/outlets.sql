@@ -14,25 +14,25 @@ outlets_cte as (
                   date(created_at) as created_at_date,
                   updated_at,
                   created_by,
-                  updated_by,
+                  case when updated_by = '' then null else updated_by end as updated_by,
                   market.company as company_id, 
                   market.market_name as market_name,
                   --market.territory as territory, # all null
                   route_id,
                   id,
+                  retailer_id,
+                  name,
+                  erp_id,
                   market_developer.first_name as market_developer_first_name,
                   market_developer.last_name as market_developer_last_name
-                  --retailer_id,
-                  --name,
-                  --erp_id,
                   --app_created_on,
                   --latitude,
                   --longitude,
                  --market_id,
                   from outlets
                   where index =1
-                  and (market.market_name is not null) 
-                  and market.market_name not in ('Kyosk TZ HQ', 'Test TZ Territory', 'Test Fresh TZ Territory', 'Test UG Territory', 'Test KE Territory', 'Kyosk HQ', 'Test NG Territory')
+                  --and (market.market_name is not null) 
+                  --and market.market_name not in ('Kyosk TZ HQ', 'Test TZ Territory', 'Test Fresh TZ Territory', 'Test UG Territory', 'Test KE Territory', 'Kyosk HQ', 'Test NG Territory')
                   ),
 outlets_agg_cte as (
                     select distinct company_id,
@@ -45,6 +45,9 @@ outlets_agg_cte as (
                     order by 1,3 desc,2
                     )
 select *
-from outlets_agg_cte
+from outlets_cte
 --where company = 'KYOSK DIGITAL SERVICES LIMITED (TZ)'
 --order by created_at_date desc
+--where market_name is not null
+--where market_name not in ('Kyosk TZ HQ', 'Test TZ Territory', 'Test Fresh TZ Territory', 'Test UG Territory', 'Test KE Territory', 'Kyosk HQ', 'Test NG Territory')
+where id = '0CWRTG5N1CTJJ'

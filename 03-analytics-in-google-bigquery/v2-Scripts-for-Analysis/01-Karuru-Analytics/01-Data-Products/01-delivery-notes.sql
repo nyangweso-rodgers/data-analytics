@@ -4,8 +4,10 @@ delivery_notes as (
                 SELECT *,
                 row_number()over(partition by id order by updated_at desc) as index
                 FROM `kyosk-prod.karuru_reports.delivery_notes` dn
-                where date_trunc(date(created_at),month) >= date_sub(date_trunc(current_date, month), interval 1 month)
-                --and 
+                --where date_trunc(date(created_at),month) >= date_sub(date_trunc(current_date, month), interval 5 month)
+                where date(created_at) = '2024-04-16' and id = '0FRHJTEAVJP5P' 
+                --where date(created_at) = '2024-08-26' and id = '0H2WNYSBFNKRE'
+
                 ),
 delivery_notes_settlement_cte as (
                                     select distinct created_at,
@@ -39,8 +41,5 @@ delivery_notes_settlement_agg as (
                                   group by 1,2,3,4
                                   )
 select *
-from delivery_notes_with_settlement
+from delivery_notes
 --where country_code = 'KE'
---where code = 'DN-KARA-0FWK97MDPQNST'
---where code =  "DN-VOIM-0G1SC53CPNPR5"
-where delivery_trip_id = '0H2ZY823ZNK0S'

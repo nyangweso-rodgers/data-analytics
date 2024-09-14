@@ -6,7 +6,7 @@ delivery_notes as (
                 FROM `kyosk-prod.karuru_reports.delivery_notes` dn
                 where territory_id not in ('Test NG Territory', 'Kyosk TZ HQ', 'Test TZ Territory', 'Kyosk HQ','DKasarani', 'Test KE Territory', 'Test UG Territory', 'Test Fresh TZ Territory')
                 --where date(created_at) = current_date
-                and date(created_at) > date_sub(current_date, interval 4 month)
+                and date(created_at) > date_sub(current_date, interval 1 month)
                 --where date(created_at) > date_sub(current_date, interval 30 day)
                 --and is_pre_karuru = false
                 --and date(created_at) between '2022-08-01' and '2022-11-30'
@@ -27,7 +27,8 @@ delivery_notes_items as (
                           route_name,
                           id,
                           code,
-                          --dn.sale_order_id,
+                          dn.sale_order_id,
+                          dn.sale_order_code,
                           dn.status,
                           delivery_trip_id,
                           --payment_request_id,
@@ -72,7 +73,7 @@ monthly_delivey_notes_items as (
 select *
 --distinct check_delivery_date_diff, count(distinct id)
 --max(created_at), max(updated_at), max(bq_upload_time)
-from monthly_delivey_notes_items
+from delivery_notes_items where sale_order_id = 'SO-0H7FBSGGHSKDB'
 --and delivery_date is null
 --and check_delivery_date_diff > 0
 --where id = '0G4DPSFMYGDFS'
