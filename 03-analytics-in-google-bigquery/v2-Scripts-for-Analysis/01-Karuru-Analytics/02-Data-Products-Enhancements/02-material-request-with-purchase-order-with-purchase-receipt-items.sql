@@ -12,7 +12,7 @@ material_request as(
                     SELECT *, 
                     row_number()over(partition by id order by date_modified desc) as index
                     FROM `kyosk-prod.karuru_reports.material_request` 
-                    where date(date_created) >= date_sub(current_date, interval 12 month)
+                    where date(date_created) >= date_sub(current_date, interval 1 month)
                     and target_warehouse_territory_id not in ('Kyosk HQ', 'Nakuru', 'Karatina', 'Eldoret', 'Ongata Rongai', 'Athi River', 'Kawangware', 'Juja', 'Thika Rd', "Ruai", 'Kisii', 'Meru', 'Mtwapa Mombasa')
                     --and set_warehouse_id not in ('Karatina Receiving Bay - KDKE', 'Eldoret Receiving Bay - KDKE', 'Ongata Rongai Receiving Bay - KDKE', 'Athi River Receiving Bay - KDKE', 'Kawangware Receiving Bay - KDKE')
                     --where date(date_created) between '2024-08-01' and '2024-08-31'
@@ -87,7 +87,7 @@ purchase_order as (
                     SELECT *,
                     row_number()over(partition by id  order by modified desc) as index
                     FROM `kyosk-prod.karuru_reports.purchase_order` 
-                    where date(creation) >= date_sub(current_date, interval 6 month)
+                    where date(creation) >= date_sub(current_date, interval 1 month)
                     ),
 purchase_order_items as (
                           select distinct creation,
@@ -131,13 +131,13 @@ purchase_receipt as (
               SELECT *,
               row_number()over(partition by id order by date_modified desc) as index
               FROM `kyosk-prod.karuru_reports.purchase_receipt` 
-              where date(date_created) >= date_sub(current_date, interval 12 month)
+              where date(date_created) >= date_sub(current_date, interval 1 month)
               and territory_id not in ('Test UG Territory', 'Test KE Territory', 'Kawangware', 'Juja', 'Ongata Rongai', 'Kisii', 'Nakuru', 'Athi River', 'Karatina', 'Eldoret', 'Thika Rd', 'Mtwapa Mombasa', 'Ruai', 'Kiambu')
               and company_id in ('KYOSK DIGITAL SERVICES LTD (KE)')
               ),
-purchase_receipt_items as (
+purchase_receipt_items_cte as (
                             select distinct date_created,
-                            posting_date,
+                            cast(posting_date as date) as posting_date,
                             --posting_time,
                             company_id,
                             pr.set_warehouse_id,
@@ -176,8 +176,18 @@ latest_purchase_receipt_cte as (
                           last_value(posting_date)over(partition by territory_id, item_code order by date_created asc ROWS BETWEEN UNBOUNDED PRECEDING AND UNBOUNDED FOLLOWING) as latest_pr_posting_date,
                           last_value(supplier)over(partition by territory_id, item_code order by date_created asc ROWS BETWEEN UNBOUNDED PRECEDING AND UNBOUNDED FOLLOWING) as latest_pr_supplier,
                           last_value(item_group_id)over(partition by territory_id, item_code order by date_created asc ROWS BETWEEN UNBOUNDED PRECEDING AND UNBOUNDED FOLLOWING) as latest_pr_item_group_id,
-                          from purchase_receipt_items
+                          from purchase_receipt_items_cte
                           ),
+received_purchase_receipt_cte as (
+                                  select distinct posting_date,
+                                  set_warehouse_id,
+                                  territory_id,
+                                  item_code,
+                                  stock_uom,
+                                  sum(received_qty) as received_qty
+                                  from purchase_receipt_items_cte
+                                  group by 1,2,3,4,5
+                                  ),
 ------------------------------------------- Mashup ----------------------------
 mr_with_po_with_pr_mashup as (
             select distinct date(mri.date_created) as mr_creation_date,
@@ -235,7 +245,7 @@ mr_with_po_with_pr_mashup as (
             left join latest_material_requests_cte lmr on mri.warehouse_id = lmr.warehouse_id and mri.item_code = lmr.item_code
             left join purchase_order_items poi on mri.id = poi.material_request and mri.item_code = poi.item_code_id and mri.stock_uom = poi.stock_uom
             left join latest_purchase_order_cte lpo on mri.warehouse_id = lpo.warehouse_id and mri.item_code = lpo.item_code_id
-            left join purchase_receipt_items pri on poi.id = pri.purchase_order and poi.item_code_id = pri.item_code and poi.stock_uom = pri.stock_uom
+            left join purchase_receipt_items_cte pri on poi.id = pri.purchase_order and poi.item_code_id = pri.item_code and poi.stock_uom = pri.stock_uom
             left join latest_purchase_receipt_cte lpr on mri.warehouse_id = lpr.set_warehouse_id and  mri.item_code = lpr.item_code
             )                          
 --select * from material_request_items where date(date_created) between '2024-08-28' and '2024-09-10'
@@ -247,7 +257,7 @@ mr_with_po_with_pr_mashup as (
 --select * from latest_purchase_order_cte
 --select * from mr_with_po_with_pr_mashup where mr_creation_date between '2024-09-01' and '2024-09-10'
 --select * from material_request_items where item_code = 'Ideal Scented Petroleum Jelly 50gms'
-select *  from pending_material_requests_cte
+select distinct  mr_status,po_workflow_state,   from mr_with_po_with_pr_mashup order by 1,2
 --where FORMAT_DATE('%Y%m%d', mr_creation_date) between @DS_START_DATE and @DS_END_DATE  
 --where mr_creation_date between '2024-08-28' and '2024-09-10'
 --and compnay_id = 'YOSK DIGITAL SOLUTIONS NIGERIA LIMITED'

@@ -1,7 +1,10 @@
+---------------------- 2024 Employee Engagement Survey ---------------------------
+---------------------------- Created By - Rodgers Nyangweso ------------------------------
 with
 employee_engagement_survey as (
                                 SELECT *, row_number()over(order by Timestamp) as id 
-                                FROM `kyosk-prod.google_sheets.employee_engagement_survey`
+                                #FROM `kyosk-prod.google_sheets.employee_engagement_survey` # live google sheets
+                                FROM `kyosk-prod.google_sheets.employee_engagement_survey_table` # flat table 
                                 ),
 employee_engagement_survey_cte as (
                                   select distinct id, 
@@ -15,6 +18,7 @@ employee_engagement_survey_cte as (
                                   What_should_we_start_doing__,
                                   What_should_we_stop_doing_,
 Country_or_Business_Unit__Please_select_your_Country_or_Business_Unit__NB__All_employees_wthin_Tech___Product_and_Global_Dept_should_select_the_Business_Unit_irrespective_of_their_location_and_as_indicated__for_analysis_purposes_,
+Country_or_Business_Unit__Please_select_your_Country_or_Business_Unit__NB__All_employees_wthin_Tech___Product_and_Global_Dept_should_select_the_Business_Unit_irrespective_of_their_location_and_as_indicated__for_analysis_purposes_ as country_or_business_unit,
                                   dimension_type,
                                   dimension_value
                                   from employee_engagement_survey
@@ -71,8 +75,11 @@ Country_or_Business_Unit__Please_select_your_Country_or_Business_Unit__NB__All_e
                                   ),
 employee_engagement_survey_with_dimension as (
                       select *except(dimension_type),
-                      --split(dimension_type, "_") as dimension_type,
-                      --trim(TRIM(dimension_type, '_'), "_") as dimension_type,
+                      case when (dimension_value = 'Strongly Agree') then 1 else 0 end as strongly_agree_score,
+                      case when (dimension_value = 'Agree') then 1 else 0 end as agree_score,
+                      case when (dimension_value = 'Neutral') then 1 else 0 end as neutral_score,
+                      case when (dimension_value = 'Disagree') then 1 else 0 end as disgree_score,
+                      case when (dimension_value = 'Strongly Disagree') then 1 else 0 end as strongly_disgree_score,
                       REPLACE(dimension_type, "_", ' ') as dimension_type,
                       case
                         # Ethics & Compliance
@@ -149,7 +156,22 @@ employee_engagement_survey_with_dimension as (
                         when dimension_type =  "__I_believe_that_positive_change_will_happen_as_a_result_of_this_survey_"then "Survey Follow Up"
                       else 'UNSET' end as dimension
                       from employee_engagement_survey_cte
-                      )
-select *
-from employee_engagement_survey_with_dimension
+                      ),
+--------------------------- User Access Management ----------------
+employee_engagement_survey_user_access as (
+                                            SELECT distinct id,
+                                            user_email,
+                                            user_access,
+                                            acces_status
+                                            #FROM `kyosk-prod.google_sheets.employee_engagement_survey_user_access` 
+                                            FROM `kyosk-prod.google_sheets.employee_engagement_survey_user_access_table`
+                                            where acces_status = true
+                                            order by user_email
+                                            ) 
+select eeswd.*, (strongly_agree_score + agree_score + neutral_score + disgree_score + strongly_disgree_score) as total_dimension_value_score,
+eesua.user_email
+from employee_engagement_survey_with_dimension eeswd
+left join employee_engagement_survey_user_access eesua on eeswd.country_or_business_unit = eesua.user_access
+where REGEXP_CONTAINS(eesua.user_email,@DS_USER_EMAIL)
 --where id = 1
+--group by 1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19

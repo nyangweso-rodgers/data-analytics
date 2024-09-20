@@ -1,5 +1,5 @@
 
------------------------- PRs ---------------------
+------------------------ payment requests ---------------------
 with
 payment_requests as (
                 SELECT *,
@@ -8,31 +8,24 @@ payment_requests as (
                 WHERE DATE(created_at) >= "2023-01-01" 
                 --where DATE(created_at) <= '2024-01-07'
                 --where date(created_at) <= date_sub(date_trunc(current_date, month),interval 1 day)
+                and id = '0FKPCA194YM1D'
                 ),
-payment_requests_report as (
-                              select distinct --created_at,
-                              DATE(created_at) as created_at,
-                              country_code,
-                              id,
-                              payment_reference,
-                              pr.status,
-                              purpose,
-                              --payment_type,
-                              --pr.amount,
-                              --payment_reference,
-                              from payment_requests pr
-                              where index = 1
-                              --and pr.status in ('CASH_COLLECTED', 'PROCESSING', 'QUEUED')
-                              ),
-payment_requests_with_settlement as (
-                                    select distinct --created_at,
-                                    DATE(created_at) as created_at,
-                                    
-                                    country_code,
-                                    id,
-                                    payment_reference,
-                                    pr.status,
-                                    purpose, 
+payment_requests_cte as (
+                          select distinct created_at,
+                          country_code,
+                          id,
+                          pr.payment_reference,
+                          pr.status,
+                          pr.purpose,
+                          --payment_type,
+                          --pr.amount,
+                          --payment_reference,
+                          from payment_requests pr
+                          where index = 1
+                          --and pr.status in ('CASH_COLLECTED', 'PROCESSING', 'QUEUED')
+                          ),
+payment_requests_settlement_cte as (
+                                    select distinct id, 
                                     s.status as settlement_status,
                                     s.transaction_reference,
                                     s.channel,
@@ -41,17 +34,16 @@ payment_requests_with_settlement as (
                                     from payment_requests pr, unnest(settlement) s
                                     where index = 1
                                     ),
-payment_requests_with_settlement_report as (
-                                            select prr.*,
-                                            prws.status as settlement_status,
-                                            prws.transaction_reference,
-                                            prws.channel as settlement_channel,
-                                            prws.settlement_type
-                                            from payment_requests_report prr
-                                            left join payment_requests_with_settlement prws on prr.id = prws.id
-                                            )
+payment_requests_with_settlement_cte as (
+                                        select prr.*,
+                                        prws.settlement_status,
+                                        prws.transaction_reference,
+                                        prws.channel as settlement_channel,
+                                        prws.settlement_type
+                                        from payment_requests_cte prr
+                                        left join payment_requests_settlement_cte prws on prr.id = prws.id
+                                        )
 select *
-from payment_requests_with_settlement
---where payment_reference = '0FWK97MDPQNST'
-where payment_reference = '0G1SC53CPNPR5'
+from payment_requests_with_settlement_cte
+
 order by created_at desc, id

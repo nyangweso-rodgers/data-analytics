@@ -6,12 +6,14 @@ sales_order as (
               FROM `kyosk-prod.karuru_reports.sales_order` so
               where territory_id not in ('Test NG Territory', 'Kyosk TZ HQ', 'Test TZ Territory', 'Kyosk HQ','DKasarani', 'Test KE Territory', 'Test UG Territory','Test Fresh TZ Territory')
               --where date(created_date) = current_date
-              and date(created_date) between '2024-07-01' and '2024-07-31'
-              --where  date(created_date) >= date_sub(current_date, interval 1 month)
+              and date(created_date) between '2024-09-01' and '2024-09-18'
+              --and  date(created_date) >= date_sub(current_date, interval 1 month)
               --where date(created_date) >= date_sub(date_trunc(current_date,month), interval 2 day)
               --and date(created_date) >= '2024-08-19'
               --and is_pre_karuru = false
                --and date(created_date) between '2024-07-23' and '2024-08-06'
+               --and id = 'SO-0H555F015N2QN'
+               --and country_id = 'Kenya'
               ),
 sales_order_cte as (
                 select distinct --date(created_date) as created_date,
@@ -59,7 +61,7 @@ get_latest_sales_order_report as (
                                 last_value(market_developer_id)over(partition by outlet_id order by created_date asc ROWS BETWEEN UNBOUNDED PRECEDING AND UNBOUNDED FOLLOWING) as latest_market_developer_id,
                                 last_value(market_developer_name)over(partition by outlet_id order by created_date asc ROWS BETWEEN UNBOUNDED PRECEDING AND UNBOUNDED FOLLOWING) as latest_market_developer_name
                                 from sales_order_cte
-                                ),
+                                )/*,
 outlets_summary as (
                       select distinct country_id,
                       outlet_id,
@@ -74,16 +76,15 @@ outlets_summary as (
                       from sales_order_cte
                       group by 1,2
                       order by 3 desc
-                      )
-select *
+                      )*/
+select distinct created_date, id,name, order_status
 --distinct country_id, delivery_window_id, delivery_window_start_time, delivery_window_end_time
 --max(created_date) as max_created_date, max(last_modified_date) as max_last_modified_date, max(bq_upload_time) as max_bq_upload_time
-from outlets_summary
-where country_id = 'Kenya'
+from sales_order_cte
 --and market_developer_phone_number is null
 --and country_id = 'Uganda'
 --and route_id = '0CW5Y2F5NETG1'
 --order by territory_id, created_date desc, route_id
 --and route_id is null
 --and market_developer_phone_number is null
-order by 3 desc
+--where name in ('SOYE7Y02024', 'SOHKA062024')

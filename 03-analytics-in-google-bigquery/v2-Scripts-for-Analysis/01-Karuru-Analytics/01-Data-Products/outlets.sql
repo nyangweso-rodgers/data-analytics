@@ -24,11 +24,12 @@ outlets_cte as (
                   name,
                   erp_id,
                   market_developer.first_name as market_developer_first_name,
-                  market_developer.last_name as market_developer_last_name
+                  market_developer.last_name as market_developer_last_name,
                   --app_created_on,
                   --latitude,
                   --longitude,
                  --market_id,
+                 outlet_location_status
                   from outlets
                   where index =1
                   --and (market.market_name is not null) 
@@ -44,10 +45,9 @@ outlets_agg_cte as (
                     group by 1,2
                     order by 1,3 desc,2
                     )
-select *
-from outlets_cte
+select distinct outlet_location_status, count(distinct id)  from outlets_cte group by 1 order by 2 desc
 --where company = 'KYOSK DIGITAL SERVICES LIMITED (TZ)'
 --order by created_at_date desc
 --where market_name is not null
 --where market_name not in ('Kyosk TZ HQ', 'Test TZ Territory', 'Test Fresh TZ Territory', 'Test UG Territory', 'Test KE Territory', 'Kyosk HQ', 'Test NG Territory')
-where id = '0CWRTG5N1CTJJ'
+--where id = '0CWRTG5N1CTJJ'
