@@ -5,9 +5,10 @@ delivery_trips as (
                 select *,
                 row_number()over(partition by id order by updated_at desc) as index
                 FROM `kyosk-prod.karuru_reports.delivery_trips` 
+                and territory_id not in ('Test UG Territory', 'Test NG Territory', 'Kyosk TZ HQ', 'Test TZ Territory', 'Kyosk HQ','DKasarani', 'Test KE Territory', 'Test Fresh TZ Territory')
                 --where date(created_at) = current_date
-                where date_trunc(date(created_at),month) >= date_sub(date_trunc(current_date, month), interval 3 month)
-                --where date(created_at) between '2023-08-01' and '2024-01-23'
+                --and date_trunc(date(created_at),month) >= date_sub(date_trunc(current_date, month), interval 3 month)
+                where date(created_at) between '2024-05-01' and '2024-06-31'
                 --and is_pre_karuru = false
               ),
 delivery_trips_cte as (
@@ -61,8 +62,6 @@ select distinct driver_provider_id
 --distinct country_code, count(distinct id)
 --max(created_at) as max_created_at_datetime, max(updated_at) as max_updated_at_datetime, max(bq_upload_time) as max_bq_upload_time_datetime
 from delivery_trips_cte
-where territory_id not in ('Test UG Territory', 'Test NG Territory', 'Kyosk TZ HQ', 'Test TZ Territory', 'Kyosk HQ','DKasarani', 'Test KE Territory', 'Test Fresh TZ Territory')
 --and status not in ('CANCELLED')
 --order by vehicle_id
 --group by 1 order by 2 desc
-and driver_provider_id = ''

@@ -5,12 +5,13 @@ delivery_notes as (
                 row_number()over(partition by id order by updated_at desc) as index
                 FROM `kyosk-prod.karuru_reports.delivery_notes` dn
                 where territory_id not in ('Test NG Territory', 'Kyosk TZ HQ', 'Test TZ Territory', 'Kyosk HQ','DKasarani', 'Test KE Territory', 'Test UG Territory', 'Test Fresh TZ Territory')
-                --where date(created_at) = current_date
-                and date(created_at) > date_sub(current_date, interval 1 month)
+                and date(created_at) = "2024-05-01"
+                --and date(created_at) > date_sub(current_date, interval 4 month)
                 --where date(created_at) > date_sub(current_date, interval 30 day)
                 --and is_pre_karuru = false
                 --and date(created_at) between '2022-08-01' and '2022-11-30'
                 --and country_code = 'KE'
+                and id = '0FX8MV1E14W9Y'
                 ),
 delivery_notes_items as (
                           select distinct --date(created_at) as 
@@ -48,8 +49,8 @@ delivery_notes_items as (
                           oi.total_delivered,
                           from delivery_notes dn, unnest(order_items) oi
                           where index = 1
-                          and dn.status in ('PAID','DELIVERED','CASH_COLLECTED')
-                          and oi.status = 'ITEM_FULFILLED'
+                          --and dn.status in ('PAID','DELIVERED','CASH_COLLECTED')
+                          --and oi.status = 'ITEM_FULFILLED'
                           ),
 latest_delivery_note as (
                           select distinct outlet_id,
@@ -73,7 +74,7 @@ monthly_delivey_notes_items as (
 select *
 --distinct check_delivery_date_diff, count(distinct id)
 --max(created_at), max(updated_at), max(bq_upload_time)
-from delivery_notes_items where sale_order_id = 'SO-0H7FBSGGHSKDB'
+from delivery_notes_items 
 --and delivery_date is null
 --and check_delivery_date_diff > 0
 --where id = '0G4DPSFMYGDFS'
