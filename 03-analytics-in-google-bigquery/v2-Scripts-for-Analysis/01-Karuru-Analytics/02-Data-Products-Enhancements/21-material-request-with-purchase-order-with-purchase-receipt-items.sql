@@ -25,7 +25,7 @@ material_request as(
                     --and name = 'MAT-MR-2024-15325'
                     --and name = 'MAT-MR-2024-15571'
                   ),
-material_request_items as (
+material_request_items_cte as (
                             select distinct mr.date_created,
                             --mr.transaction_date,
                             --mr.scheduled_date,
@@ -66,8 +66,9 @@ latest_material_requests_cte as (
                           --item_name,
                           last_value(date(date_created))over(partition by warehouse_id, item_code order by date_created asc ROWS BETWEEN UNBOUNDED PRECEDING AND UNBOUNDED FOLLOWING) as latest_mr_creation_date,
                           last_value(item_group)over(partition by warehouse_id, item_code order by date_created asc ROWS BETWEEN UNBOUNDED PRECEDING AND UNBOUNDED FOLLOWING) as latest_mr_item_group,
-                          from material_request_items
+                          from material_request_items_cte
                           ),
+/*
 pending_material_requests_cte as (
                               select distinct target_warehouse_territory_id,
                               item_code,
@@ -78,10 +79,11 @@ pending_material_requests_cte as (
                               string_agg(distinct status, "/" order by status) as status,
                               --sum(ordered_qty) as ordered_qty,
                               max(date(date_created)) as max_creation_date
-                              from material_request_items
+                              from material_request_items_cte
                               where status in ('DRAFT', 'ORDERED', 'PARTIALLY_ORDERED')
                               group by 1,2,3
                               ),
+*/
 ------------------- Purchase Order --------------------------
 purchase_order as (
                     SELECT *,
@@ -89,7 +91,7 @@ purchase_order as (
                     FROM `kyosk-prod.karuru_reports.purchase_order` 
                     where date(creation) >= date_sub(current_date, interval 1 month)
                     ),
-purchase_order_items as (
+purchase_order_items_cte as (
                           select distinct creation,
                           po.company,
                           po.territory,
@@ -124,7 +126,7 @@ latest_purchase_order_cte as (
                           item_code_id,
                           last_value(date(creation))over(partition by territory, item_code_id order by creation asc ROWS BETWEEN UNBOUNDED PRECEDING AND UNBOUNDED FOLLOWING) as latest_po_creation_date,
                           last_value(supplier)over(partition by territory, item_code_id order by creation asc ROWS BETWEEN UNBOUNDED PRECEDING AND UNBOUNDED FOLLOWING) as latest_po_supplier,
-                          from purchase_order_items
+                          from purchase_order_items_cte
                           ),
 ----------------------- Purchase Receipt Item ---------------------------
 purchase_receipt as (
@@ -188,6 +190,41 @@ received_purchase_receipt_cte as (
                                   from purchase_receipt_items_cte
                                   group by 1,2,3,4,5
                                   ),
+----------------- Pending Materail Requests, Purchase Orders ---------------------------------
+pending_mr_with_po_cte as (
+                            select distinct date(mri.date_created) as mr_creation_date,
+                            mri.target_warehouse_territory_id,
+                            mri.id as mr_id,
+                            --mri.name as mr_name,
+                            mri.status as pending_mr_status,
+                            mri.item_code,
+                            mri.stock_uom,
+                            date(poi.creation) as po_creation_date,
+                            poi.id as po_id,
+                            poi.workflow_state as pending_po_workflow_state
+                            from material_request_items_cte mri
+                            left join purchase_order_items_cte poi  on mri.id = poi.material_request and mri.item_code = poi.item_code_id and mri.stock_uom = poi.stock_uom
+                            where status in ('DRAFT', 'ORDERED', 'PARTIALLY_ORDERED')
+                            ),
+pending_mr_and_po_cte as (
+                          select distinct mr_creation_date,
+                          po_creation_date,
+                          target_warehouse_territory_id,
+                          mr_id,
+                          pending_mr_status,
+                          item_code,
+                          stock_uom,
+                          po_id,
+                          pending_po_workflow_state
+                          from pending_mr_with_po_cte
+                          where pending_po_workflow_state not in ('CANCELLED', 'REJECTED')
+                          ),
+pending_mr_and_po_agg_cte as (
+                              select distinct target_warehouse_territory_id,
+                              item_code,
+                              stock_uom
+                              from pending_mr_and_po_cte
+                              ),
 ------------------------------------------- Mashup ----------------------------
 mr_with_po_with_pr_mashup as (
             select distinct date(mri.date_created) as mr_creation_date,
@@ -241,9 +278,9 @@ mr_with_po_with_pr_mashup as (
             lpr.latest_pr_posting_date,
             lpr.latest_pr_supplier,
             coalesce(lpr.latest_pr_supplier, lpo.latest_po_supplier) as supplier
-            from material_request_items mri
+            from material_request_items_cte mri
             left join latest_material_requests_cte lmr on mri.warehouse_id = lmr.warehouse_id and mri.item_code = lmr.item_code
-            left join purchase_order_items poi on mri.id = poi.material_request and mri.item_code = poi.item_code_id and mri.stock_uom = poi.stock_uom
+            left join purchase_order_items_cte poi on mri.id = poi.material_request and mri.item_code = poi.item_code_id and mri.stock_uom = poi.stock_uom
             left join latest_purchase_order_cte lpo on mri.warehouse_id = lpo.warehouse_id and mri.item_code = lpo.item_code_id
             left join purchase_receipt_items_cte pri on poi.id = pri.purchase_order and poi.item_code_id = pri.item_code and poi.stock_uom = pri.stock_uom
             left join latest_purchase_receipt_cte lpr on mri.warehouse_id = lpr.set_warehouse_id and  mri.item_code = lpr.item_code
@@ -257,7 +294,8 @@ mr_with_po_with_pr_mashup as (
 --select * from latest_purchase_order_cte
 --select * from mr_with_po_with_pr_mashup where mr_creation_date between '2024-09-01' and '2024-09-10'
 --select * from material_request_items where item_code = 'Ideal Scented Petroleum Jelly 50gms'
-select distinct  mr_status,po_workflow_state,   from mr_with_po_with_pr_mashup order by 1,2
+--select distinct pending_mr_status, pending_po_workflow_state  from pending_material_request_and_purchase_order_cte order by 1,2
+select distinct mr_workflow_state,mr_status,po_workflow_state, pr_workflow_state  from mr_with_po_with_pr_mashup  order by 1,2,3,4
 --where FORMAT_DATE('%Y%m%d', mr_creation_date) between @DS_START_DATE and @DS_END_DATE  
 --where mr_creation_date between '2024-08-28' and '2024-09-10'
 --and compnay_id = 'YOSK DIGITAL SOLUTIONS NIGERIA LIMITED'

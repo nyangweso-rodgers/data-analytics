@@ -171,7 +171,6 @@ pending_material_requests_cte as (
                               select distinct target_warehouse_territory_id,
                               item_code,
                               stock_uom,
-
                               count(distinct(case when status = 'DRAFT' then id else null end)) as mr_count_in_draft_status,
                               count(distinct(case when status = 'ORDERED' then id else null end)) as mr_count_in_ordered_status,
                               sum(case when status = 'DRAFT' then qty else 0 end) as qty_in_draft_status,
