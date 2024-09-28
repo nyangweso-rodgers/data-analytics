@@ -9,29 +9,23 @@
   - [Linear Regression]()
 
     - [Theory](https://github.com/nyangweso-rodgers/Data_Analytics/tree/main/Analytics_with_Python/Machine_Learning_Algorithms/Linear_Regression)
-    - [Projects](https://drive.google.com/drive/folders/1PVpY9pUvuIfa94Aulzki-F--je51CJR1)
 
   - [Logistic Regression]()
 
     - [Theory](https://github.com/nyangweso-rodgers/Data_Analytics/tree/main/Analytics_with_Python/Machine_Learning_Algorithms/Logistics_Regression)
-    - [Projects](https://drive.google.com/drive/folders/1HSqlYWTFcxQs2C1OqoSsh0FJ7xpPYIfD)
 
   - [Random Forest]()
 
     - [Theory](https://github.com/nyangweso-rodgers/Data_Analytics/tree/main/Analytics_with_Python/Machine_Learning_Algorithms/Random_Forest)
-    - [Projects](https://drive.google.com/drive/folders/1eYc1gbXqnClcLi81iKoIHwdzhiUSdFnV)
 
   - [XGBoost]()
 
     - [Theory](https://github.com/nyangweso-rodgers/Data_Analytics/tree/main/Analytics_with_Python/Machine_Learning_Algorithms/XGBoostcd mac)
-    - [Projects](https://drive.google.com/drive/folders/1n2H57zLdxSlFSx48ha-U8GlIZeaNevDx)
 
   - [K-means]()
     - [Theory](https://github.com/nyangweso-rodgers/Data_Analytics/tree/main/Analytics_with_Python/Machine_Learning_Algorithms/K_Means)
-    - [Projects](https://drive.google.com/drive/folders/1QrWK99y1xxPqZsSvgiDXm9smhhtUOUqQ)
 
 - [Further Reading]()
-  - [Machine Learning Algorithms Cheat Sheet](https://towardsdatascience.com/machine-learning-algorithms-cheat-sheet-2f01d1d3aa37)
   - [Deploy Your Machine Learning Model as a REST API](https://towardsdatascience.com/deploy-your-machine-learning-model-as-a-rest-api-4fe96bf8ddcc)
   - [Considerations for Deploying Machine Learning Models in Production](https://towardsdatascience.com/considerations-for-deploying-machine-learning-models-in-production-89d38d96cc23)
 
