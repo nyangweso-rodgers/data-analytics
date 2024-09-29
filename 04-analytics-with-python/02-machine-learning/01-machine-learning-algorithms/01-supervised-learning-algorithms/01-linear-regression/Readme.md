@@ -43,7 +43,7 @@
   1. **Positive Linear Regression Line**: indicates a direct relationship between the **independent variable** (X) and the **dependent variable** (Y). This means that as the value of X increases, the value of Y also increases. The slope of a **positive linear regression line** is **positive**, meaning that the line slants upward from left to right.
   2. **Negative Linear Regression Line**: A indicates an inverse relationship between the **independent variable** (X) and the **dependent variable** (Y). This means that as the value of X increases, the value of Y decreases. The slope of a **negative linear regression line** is **negative**, meaning that the line slants downward from left to right.
 
-# Evaluation Metrics for Linear Regression
+# Evaluation Metrics for Linear Regression (Loss Functions)
 
 - A variety of [evaluation measures]() can be used to determine the strength of any linear regression model. These assessment metrics often give an indication of how well the model is producing the observed outputs.
 - The most common measurements are:

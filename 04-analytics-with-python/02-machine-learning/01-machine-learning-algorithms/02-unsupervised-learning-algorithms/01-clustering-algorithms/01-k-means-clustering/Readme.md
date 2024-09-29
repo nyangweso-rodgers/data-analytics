@@ -50,8 +50,15 @@
 ## Step 1. Import Python Modules
 
 ```py
+    import numpy as np
+    import pandas as pd
+    import matplotlib.pyplot as plt
+    import seaborn as sns
+    %matplotlib inline
     from sklearn.datasets import make_blobs
     from sklearn.cluster import KMeans
+    import warnings
+    warnings.filterwarnings('ignore')
 
     X, y_true = make_blobs(n_samples=250, centers=3,
                         cluster_std=0.60, random_state=0)
