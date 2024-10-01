@@ -75,6 +75,49 @@
   3. **Batch Size**: Defines how many training examples are used in each iteration.
   4. **Number of Epochs**: Determines how many times the entire training dataset is passed through the model.
 
+# How Use FastAPI for Machine Learning
+
+## What is FastAPI?
+
+- **FastAPI** provides a quick way to build a backend service with Python. With a few decorators, you can turn your Python function into an API application.
+
+## Why use FastAPI for machine learning?
+
+- **FastAPI** enables data scientists to easily create APIs for the following projects:
+  1. Deploying prediction models: The data science team may have trained a model for the prediction of the sales demand in a warehouse. To make it useful, they have to provide an API interface so other parts of the stock management system can use this new prediction functionality.
+  2. Suggestion engines: One of the very common uses of machine learning is as a system that provides suggestions based on the users’ choices. For example, if someone puts certain products in their shopping cart, more items can be suggested to that user. Such an e-commerce system requires an API call to the suggestion engine that takes input parameters.
+  3. Dynamic dashboards and reporting systems: Sometimes, reports for data science projects need to be presented as dashboards so users can inspect the results themselves. One possible approach is to have the data model provide an API. Frontend developers can use this API to create applications that allow users to interact with the data.
+
+## Advantages of using FastAPI
+
+1. Fast development
+2. Fast documentation: FastAPI provides automatic interactive API documentation using [Swagger UI](), which is an industry standard. No extra effort is required to build clear documentation with API call examples. This creates an advantage for busy data science teams who may not have the energy and expertise to write technical specifications and documentation.
+3. Easy testing: Testing FastAPI is made simple thanks to [Starlette](https://www.starlette.io/testclient/) and [HTTPX](https://www.python-httpx.org/)
+4. Fast deployment: FastAPI comes with a [CLI tool](https://fastapi.tiangolo.com/fastapi-cli/) that can bridge development and deployment smoothly. It allows you to switch between development mode and production mode easily. Once development is completed, the code can be easily deployed using a [Docker container](https://fastapi.tiangolo.com/deployment/docker/) with images that have Python prebuilt.
+
+## How to use FastAPI for a machine learning project
+
+### Step 1. Start a FastAPI Project
+
+### Step 2.Setup Environment Dependencies
+
+### Step 3. Set up your machine learning model
+
+- Arrange your machine learning code in the `main.py` file. We will start with a script that trains our model:
+  ```py
+    import pandas as pd
+    from sklearn.model_selection import train_test_split
+    from sklearn import preprocessing
+    from sklearn.neighbors import KNeighborsClassifier
+    from sklearn.pipeline import Pipeline
+    from sklearn.preprocessing import StandardScaler
+  ```
+
+### Step 4. Request a Response
+
+### Step 5. Request with query parameters
+
 # Resources and Further Reading
 
 1. [machinelearningmastery.com -7-key-terms-every-machine-learning-beginner-should-know](https://machinelearningmastery.com/7-key-terms-every-machine-learning-beginner-should-know/?ref=dailydev)
+2. [jetbrains blog - How to Use FastAPI for Machine Learning](https://blog.jetbrains.com/pycharm/2024/09/how-to-use-fastapi-for-machine-learning/?ref=dailydev)
