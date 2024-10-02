@@ -6,22 +6,24 @@ delivery_notes as (
                 row_number()over(partition by id order by updated_at desc) as index
                 FROM `kyosk-prod.karuru_reports.delivery_notes` dn
                 where territory_id not in ('Test NG Territory', 'Kyosk TZ HQ', 'Test TZ Territory', 'Kyosk HQ','DKasarani', 'Test KE Territory', 'Test UG Territory', 'Test Fresh TZ Territory')
-                and status IN ('PAID','DELIVERED','CASH_COLLECTED')
-                --where date(created_at) = current_date
+                --and status IN ('PAID','DELIVERED','CASH_COLLECTED')
+                and date(created_at) = current_date
                 --where date(created_at) > date_sub(current_date, interval 1 month)
                 --and date(created_at) >= date_sub(date_trunc(current_date,month), interval 2 day)
-                and date(created_at) between '2024-08-01' and '2024-08-28'
+                --and date(created_at) between '2024-08-01' and '2024-08-28'
                 and country_code = 'KE'
-                and territory_id in ("Eastlands", "Kiambu")
+                --and territory_id in ("Eastlands", "Kiambu")
+                and code in ('DN-KHETIA -EIKT-0HETJVR8X2M9D', 'DN-KISU-0HETRYRSN2MZ8')
                 ),
 delivery_notes_cte as (
-                      select distinct date(created_at) as created_date,
+                      select distinct created_at,
                       --created_at,
                       --updated_at,
                       --bq_upload_time,
-                      --coalesce(date(delivery_date), date(updated_at)) as delivery_date,
+                      coalesce(date(delivery_date), date(updated_at)) as delivery_date,
                       country_code,
                       territory_id,
+                      dn.fullfilment_center_id,
                       --route_id,
                       --route_name,
                       outlet_id,
@@ -56,6 +58,7 @@ fulfillment_center as (
 fulfillment_center_cte as (
                             select distinct --date(created_at) created_at,
                             id,
+                            code,
                             name,
                             country_code,
                             cast(location.latitude as float64) as latitude,
@@ -64,10 +67,12 @@ fulfillment_center_cte as (
                             where index =1 
                             ),
 ----------------------------- Reports -----------
-mashup as (
+delivery_notes_with_fc_cte as (
             select distinct 
             dn.country_code,
             dn.territory_id,
+            fc.code,
+            fc.name as fulfilment_center_name,
             fc.latitude as fulfilment_center_latitude,
             fc.longitude as fulfilment_center_longitude,
             dn.outlet_id,
@@ -83,7 +88,8 @@ mashup as (
             --round(st_distance(ST_GEOGPOINT(fc.longitude, fc.latitude), ST_GEOGPOINT(dn.delivery_coordinates_longitude, dn.delivery_coordinates_latitude)),2) / 1000 as delivery_note_distance,
             --abs(round(st_distance(ST_GEOGPOINT(dn.longitude, dn.latitude), ST_GEOGPOINT(dn.delivery_coordinates_longitude, dn.delivery_coordinates_latitude)) / 1000,2)) as outlet_registration_to_delivery_distance
             from delivery_notes_cte dn
-            left join fulfillment_center_cte fc on dn.territory_id = fc.name
+            --left join fulfillment_center_cte fc on dn.territory_id = fc.name
+            left join fulfillment_center_cte fc on dn.fullfilment_center_id = fc.id
             )
 /*
 report_with_zones as (
@@ -106,7 +112,6 @@ report_with_zones as (
                         from mashup
                         )
 */
-select *
-from mashup
+select * from delivery_notes_with_fc_cte
 --and delivery_coordinates_latitude is not null
 --and FORMAT_DATE('%Y%m%d', dn_created_date) between @DS_START_DATE and @DS_END_DATE

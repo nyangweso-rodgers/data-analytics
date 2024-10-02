@@ -8,6 +8,8 @@ fulfillment_center as (
                       'Test NG Territory', 'Kyosk South West HQ')
                       and (location.latitude is not null)
                       and date(created_at) > "2021-06-27" #start date
+                      --and country_code = 'KE'
+                      and name in ('Khetia ', 'Ruiru')
                       ),
 fulfillment_center_cte as (
                             select distinct --date(created_at) created_at,
