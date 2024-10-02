@@ -75,6 +75,27 @@
   3. **Batch Size**: Defines how many training examples are used in each iteration.
   4. **Number of Epochs**: Determines how many times the entire training dataset is passed through the model.
 
+# Machine Learning Workflows
+
+- With machine learning, data practitioners are able to make predictions about key datasets, automate workflows, and extract insights. What does the machine learning workflow look like?
+  1. Project setup
+     1. Understand business goals
+     2. Choose the solution to your problem
+  2. Data Preparation
+     1. Data collection
+     2. Data cleaning
+     3. Feature engineering: Manipulate the datasets to create variables (features) that improve your model’s prediction accuracy. Create the same features in both the training set and the testing set.
+     4. Split the data: Randomly divide the records in the dataset into a training set and a testing set. For a more reliable assessment of model performance, generate multiple training and testing sets using cross validation
+  3. Modeling
+     1. Hyperparameter tuning: For each model, use hyperparameter tuning techniques to improve model performance.
+     2. Train your models
+     3. Make predictions
+     4. Assess model performance: For each model, calculate performance metrics on the testing set such as accuracy, recall and precision.
+  4. Deployment
+     1. Deploy the model
+     2. Monitor model performance
+     3. Improve your model
+
 # How Use FastAPI for Machine Learning
 
 ## What is FastAPI?
