@@ -89,6 +89,8 @@
     from sklearn.model_selection import train_test_split
     from pandas.core.common import random_state
     from sklearn.linear_model import LinearRegression
+    from yellowbrick.regressor import PredictionError
+    from sklearn.datasets import make_regression
 ```
 
 ## Step 2. Load Dataset
@@ -106,6 +108,20 @@
     sns.distplot(df_sal['Salary'])
     plt.show()
   ```
+
+## Step 4. Model Fit
+
+```py
+  X, y = make_regression(
+          n_samples=500, n_features=5, noise=50, coef=False
+      )
+  X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+  model = LinearRegression()
+  visualizer = PredictionError(model)
+  visualizer.fit(X_train, y_train)
+  visualizer.score(X_test, y_test)
+  visualizer.show()
+```
 
 # Regularization Techniques for Linear Models
 
