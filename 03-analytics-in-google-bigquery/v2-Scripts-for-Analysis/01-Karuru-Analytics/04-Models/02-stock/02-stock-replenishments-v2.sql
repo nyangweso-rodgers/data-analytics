@@ -111,7 +111,7 @@ material_request as(
                     SELECT *, 
                     row_number()over(partition by id order by date_modified desc) as index
                     FROM `kyosk-prod.karuru_reports.material_request` 
-                    where date(date_created) >= date_sub(current_date, interval 6 month)
+                    where date(date_created) >= date_sub(current_date, interval 12 month)
                     and target_warehouse_territory_id not in ('Kyosk HQ', 'Nakuru', 'Karatina', 'Eldoret', 'Ongata Rongai', 'Athi River', 'Kawangware', 'Juja', 'Thika Rd', "Ruai", 'Kisii', 'Meru', 'Mtwapa Mombasa')
                     --and set_warehouse_id not in ('Karatina Receiving Bay - KDKE', 'Eldoret Receiving Bay - KDKE', 'Ongata Rongai Receiving Bay - KDKE', 'Athi River Receiving Bay - KDKE', 'Kawangware Receiving Bay - KDKE')
                     --where date(date_created) between '2024-08-01' and '2024-08-31'
@@ -124,7 +124,7 @@ material_request as(
                     --and name = 'MAT-MR-2024-15325'
                     --and name = 'MAT-MR-2024-15571'
                   ),
-material_request_items as (
+material_request_items_cte as (
                             select distinct mr.date_created,
                             --mr.transaction_date,
                             --mr.scheduled_date,
@@ -156,7 +156,7 @@ material_request_items as (
                             --mri.amount                                
                             from material_request mr, unnest(items) i
                             where index = 1
-                            ),
+                            ),/*
 latest_material_requests_cte as (
                           select distinct target_warehouse_territory_id,
                           warehouse_id,
@@ -165,34 +165,16 @@ latest_material_requests_cte as (
                           --item_name,
                           last_value(date(date_created))over(partition by warehouse_id, item_code order by date_created asc ROWS BETWEEN UNBOUNDED PRECEDING AND UNBOUNDED FOLLOWING) as latest_mr_creation_date,
                           last_value(item_group)over(partition by warehouse_id, item_code order by date_created asc ROWS BETWEEN UNBOUNDED PRECEDING AND UNBOUNDED FOLLOWING) as latest_mr_item_group,
-                          from material_request_items
-                          ),
-pending_material_requests_cte as (
-                              select distinct target_warehouse_territory_id,
-                              item_code,
-                              stock_uom,
-                              count(distinct(case when status = 'DRAFT' then id else null end)) as mr_count_in_draft_status,
-                              count(distinct(case when status = 'ORDERED' then id else null end)) as mr_count_in_ordered_status,
-                              sum(case when status = 'DRAFT' then qty else 0 end) as qty_in_draft_status,
-                              --sum(case when status = 'PARTIALLY_ORDERED' then ordered_qty else 0 end) as ordered_qty_in_partially_ordered_status,
-                              sum(case when status = 'ORDERED' then ordered_qty else 0 end) as ordered_qty_in_ordered_status,
-                              string_agg(distinct status, "/" order by status) as status,
-                              --sum(ordered_qty) as ordered_qty,
-                              max(case when status in ('DRAFT', 'ORDERED') then date(date_created) else null end) as pending_mr_latest_creation_date,
-                              --max(date(date_created)) as max_creation_date
-                              from material_request_items, date_vars
-                              where status in ('DRAFT', 'ORDERED', 'PARTIALLY_ORDERED')
-                              and date(date_created) <= current_start_date
-                              group by 1,2,3
-                              ),
+                          from material_request_items_cte
+                          ),*/
 ------------------------------- Purchase Order Item ----------------------------
 purchase_order as (
                     SELECT *,
                     row_number()over(partition by id  order by modified desc) as index
                     FROM `kyosk-prod.karuru_reports.purchase_order` 
-                    where date(creation) >= date_sub(current_date, interval 6 month)
+                    where date(creation) >= date_sub(current_date, interval 12 month)
                     ),
-purchase_order_items as (
+purchase_order_items_cte as (
                           select distinct creation,
                           po.company,
                           po.territory,
@@ -218,7 +200,7 @@ purchase_order_items as (
                           po.supplier_name,
                           from purchase_order po, unnest(items) i
                           where index =1
-                          ),
+                          ),/*
 latest_purchase_order_cte as (
                           select distinct --company,
                           --warehouse_id,
@@ -227,8 +209,8 @@ latest_purchase_order_cte as (
                           item_code_id,
                           last_value(date(creation))over(partition by territory, item_code_id order by creation asc ROWS BETWEEN UNBOUNDED PRECEDING AND UNBOUNDED FOLLOWING) as latest_po_creation_date,
                           last_value(supplier)over(partition by territory, item_code_id order by creation asc ROWS BETWEEN UNBOUNDED PRECEDING AND UNBOUNDED FOLLOWING) as latest_po_supplier,
-                          from purchase_order_items
-                          ),
+                          from purchase_order_items_cte
+                          ),*/
 ---------------------------- Purchase Receipt Items ----------------------------------------
 purchase_receipt as (
               SELECT *,
@@ -270,7 +252,7 @@ purchase_receipt_items_cte as (
                             from purchase_receipt pr, unnest(items) as i
                             where index = 1
                             ),
-latest_purchase_receipt_cte as (
+/*latest_purchase_receipt_cte as (
                           select distinct --set_warehouse_id,
                           territory_id,
                           item_code,
@@ -280,6 +262,7 @@ latest_purchase_receipt_cte as (
                           last_value(item_group_id)over(partition by territory_id, item_code order by date_created asc ROWS BETWEEN UNBOUNDED PRECEDING AND UNBOUNDED FOLLOWING) as latest_pr_item_group_id,
                           from purchase_receipt_items_cte
                           ),
+*/
 received_purchase_receipt_cte as (
                                   select distinct posting_date,
                                   set_warehouse_id,
@@ -290,101 +273,220 @@ received_purchase_receipt_cte as (
                                   from purchase_receipt_items_cte
                                   group by 1,2,3,4,5
                                   ),
+------------------------------------------- MR, PO and PR Mashup ----------------------------
+mr_with_po_with_pr_cte as (
+            select distinct mri.date_created as mr_creation_datetime,
+            date(mri.date_created) as mr_creation_date,
+            mri.company_id as company_id,
+            mri.warehouse_id as warehouse_id,
+            mri.warehouse_id as mr_warehouse_id,
+            mri.set_warehouse_id as mr_set_warehouse_id,
+            mri.target_warehouse_territory_id as mr_target_warehouse_territory_id,
+            mri.target_warehouse_territory_id as territory_id,
+
+            mri.id as material_request_id,
+            mri.name as material_request,
+            mri.workflow_state as mr_workflow_state,
+            mri.status as mr_status,
+
+            case
+              when (mri.status = 'DRAFT') and (poi.workflow_state is null) and (pri.workflow_state is null) then 'MR In Draft; PO Is Null; PR Is Null'
+              when (mri.status = 'DRAFT') and (poi.workflow_state = 'CANCELLED') and (pri.workflow_state is null) then 'MR In Draft; PO Cancelled; PR Is Null'
+              when (mri.status = 'DRAFT') and (poi.workflow_state = 'PENDING') and (pri.workflow_state is null) then 'MR In Draft; PO In Pending; PR Is Null'
+              when (mri.status = 'DRAFT') and (poi.workflow_state = 'SUBMITTED') and (pri.workflow_state is null) then 'MR In Draft; PO In Submitted; PR Is Null'
+              when (mri.status = 'DRAFT') and (poi.workflow_state = 'REJECTED') and (pri.workflow_state is null) then 'MR In Draft; PO In Rejected; PR Is Null'
+
+              when (mri.status = 'ORDERED') and (poi.workflow_state is null) and (pri.workflow_state is null) then 'MR In Ordered; PO Is Null; PR Is Null'
+              when (mri.status = 'ORDERED') and (poi.workflow_state = 'APPROVED') and (pri.workflow_state is null) then 'MR In Ordered; PO In Approved; PR Is Null'
+              when (mri.status = 'ORDERED') and (poi.workflow_state = 'APPROVED') and (pri.workflow_state  = 'COMPLETED') then 'MR In Ordered; PO Approved; PR In Completed'
+              when (mri.status = 'ORDERED') and (poi.workflow_state = 'APPROVED') and (pri.workflow_state = 'SUBMITTED') then 'MR In Ordered; PO Approved; PR In Submitted'
+
+              when (mri.status = 'PARTIALLY_ORDERED') and (poi.workflow_state is null) and (pri.workflow_state is null) then 'MR In Partially Ordered; PO Is Null; PR Is Null'
+              when (mri.status = 'PARTIALLY_ORDERED') and (poi.workflow_state = 'APPROVED') and (pri.workflow_state is null) then 'MR In Partially Ordered; PO In Approved; PR Is Null'
+              when (mri.status = 'PARTIALLY_ORDERED') and (poi.workflow_state = 'APPROVED') and (pri.workflow_state = 'COMPLETED') then 'MR In Partially Ordered; PO In Approved; PR In Completed'
+              when (mri.status = 'PARTIALLY_ORDERED') and (poi.workflow_state = 'APPROVED') and (pri.workflow_state = 'REJECTED') then 'MR In Partially Ordered; PO In Approved; PR In Rejected'
+
+              when (mri.status = 'PARTIALLY_RECEIVED') and (poi.workflow_state = 'APPROVED') and (pri.workflow_state is null) then 'MR In Partially Received; PO In Approved; PR Is Null'
+              when (mri.status = 'PARTIALLY_RECEIVED') and (poi.workflow_state = 'APPROVED') and (pri.workflow_state = 'COMPLETED') then 'MR In Partially Received; PO In Approved; PR In Completed'
+              when (mri.status = 'PARTIALLY_RECEIVED') and (poi.workflow_state = 'APPROVED') and (pri.workflow_state = 'REJECTED') then 'MR In Partially Received; PO In Approved; PR In Rejected'
+
+              when (mri.status = 'RECEIVED') and (poi.workflow_state = 'APPROVED') and (pri.workflow_state is null) then 'MR In Received; PO In Approved; PR Is Null'
+              when (mri.status = 'RECEIVED') and (poi.workflow_state = 'APPROVED') and (pri.workflow_state = 'COMPLETED') then 'MR In Received; PO In Approved; PR In Completed'
+              when (mri.status = 'RECEIVED') and (poi.workflow_state = 'APPROVED') and (pri.workflow_state = 'REJECTED') then 'MR In Received; PO In Approved; PR In Rejected'
+            else 'UNSET' end as statuses_info,
+
+            mri.item_group as mr_item_group,
+            --mri.item_code as mr_item_code,
+            --mri.stock_uom as mr_stock_uom,
+            mri.item_code as item_code,
+            mri.stock_uom as stock_uom,
+            mri.conversion_factor as mr_conversion_factor,
+            --mri.uom as mr_uom,
+            mri.uom as uom,
+
+            mri.stock_qty as mr_stock_qty,
+            mri.qty as mr_qty,
+            mri.received_qty as mr_received_qty,
+
+            poi.creation as po_creation_datetime,
+            date(poi.creation) as po_creation_date,
+            poi.warehouse_id as po_warehouse_id,
+            poi.territory as po_territory,
+            poi.id as purchase_order_id,
+            poi.purchase_order_no,
+            poi.workflow_state as po_workflow_state,
+            poi.supplier as po_supplier,
+
+            pri.date_created as pr_creation_datetime,
+            date(pri.date_created) as pr_creation_date,
+            date(pri.posting_date) as pr_posting_date,
+            pri.id as purchase_receipt_id,
+            pri.workflow_state as pr_workflow_state,
+            pri.received_qty as pr_received_qty,
+            pri.supplier as pr_supplier,
+            pri.item_group_id as pr_item_group_id,
+
+            from material_request_items_cte mri
+            left join purchase_order_items_cte poi on mri.id = poi.material_request and mri.item_code = poi.item_code_id and mri.stock_uom = poi.stock_uom
+            left join purchase_receipt_items_cte pri on poi.id = pri.purchase_order and poi.item_code_id = pri.item_code and poi.stock_uom = pri.stock_uom
+            ),
+--------------------------- Pending MR, PO and PR -----------------------------------------
+pending_mr_with_po_with_pr_cte as (
+                                select distinct mr_creation_date,
+                                po_creation_date,
+                                company_id,
+                                warehouse_id,
+                                territory_id,
+                                statuses_info,
+                                material_request_id,
+                                purchase_order_id,
+                                item_code,
+                                stock_uom,
+                                mr_stock_qty,
+                                mr_qty,
+                                from mr_with_po_with_pr_cte
+                                where statuses_info in ('MR In Draft; PO In Pending; PR Is Null', 'MR In Draft; PO Is Null; PR Is Null', 'MR In Received; PO In Approved; PR Is Null')
+                                
+                                ),
+pending_mr_with_po_with_pr_agg_cte as (
+                                        select distinct company_id,
+                                        warehouse_id,
+                                        territory_id,
+                                        item_code,
+                                        stock_uom,
+                                        sum(case when statuses_info = 'MR In Draft; PO In Pending; PR Is Null' then mr_stock_qty else 0 end) as mr_stock_qty_in_draft_with_pending_po,
+                                        sum(case when statuses_info = 'MR In Draft; PO Is Null; PR Is Null' then mr_stock_qty else 0 end) as mr_stock_qty_in_draft_with_null_po,
+                                        sum(case when statuses_info = 'MR In Ordered; PO In Approved; PR Is Null' then mr_stock_qty else 0 end) as  mr_stock_qty_in_ordered_with_approved_po,
+                                        sum(case when statuses_info = 'MR In Received; PO In Approved; PR Is Null' then mr_stock_qty else 0 end) as  mr_stock_qty_in_received_with_approved_po,
+                                        max(mr_creation_date) as pending_mr_max_creation_date
+                                        from pending_mr_with_po_with_pr_cte
+                                        group by 1,2,3,4,5
+                                        ), 
+------------------- Latest MR, PO and PR ---------------------------------
+latest_mr_with_po_with_pr_cte as (
+                select distinct company_id,
+                warehouse_id,
+                territory_id,
+                item_code,
+                stock_uom,
+                last_value(mr_creation_date IGNORE NULLS)over(partition by warehouse_id, item_code order by mr_creation_datetime asc ROWS BETWEEN UNBOUNDED PRECEDING AND UNBOUNDED FOLLOWING) as latest_mr_creation_date,
+                last_value(mr_item_group IGNORE NULLS)over(partition by warehouse_id, item_code order by mr_creation_datetime asc ROWS BETWEEN UNBOUNDED PRECEDING AND UNBOUNDED FOLLOWING) as latest_mr_item_group,
+
+                last_value(date(po_creation_date) IGNORE NULLS)over(partition by warehouse_id, item_code order by po_creation_datetime asc ROWS BETWEEN UNBOUNDED PRECEDING AND UNBOUNDED FOLLOWING) as latest_po_creation_date,
+                last_value(po_supplier IGNORE NULLS)over(partition by warehouse_id, item_code order by po_creation_datetime asc ROWS BETWEEN UNBOUNDED PRECEDING AND UNBOUNDED FOLLOWING) as latest_po_supplier,
+
+                last_value(pr_item_group_id IGNORE NULLS)over(partition by warehouse_id, item_code order by pr_creation_datetime asc ROWS BETWEEN UNBOUNDED PRECEDING AND UNBOUNDED FOLLOWING) as latest_pr_item_group_id,
+                last_value(pr_posting_date IGNORE NULLS)over(partition by warehouse_id, item_code order by pr_creation_datetime asc ROWS BETWEEN UNBOUNDED PRECEDING AND UNBOUNDED FOLLOWING) as latest_pr_creation_date,
+                last_value(pr_posting_date IGNORE NULLS)over(partition by warehouse_id, item_code order by pr_creation_datetime asc ROWS BETWEEN UNBOUNDED PRECEDING AND UNBOUNDED FOLLOWING) as latest_pr_posting_date,
+                last_value(pr_supplier IGNORE NULLS)over(partition by territory_id, item_code order by pr_creation_datetime asc ROWS BETWEEN UNBOUNDED PRECEDING AND UNBOUNDED FOLLOWING) as latest_pr_supplier,
+                from mr_with_po_with_pr_cte
+                      ),
 ------------------------------ Mashup -------------------
-stock_replenishment_cte as (
-                              select osb.*,
-                              round(safe_divide(osb.opening_stock_balance_qty, d.weekly_demand_qty) * 6) as opening_stock_cover_days,
-                              coalesce(round(d.daily_demand_qty), 0) as daily_demand_qty,
-                              coalesce(round(d.weekly_demand_qty),0) as weekly_demand_qty,
-                              psdfm.latest_delivery_date,
-                              psdfm.gmv_vat_incl as last_seven_day_gmv_vat_incl,
+opening_stock_with_purchase_history_cte as (
+                            select distinct osb.opening_stock_balance_date,
+                            osb.four_week_demand_plan_start_date,
+                            osb.four_week_demand_plan_end_date,
+                            osb.company_id,
+                            osb.warehouse,
+                            osb.original_territory_id,
+                            osb.new_territory_id,
+                            osb.item_code,
+                            osb.stock_uom,
+                            coalesce(l.latest_mr_item_group, l.latest_pr_item_group_id, 'UNSET') as item_group_id,
+                            coalesce(l.latest_pr_supplier, l.latest_po_supplier, 'UNSET') as supplier,
 
-                              coalesce(lmr.latest_mr_item_group, lpr.latest_pr_item_group_id, 'UNSET') as item_group_id,
-                              coalesce(lpr.latest_pr_supplier, lpo.latest_po_supplier) as supplier,
+                            osb.opening_stock_balance_qty,
+                            osb.opening_stock_balance_value,
+                            cast(round(safe_divide(osb.opening_stock_balance_qty, d.weekly_demand_qty) * 6) as int64) as opening_stock_cover_days,
+                            coalesce(round(d.daily_demand_qty), 0) as daily_demand_qty,
+                            coalesce(round(d.weekly_demand_qty),0) as weekly_demand_qty,
+                            psdfm.latest_delivery_date,
+                            psdfm.gmv_vat_incl as last_seven_day_gmv_vat_incl,
 
-                              lmr.latest_mr_creation_date,
-                              case
-                                when (lpr.latest_pr_posting_date is null) then 'No Recent Purchase Receipt'
-                              else 'Has Recent Purchase Receipt' end as check_recent_purchase_receipt,
-                              case
-                                when (ustbdpt.status is not null) then 'To Be Disabled' 
-                                when (ustbdpt.status is null) and (osb.opening_stock_balance_qty = 0) then 'Zero Stock Balance'
-                                when (ustbdpt.status is null) and (osb.opening_stock_balance_qty > 0) then 'With Stock Balance Qty'
-                              else 'Active' end as check_opening_stock_balance,
-                              lmr.latest_mr_item_group,
+                            case
+                              when (ustbdpt.status is not null) then 'To Be Disabled' 
+                              when (ustbdpt.status is null) and (osb.opening_stock_balance_qty = 0) then 'Zero Stock Balance'
+                              when (ustbdpt.status is null) and (osb.opening_stock_balance_qty > 0) then 'With Stock Balance Qty'
+                            else 'Active' end as check_opening_stock_balance,
 
-                              case
-                                when (pmr.mr_count_in_draft_status is null) then 'NO'
-                              else 'YES' end as check_mr_in_draft_status,
-                              case
-                                when (mr_count_in_ordered_status is null) then 'NO'
-                              else 'YES' end as check_mr_in_ordered_status,
-                              coalesce(pmr.mr_count_in_draft_status, 0) as mr_count_in_draft_status,
-                              coalesce(pmr.mr_count_in_ordered_status, 0) as mr_count_in_ordered_status,
-                              coalesce(pmr.qty_in_draft_status,0) as mr_qty_in_draft_status,
-                              --pmr.ordered_qty_in_partially_ordered_status as mr_ordered_qty_in_partially_ordered_status,
-                              coalesce(pmr.ordered_qty_in_ordered_status,0) as mr_ordered_qty_in_ordered_status,
-                              --pmr.status as pending_mr_statuses,
-                              --pmr.max_creation_date as pending_mr_max_creation_date,
-                              pmr.pending_mr_latest_creation_date,
+                            case
+                              when (ustbdpt.status is not null) then 'To Be Disabled' 
+                              when (ustbdpt.status is null) and (l.latest_pr_posting_date is null) then 'No Latest PR'
+                            else 'Has Latest PR' end as check_latest_pr,
 
+                            case
+                              when (ustbdpt.status is not null) then 'To Be Disabled' 
+                              when (ustbdpt.status is null) and (d.weekly_demand_qty > 0) then 'Has Weekly Demand'
+                              when (ustbdpt.status is null) and (d.weekly_demand_qty is null) then 'No Weekly Demand'
+                            else 'UNSET' end as check_weekly_demand,
+                            /*case
+                              when (pmr.mr_count_in_draft_status is null) then 'NO'
+                            else 'YES' end as check_mr_in_draft_status,
+                            case
+                              when (mr_count_in_ordered_status is null) then 'NO'
+                            else 'YES' end as check_mr_in_ordered_status,*/
 
-                              lpo.latest_po_creation_date,
-                              lpo.latest_po_supplier,
+                            case
+                              when (rpr.received_qty is null) then 'NO'
+                            else 'YES' end as check_pr_received_qty,
+                            coalesce(rpr.received_qty, 0) as pr_received_qty,
+                            case
+                              when (l.latest_mr_creation_date is not null) then date_diff(l.latest_pr_creation_date, l.latest_po_creation_date, day) 
+                            else null end as calculated_supplier_lead_time,
+                            l.latest_mr_creation_date,
+                            l.latest_mr_item_group,
 
-                              case
-                                when (rpr.received_qty is null) then 'NO'
-                              else 'YES' end as check_pr_received_qty,
-                              coalesce(rpr.received_qty, 0) as pr_received_qty,
+                            l.latest_po_creation_date,
+                            l.latest_po_supplier,
 
-                              lpr.latest_pr_creation_date,
-                              lpr.latest_pr_posting_date,
-                              lpr.latest_pr_item_group_id,
-                              lpr.latest_pr_supplier,
-                              case
-                                when (lmr.latest_mr_creation_date is not null) then date_diff(lpr.latest_pr_creation_date, lpo.latest_po_creation_date, day) 
-                              else null end as calculated_supplier_lead_time
-                              from opening_stock_balance_cte osb
-                              --left join uploaded_skus_to_be_disabled ustbd on osb.company_id = ustbd.company_id and osb.item_code = ustbd.item_code
-                              left join uploaded_skus_to_be_disabled_per_territory ustbdpt on osb.warehouse = ustbdpt.warehouse and osb.item_code = ustbdpt.item_code and osb.stock_uom = ustbdpt.stock_uom
-                              left join four_weeks_demand_plan_cte d on osb.item_code = d.stock_item_id and osb.stock_uom = d.uom and osb.original_territory_id = d.territory_id and osb.four_week_demand_plan_start_date = d.four_week_demand_plan_start_date
-                              and osb.four_week_demand_plan_end_date = d.four_week_demand_plan_end_date
-                              left join previous_seven_day_front_margins_cte psdfm on osb.original_territory_id = psdfm.territory_id and osb.item_code = psdfm.item_code and osb.stock_uom = psdfm.stock_uom
+                            l.latest_pr_creation_date,
+                            l.latest_pr_posting_date,
+                            l.latest_pr_item_group_id,
+                            l.latest_pr_supplier,
 
-                              left join latest_material_requests_cte lmr on osb.original_territory_id = lmr.target_warehouse_territory_id and osb.item_code = lmr.item_code
-                              left join pending_material_requests_cte pmr on osb.original_territory_id = pmr.target_warehouse_territory_id and osb.item_code = pmr.item_code and osb.stock_uom = pmr.stock_uom
+                            coalesce(p.mr_stock_qty_in_draft_with_pending_po,0) as mr_stock_qty_in_draft_with_pending_po,
+                            coalesce(p.mr_stock_qty_in_draft_with_null_po, 0) as mr_stock_qty_in_draft_with_null_po,
+                            coalesce(p.mr_stock_qty_in_ordered_with_approved_po, 0) as mr_stock_qty_in_ordered_with_approved_po,
+                            coalesce(p.mr_stock_qty_in_received_with_approved_po, 0) as mr_stock_qty_in_received_with_approved_po
+                            from opening_stock_balance_cte osb
+                            left join latest_mr_with_po_with_pr_cte l on osb.original_territory_id = l.territory_id and osb.item_code = l.item_code and osb.stock_uom = l.stock_uom
+                            left join uploaded_skus_to_be_disabled_per_territory ustbdpt on osb.warehouse = ustbdpt.warehouse and osb.item_code = ustbdpt.item_code and osb.stock_uom = ustbdpt.stock_uom
+                            left join four_weeks_demand_plan_cte d on (osb.item_code = d.stock_item_id) and (osb.stock_uom = d.uom) and (osb.original_territory_id = d.territory_id) and 
+                            (osb.four_week_demand_plan_start_date = d.four_week_demand_plan_start_date) and osb.four_week_demand_plan_end_date = d.four_week_demand_plan_end_date
+                            left join previous_seven_day_front_margins_cte psdfm on osb.original_territory_id = psdfm.territory_id and osb.item_code = psdfm.item_code and osb.stock_uom = psdfm.stock_uom
+                            left join received_purchase_receipt_cte rpr on (osb.opening_stock_balance_date = rpr.posting_date) and (osb.original_territory_id = rpr.territory_id) and 
+                            (osb.item_code = rpr.item_code and osb.stock_uom = rpr.stock_uom)
+                            left join pending_mr_with_po_with_pr_agg_cte p on (osb.original_territory_id = p.territory_id) and (osb.item_code = p.item_code) and (osb.stock_uom = p.stock_uom)
+                            ),
+updated_opening_stock_with_purchase_history_cte as (
+                                    select distinct sr.*except(four_week_demand_plan_start_date, four_week_demand_plan_end_date),
 
-                              left join latest_purchase_order_cte lpo on osb.original_territory_id = lpo.territory and osb.item_code = lpo.item_code_id
-                              left join latest_purchase_receipt_cte lpr on osb.original_territory_id = lpr.territory_id and osb.item_code = lpr.item_code
-                              left join received_purchase_receipt_cte rpr on osb.opening_stock_balance_date = rpr.posting_date and osb.original_territory_id = rpr.territory_id and osb.item_code = rpr.item_code and osb.stock_uom = rpr.stock_uom
-                              ),
-updated_stock_replenishment_cte as (
-                                    select distinct sr.opening_stock_balance_date,
-                                    --sr.four_week_demand_plan_start_date,
-                                    --sr.four_week_demand_plan_end_date,
-                                    sr.company_id,
-                                    sr.warehouse,
-                                    sr.original_territory_id,
-                                    sr.new_territory_id,
-
-                                    sr.supplier,
                                     utslt.suplier_lead_time as purchasing_team_supplier_lead_time,
-                                    sr.calculated_supplier_lead_time,
                                     coalesce(utslt.suplier_lead_time, sr.calculated_supplier_lead_time) as supplier_lead_time,
                                     1 + coalesce(utslt.suplier_lead_time, sr.calculated_supplier_lead_time) as adjusted_supplier_lead_time,
 
-                                    --sr.sku_active_status,
-                                    sr.check_opening_stock_balance,
                                     coalesce(uigm.type, 'UNSET') as item_group_type,
-                                    sr.item_group_id,
-                                    sr.item_code,
-                                    sr.stock_uom,
 
-                                    sr.opening_stock_balance_qty,
-                                    sr.opening_stock_balance_value,
-                                    sr.daily_demand_qty,
-                                    sr.weekly_demand_qty,
-                                    sr.opening_stock_cover_days,
 
                                     round(safe_divide(sr.opening_stock_balance_qty, sr.opening_stock_cover_days) * 4) as minimum_stock_qty,
                                     round(safe_divide(sr.opening_stock_balance_value, sr.opening_stock_cover_days) * 4) as minimum_stock_value,
@@ -395,40 +497,30 @@ updated_stock_replenishment_cte as (
                                     round(safe_divide(sr.opening_stock_balance_qty, sr.opening_stock_cover_days) * 7) as maximum_7_day_stock_qty,
                                     round(safe_divide(sr.opening_stock_balance_value, sr.opening_stock_cover_days) * 7) as maximum_7_day_stock_value,
 
-                                    sr.latest_delivery_date,
-                                    sr.last_seven_day_gmv_vat_incl,
-
-                                    sr.check_mr_in_draft_status,
-                                    sr.check_mr_in_ordered_status,
-                                    sr.check_pr_received_qty,
-
-                                    sr.pending_mr_latest_creation_date,
-                                    sr.mr_count_in_draft_status,
-                                    sr.mr_count_in_ordered_status,
-                                    sr.mr_qty_in_draft_status,
-                                    sr.mr_ordered_qty_in_ordered_status,
-
-                                    sr.pr_received_qty,
-                                    sr.latest_pr_creation_date,
-                                    sr.latest_pr_posting_date,
-
-                                    from stock_replenishment_cte sr
+                                    from opening_stock_with_purchase_history_cte sr
                                     left join uploaded_territory_supplier_lead_times_cte utslt on sr.original_territory_id = utslt.territory_id and sr.supplier = utslt.supplier
                                     left join uploaded_item_group_mapping uigm on sr.item_group_id = uigm.item_group_id
                                     ),
-stock_replenishment_with_stock_status_cte as (
-                                        select usr.*,
-                                        case
-                                          when check_opening_stock_balance in ('To Be Disabled') then 'To Be Disabled' 
-                                          when check_opening_stock_balance in ('Zero Stock Balance') and (usr.weekly_demand_qty = 0) then 'Zero Stock Balance'
-                                          when check_opening_stock_balance in ('Zero Stock Balance') and (usr.weekly_demand_qty > 0) then 'Out Of Stock'
-                                          when check_opening_stock_balance in ('With Stock Balance Qty') and (opening_stock_cover_days between 0 and 3) then 'Out Of Stock'
-                                          when check_opening_stock_balance in ('With Stock Balance Qty') and (opening_stock_cover_days between 4 and 7) then '4 to 7-Day Available Stock'
-                                          when check_opening_stock_balance in ('With Stock Balance Qty') and (weekly_demand_qty = 0) then 'SLOB'
-                                          when check_opening_stock_balance in ('With Stock Balance Qty') and (opening_stock_cover_days > 7) and (opening_stock_balance_qty > maximum_7_day_stock_qty) then 'SLOB'
-                                        else 'UNSET' end as stock_position_status,
-                                        from updated_stock_replenishment_cte usr
-                                        ),
+stock_replenishment_model_with_stock_position_status_cte as (
+    select usr.*,
+    case
+      when (check_opening_stock_balance = 'To Be Disabled') and (check_latest_pr = 'To Be Disabled') and (check_weekly_demand = 'To Be Disabled') then 'To Be Disabled' 
+
+      when (check_opening_stock_balance = 'With Stock Balance Qty') and (check_latest_pr = 'Has Latest PR') and (check_weekly_demand = 'Has Weekly Demand') and (opening_stock_cover_days between 0 and 3) then 'Out Of Stock'
+      when (check_opening_stock_balance = 'With Stock Balance Qty') and (check_latest_pr = 'Has Latest PR') and (check_weekly_demand = 'Has Weekly Demand') and (opening_stock_cover_days between 4 and 7) then '4-7 Days Stock'
+      when (check_opening_stock_balance = 'With Stock Balance Qty') and (check_latest_pr = 'No Latest PR') and (check_weekly_demand = 'Has Weekly Demand') and (opening_stock_cover_days between 4 and 7) then '4-7 Days Stock'
+      when (check_opening_stock_balance = 'With Stock Balance Qty') and (check_latest_pr = 'Has Latest PR') and (check_weekly_demand = 'Has Weekly Demand') and (opening_stock_cover_days > 7) then 'SLOB'
+      when (check_opening_stock_balance = 'With Stock Balance Qty') and (check_latest_pr = 'Has Latest PR') and (check_weekly_demand = 'No Weekly Demand') then 'No Weekly Demand'
+      when (check_opening_stock_balance = 'With Stock Balance Qty') and (check_latest_pr = 'No Latest PR') and (check_weekly_demand = 'No Weekly Demand') then 'No Weekly Demand'
+
+      when (check_opening_stock_balance = 'Zero Stock Balance') and (check_latest_pr = 'Has Latest PR') and (check_weekly_demand = 'Has Weekly Demand') then 'Out Of Stock'
+      when (check_opening_stock_balance = 'Zero Stock Balance') and (check_latest_pr = 'Has Latest PR') and (check_weekly_demand = 'No Weekly Demand') then 'No Weekly Demand'
+      when (check_opening_stock_balance = 'Zero Stock Balance') and (check_latest_pr = 'No Latest PR') and (check_weekly_demand = 'Has Weekly Demand') then 'Out Of Stock'
+      when (check_opening_stock_balance = 'Zero Stock Balance') and (check_latest_pr = 'No Latest PR') and (check_weekly_demand = 'No Weekly Demand') then 'No Weekly Demand'
+
+    else 'UNSET' end as stock_position_status,
+    from updated_opening_stock_with_purchase_history_cte usr
+    )/*,
 stock_replenishment_with_recommendation_cte as (
         select srwss.*,
           case
@@ -441,9 +533,10 @@ stock_replenishment_with_recommendation_cte as (
             when stock_position_status in ('Out Of Stock') and (mr_qty_in_draft_status = 0) and (mr_ordered_qty_in_ordered_status = 0) then 'Create A Material Request'
           else 'UNSET' end as recommendation
         from stock_replenishment_with_stock_status_cte srwss
-        )
+        )*/
 --select * from updated_stock_replenishment_cte
-select * from stock_replenishment_with_recommendation_cte WHERE original_territory_id = 'Kiambu' --and item_code = 'Prestige Original Margarine 250g'
+select * from stock_replenishment_model_with_stock_position_status_cte WHERE original_territory_id = 'Kiambu' and item_code = 'Sedoso Moisturizing Aloe vera Hand and Body Lotion 200ML'
+--select distinct check_opening_stock_balance, check_latest_pr, check_weekly_demand from opening_stock_with_purchase_history_cte WHERE original_territory_id = 'Kiambu' order by 1,2,3--and item_code = 'Prestige Original Margarine 250g'
 --where FORMAT_DATE('%Y%m%d', opening_stock_balance_date) between @DS_START_DATE and @DS_END_DATE
 --where item_code = 'Mt. Kenya Milk ESL 500ML - 18 PC'
 --order by opening_stock_balance_date, warehouse, item_code

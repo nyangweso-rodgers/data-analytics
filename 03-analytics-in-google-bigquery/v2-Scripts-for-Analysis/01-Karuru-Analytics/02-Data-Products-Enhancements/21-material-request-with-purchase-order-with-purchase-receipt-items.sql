@@ -12,7 +12,7 @@ material_request as(
                     SELECT *, 
                     row_number()over(partition by id order by date_modified desc) as index
                     FROM `kyosk-prod.karuru_reports.material_request` 
-                    where date(date_created) >= date_sub(current_date, interval 1 month)
+                    where date(date_created) >= date_sub(current_date, interval 12 month)
                     and target_warehouse_territory_id not in ('Kyosk HQ', 'Nakuru', 'Karatina', 'Eldoret', 'Ongata Rongai', 'Athi River', 'Kawangware', 'Juja', 'Thika Rd', "Ruai", 'Kisii', 'Meru', 'Mtwapa Mombasa')
                     --and set_warehouse_id not in ('Karatina Receiving Bay - KDKE', 'Eldoret Receiving Bay - KDKE', 'Ongata Rongai Receiving Bay - KDKE', 'Athi River Receiving Bay - KDKE', 'Kawangware Receiving Bay - KDKE')
                     --where date(date_created) between '2024-08-01' and '2024-08-31'
@@ -58,38 +58,12 @@ material_request_items_cte as (
                             from material_request mr, unnest(items) i
                             where index = 1
                             ),
-latest_material_requests_cte as (
-                          select distinct target_warehouse_territory_id,
-                          warehouse_id,
-                          --item_id,
-                          item_code,
-                          --item_name,
-                          last_value(date(date_created))over(partition by warehouse_id, item_code order by date_created asc ROWS BETWEEN UNBOUNDED PRECEDING AND UNBOUNDED FOLLOWING) as latest_mr_creation_date,
-                          last_value(item_group)over(partition by warehouse_id, item_code order by date_created asc ROWS BETWEEN UNBOUNDED PRECEDING AND UNBOUNDED FOLLOWING) as latest_mr_item_group,
-                          from material_request_items_cte
-                          ),
-/*
-pending_material_requests_cte as (
-                              select distinct target_warehouse_territory_id,
-                              item_code,
-                              stock_uom,
-                              sum(case when status = 'DRAFT' then qty else 0 end) as qty_in_draft_status,
-                              sum(case when status = 'PARTIALLY_ORDERED' then ordered_qty else 0 end) as ordered_qty_in_partially_ordered_status,
-                              sum(case when status = 'ORDERED' then ordered_qty else 0 end) as ordered_qty_in_ordered_status,
-                              string_agg(distinct status, "/" order by status) as status,
-                              --sum(ordered_qty) as ordered_qty,
-                              max(date(date_created)) as max_creation_date
-                              from material_request_items_cte
-                              where status in ('DRAFT', 'ORDERED', 'PARTIALLY_ORDERED')
-                              group by 1,2,3
-                              ),
-*/
 ------------------- Purchase Order --------------------------
 purchase_order as (
                     SELECT *,
                     row_number()over(partition by id  order by modified desc) as index
                     FROM `kyosk-prod.karuru_reports.purchase_order` 
-                    where date(creation) >= date_sub(current_date, interval 1 month)
+                    where date(creation) >= date_sub(current_date, interval 12 month)
                     ),
 purchase_order_items_cte as (
                           select distinct creation,
@@ -118,22 +92,12 @@ purchase_order_items_cte as (
                           from purchase_order po, unnest(items) i
                           where index =1
                           ),
-latest_purchase_order_cte as (
-                          select distinct company,
-                          warehouse_id,
-                          --warehouse_territory,
-                          territory,
-                          item_code_id,
-                          last_value(date(creation))over(partition by territory, item_code_id order by creation asc ROWS BETWEEN UNBOUNDED PRECEDING AND UNBOUNDED FOLLOWING) as latest_po_creation_date,
-                          last_value(supplier)over(partition by territory, item_code_id order by creation asc ROWS BETWEEN UNBOUNDED PRECEDING AND UNBOUNDED FOLLOWING) as latest_po_supplier,
-                          from purchase_order_items_cte
-                          ),
 ----------------------- Purchase Receipt Item ---------------------------
 purchase_receipt as (
               SELECT *,
               row_number()over(partition by id order by date_modified desc) as index
               FROM `kyosk-prod.karuru_reports.purchase_receipt` 
-              where date(date_created) >= date_sub(current_date, interval 1 month)
+              where date(date_created) >= date_sub(current_date, interval 12 month)
               and territory_id not in ('Test UG Territory', 'Test KE Territory', 'Kawangware', 'Juja', 'Ongata Rongai', 'Kisii', 'Nakuru', 'Athi River', 'Karatina', 'Eldoret', 'Thika Rd', 'Mtwapa Mombasa', 'Ruai', 'Kiambu')
               and company_id in ('KYOSK DIGITAL SERVICES LTD (KE)')
               ),
@@ -169,17 +133,6 @@ purchase_receipt_items_cte as (
                             from purchase_receipt pr, unnest(items) as i
                             where index = 1
                             ),
-latest_purchase_receipt_cte as (
-                          select distinct company_id,
-                          set_warehouse_id,
-                          territory_id,
-                          item_code,
-                          last_value(date(date_created))over(partition by territory_id, item_code order by date_created asc ROWS BETWEEN UNBOUNDED PRECEDING AND UNBOUNDED FOLLOWING) as latest_pr_creation_date,
-                          last_value(posting_date)over(partition by territory_id, item_code order by date_created asc ROWS BETWEEN UNBOUNDED PRECEDING AND UNBOUNDED FOLLOWING) as latest_pr_posting_date,
-                          last_value(supplier)over(partition by territory_id, item_code order by date_created asc ROWS BETWEEN UNBOUNDED PRECEDING AND UNBOUNDED FOLLOWING) as latest_pr_supplier,
-                          last_value(item_group_id)over(partition by territory_id, item_code order by date_created asc ROWS BETWEEN UNBOUNDED PRECEDING AND UNBOUNDED FOLLOWING) as latest_pr_item_group_id,
-                          from purchase_receipt_items_cte
-                          ),
 received_purchase_receipt_cte as (
                                   select distinct posting_date,
                                   set_warehouse_id,
@@ -190,45 +143,10 @@ received_purchase_receipt_cte as (
                                   from purchase_receipt_items_cte
                                   group by 1,2,3,4,5
                                   ),
------------------ Pending Materail Requests, Purchase Orders ---------------------------------
-pending_mr_with_po_cte as (
-                            select distinct date(mri.date_created) as mr_creation_date,
-                            mri.target_warehouse_territory_id,
-                            mri.id as mr_id,
-                            --mri.name as mr_name,
-                            mri.status as pending_mr_status,
-                            mri.item_code,
-                            mri.stock_uom,
-                            date(poi.creation) as po_creation_date,
-                            poi.id as po_id,
-                            poi.workflow_state as pending_po_workflow_state
-                            from material_request_items_cte mri
-                            left join purchase_order_items_cte poi  on mri.id = poi.material_request and mri.item_code = poi.item_code_id and mri.stock_uom = poi.stock_uom
-                            where status in ('DRAFT', 'ORDERED', 'PARTIALLY_ORDERED')
-                            ),
-pending_mr_and_po_cte as (
-                          select distinct mr_creation_date,
-                          po_creation_date,
-                          target_warehouse_territory_id,
-                          mr_id,
-                          pending_mr_status,
-                          item_code,
-                          stock_uom,
-                          po_id,
-                          pending_po_workflow_state
-                          from pending_mr_with_po_cte
-                          where pending_po_workflow_state not in ('CANCELLED', 'REJECTED')
-                          ),
-pending_mr_and_po_agg_cte as (
-                              select distinct target_warehouse_territory_id,
-                              item_code,
-                              stock_uom
-                              from pending_mr_and_po_cte
-                              ),
-------------------------------------------- Mashup ----------------------------
-mr_with_po_with_pr_mashup as (
-            select distinct date(mri.date_created) as mr_creation_date,
-            lmr.latest_mr_creation_date,
+------------------------------------------- MR, PO and PR Mashup ----------------------------
+mr_with_po_with_pr_cte as (
+            select distinct mri.date_created as mr_creation_datetime,
+            date(mri.date_created) as mr_creation_date,
             mri.company_id as company_id,
             mri.warehouse_id as warehouse_id,
             mri.warehouse_id as mr_warehouse_id,
@@ -241,7 +159,33 @@ mr_with_po_with_pr_mashup as (
             mri.workflow_state as mr_workflow_state,
             mri.status as mr_status,
 
-            coalesce(mri.item_group, lmr.latest_mr_item_group) as item_group,
+            case
+              when (mri.status = 'DRAFT') and (poi.workflow_state is null) and (pri.workflow_state is null) then 'MR In Draft; PO Is Null; PR Is Null'
+              when (mri.status = 'DRAFT') and (poi.workflow_state = 'CANCELLED') and (pri.workflow_state is null) then 'MR In Draft; PO Cancelled; PR Is Null'
+              when (mri.status = 'DRAFT') and (poi.workflow_state = 'PENDING') and (pri.workflow_state is null) then 'MR In Draft; PO In Pending; PR Is Null'
+              when (mri.status = 'DRAFT') and (poi.workflow_state = 'SUBMITTED') and (pri.workflow_state is null) then 'MR In Draft; PO In Submitted; PR Is Null'
+              when (mri.status = 'DRAFT') and (poi.workflow_state = 'REJECTED') and (pri.workflow_state is null) then 'MR In Draft; PO In Rejected; PR Is Null'
+
+              when (mri.status = 'ORDERED') and (poi.workflow_state is null) and (pri.workflow_state is null) then 'MR In Ordered; PO Is Null; PR Is Null'
+              when (mri.status = 'ORDERED') and (poi.workflow_state = 'APPROVED') and (pri.workflow_state is null) then 'MR In Ordered; PO In Approved; PR Is Null'
+              when (mri.status = 'ORDERED') and (poi.workflow_state = 'APPROVED') and (pri.workflow_state  = 'COMPLETED') then 'MR In Ordered; PO Approved; PR In Completed'
+              when (mri.status = 'ORDERED') and (poi.workflow_state = 'APPROVED') and (pri.workflow_state = 'SUBMITTED') then 'MR In Ordered; PO Approved; PR In Submitted'
+
+              when (mri.status = 'PARTIALLY_ORDERED') and (poi.workflow_state is null) and (pri.workflow_state is null) then 'MR In Partially Ordered; PO Is Null; PR Is Null'
+              when (mri.status = 'PARTIALLY_ORDERED') and (poi.workflow_state = 'APPROVED') and (pri.workflow_state is null) then 'MR In Partially Ordered; PO In Approved; PR Is Null'
+              when (mri.status = 'PARTIALLY_ORDERED') and (poi.workflow_state = 'APPROVED') and (pri.workflow_state = 'COMPLETED') then 'MR In Partially Ordered; PO In Approved; PR In Completed'
+              when (mri.status = 'PARTIALLY_ORDERED') and (poi.workflow_state = 'APPROVED') and (pri.workflow_state = 'REJECTED') then 'MR In Partially Ordered; PO In Approved; PR In Rejected'
+
+              when (mri.status = 'PARTIALLY_RECEIVED') and (poi.workflow_state = 'APPROVED') and (pri.workflow_state is null) then 'MR In Partially Received; PO In Approved; PR Is Null'
+              when (mri.status = 'PARTIALLY_RECEIVED') and (poi.workflow_state = 'APPROVED') and (pri.workflow_state = 'COMPLETED') then 'MR In Partially Received; PO In Approved; PR In Completed'
+              when (mri.status = 'PARTIALLY_RECEIVED') and (poi.workflow_state = 'APPROVED') and (pri.workflow_state = 'REJECTED') then 'MR In Partially Received; PO In Approved; PR In Rejected'
+
+              when (mri.status = 'RECEIVED') and (poi.workflow_state = 'APPROVED') and (pri.workflow_state is null) then 'MR In Received; PO In Approved; PR Is Null'
+              when (mri.status = 'RECEIVED') and (poi.workflow_state = 'APPROVED') and (pri.workflow_state = 'COMPLETED') then 'MR In Received; PO In Approved; PR In Completed'
+              when (mri.status = 'RECEIVED') and (poi.workflow_state = 'APPROVED') and (pri.workflow_state = 'REJECTED') then 'MR In Received; PO In Approved; PR In Rejected'
+            else 'UNSET' end as statuses_info,
+
+            mri.item_group as mr_item_group,
             --mri.item_code as mr_item_code,
             --mri.stock_uom as mr_stock_uom,
             mri.item_code as item_code,
@@ -254,48 +198,90 @@ mr_with_po_with_pr_mashup as (
             mri.qty as mr_qty,
             mri.received_qty as mr_received_qty,
 
-            poi.territory as po_territory,
+            poi.creation as po_creation_datetime,
             date(poi.creation) as po_creation_date,
             poi.warehouse_id as po_warehouse_id,
+            poi.territory as po_territory,
             poi.id as purchase_order_id,
             poi.purchase_order_no,
             poi.workflow_state as po_workflow_state,
-            --poi.item_group as po_item_group,
-            --poi.item_code_id as po_item_code_id,
-            --poi.stock_uom as po_stock_uom,
             poi.supplier as po_supplier,
 
+            pri.date_created as pr_creation_datetime,
             date(pri.date_created) as pr_creation_date,
+            date(pri.posting_date) as pr_posting_date,
             pri.id as purchase_receipt_id,
             pri.workflow_state as pr_workflow_state,
             pri.received_qty as pr_received_qty,
+            pri.supplier as pr_supplier,
 
-            --glmrr.latest_mr_item_group,
-
-            lpo.latest_po_creation_date,
-            lpo.latest_po_supplier,
-
-            lpr.latest_pr_posting_date,
-            lpr.latest_pr_supplier,
-            coalesce(lpr.latest_pr_supplier, lpo.latest_po_supplier) as supplier
             from material_request_items_cte mri
-            left join latest_material_requests_cte lmr on mri.warehouse_id = lmr.warehouse_id and mri.item_code = lmr.item_code
             left join purchase_order_items_cte poi on mri.id = poi.material_request and mri.item_code = poi.item_code_id and mri.stock_uom = poi.stock_uom
-            left join latest_purchase_order_cte lpo on mri.warehouse_id = lpo.warehouse_id and mri.item_code = lpo.item_code_id
             left join purchase_receipt_items_cte pri on poi.id = pri.purchase_order and poi.item_code_id = pri.item_code and poi.stock_uom = pri.stock_uom
-            left join latest_purchase_receipt_cte lpr on mri.warehouse_id = lpr.set_warehouse_id and  mri.item_code = lpr.item_code
-            )                          
+            ),
+--------------------------- Pending MR, PO and PR -----------------------------------------
+pending_mr_with_po_with_pr_cte as (
+                                select distinct mr_creation_date,
+                                po_creation_date,
+                                company_id,
+                                warehouse_id,
+                                territory_id,
+                                statuses_info,
+                                material_request_id,
+                                purchase_order_id,
+                                item_code,
+                                stock_uom,
+                                mr_stock_qty,
+                                mr_qty,
+                                from mr_with_po_with_pr_cte
+                                where statuses_info in ('MR In Draft; PO In Pending; PR Is Null', 'MR In Draft; PO Is Null; PR Is Null', 'MR In Received; PO In Approved; PR Is Null')
+                                
+                                ),
+pending_mr_with_po_with_pr_agg_cte as (
+                                        select distinct company_id,
+                                        warehouse_id,
+                                        territory_id,
+                                        item_code,
+                                        stock_uom,
+                                        sum(case when statuses_info = 'MR In Draft; PO In Pending; PR Is Null' then mr_stock_qty else 0 end) as mr_stock_qty_in_draft_with_pending_po,
+                                        sum(case when statuses_info = 'MR In Draft; PO Is Null; PR Is Null' then mr_stock_qty else 0 end) as mr_stock_qty_in_draft_with_null_po,
+                                        sum(case when statuses_info = 'MR In Ordered; PO In Approved; PR Is Null' then mr_stock_qty else 0 end) as  mr_stock_qty_in_ordered_with_approved_po,
+                                        sum(case when statuses_info = 'MR In Received; PO In Approved; PR Is Null' then mr_stock_qty else 0 end) as  mr_stock_qty_in_received_with_approved_po,
+                                        max(mr_creation_date) as pending_mr_max_creation_date
+                                        from pending_mr_with_po_with_pr_cte
+                                        group by 1,2,3,4,5
+                                        ),
+------------------- Latest MR, PO and PR ---------------------------------
+latest_mr_with_po_with_pr_cte as (
+                select distinct company_id,
+                warehouse_id,
+                territory_id,
+                item_code,
+                stock_uom,
+                last_value(mr_creation_date IGNORE NULLS)over(partition by warehouse_id, item_code order by mr_creation_datetime asc ROWS BETWEEN UNBOUNDED PRECEDING AND UNBOUNDED FOLLOWING) as latest_mr_creation_date,
+                last_value(mr_item_group IGNORE NULLS)over(partition by warehouse_id, item_code order by mr_creation_datetime asc ROWS BETWEEN UNBOUNDED PRECEDING AND UNBOUNDED FOLLOWING) as latest_mr_item_group,
+
+                last_value(date(po_creation_date) IGNORE NULLS)over(partition by warehouse_id, item_code order by po_creation_datetime asc ROWS BETWEEN UNBOUNDED PRECEDING AND UNBOUNDED FOLLOWING) as latest_po_creation_date,
+                last_value(po_supplier IGNORE NULLS)over(partition by warehouse_id, item_code order by po_creation_datetime asc ROWS BETWEEN UNBOUNDED PRECEDING AND UNBOUNDED FOLLOWING) as latest_po_supplier,
+
+                last_value(pr_posting_date IGNORE NULLS)over(partition by warehouse_id, item_code order by pr_creation_datetime asc ROWS BETWEEN UNBOUNDED PRECEDING AND UNBOUNDED FOLLOWING) as latest_pr_creation_date,
+                last_value(pr_posting_date IGNORE NULLS)over(partition by warehouse_id, item_code order by pr_creation_datetime asc ROWS BETWEEN UNBOUNDED PRECEDING AND UNBOUNDED FOLLOWING) as latest_pr_posting_date,
+                last_value(pr_supplier IGNORE NULLS)over(partition by territory_id, item_code order by pr_creation_datetime asc ROWS BETWEEN UNBOUNDED PRECEDING AND UNBOUNDED FOLLOWING) as latest_pr_supplier,
+                from mr_with_po_with_pr_cte
+                      )                   
 --select * from material_request_items where date(date_created) between '2024-08-28' and '2024-09-10'
 --select * from latest_material_requests_cte
 --select distinct company, warehouse_id, warehouse_territory, territory from purchase_order_items order by 1,2
 
 --select * from latest_purchase_receipt_cte
 
---select * from latest_purchase_order_cte
 --select * from mr_with_po_with_pr_mashup where mr_creation_date between '2024-09-01' and '2024-09-10'
 --select * from material_request_items where item_code = 'Ideal Scented Petroleum Jelly 50gms'
---select distinct pending_mr_status, pending_po_workflow_state  from pending_material_request_and_purchase_order_cte order by 1,2
-select distinct mr_workflow_state,mr_status,po_workflow_state, pr_workflow_state  from mr_with_po_with_pr_mashup  order by 1,2,3,4
+
+--select distinct * from pending_mr_with_po_with_pr_cte order by 1
+select * from latest_mr_with_po_with_pr_cte where item_code = 'Toss Washing Powder Lavender 20g Sachet' and territory_id = 'Ruiru'
+--select * from mr_with_po_with_pr_cte where item_code = 'Toss Washing Powder Lavender 20g Sachet' and territory_id = 'Ruiru' order by mr_creation_datetime desc
+--select distinct mr_workflow_state,mr_status,po_workflow_state, pr_workflow_state, statuses_info  from pending_mr_with_po_with_pr  order by 1,2,3,4,5
 --where FORMAT_DATE('%Y%m%d', mr_creation_date) between @DS_START_DATE and @DS_END_DATE  
 --where mr_creation_date between '2024-08-28' and '2024-09-10'
 --and compnay_id = 'YOSK DIGITAL SOLUTIONS NIGERIA LIMITED'
