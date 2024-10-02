@@ -4,6 +4,7 @@
 
 # Introduction to Clustering Algorithms
 
+- Clustering models aim to group data into distinct “clusters” or groups.
 - In **clustering**, we do not have a target to predict. We look at the data and then try to club similar observations and form different groups. Hence it is an **unsupervised learning** problem.
 
 # Properties of Clusters
