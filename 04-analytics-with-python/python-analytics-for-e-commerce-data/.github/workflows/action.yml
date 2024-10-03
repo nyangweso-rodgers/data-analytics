@@ -1,0 +1,10 @@
+name: run main.py
+on:
+  schedule:
+    - cron: "0 1 * * 0" # At 00:00 on Hour - format - minute hour day-of-month month day-of-week
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: execute py script # run main.py
+        run: python main.py
