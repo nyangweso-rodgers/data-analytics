@@ -4,18 +4,18 @@ sales_order as (
               SELECT *,
               row_number()over(partition by id  order by last_modified_date desc) as index
               FROM `kyosk-prod.karuru_reports.sales_order` so
-              --where territory_id in ('Test NG Territory', 'Kyosk TZ HQ', 'Test TZ Territory', 'Kyosk HQ','DKasarani', 'Test KE Territory', 'Test UG Territory','Test Fresh TZ Territory')
+              where territory_id not in ('Test NG Territory', 'Kyosk TZ HQ', 'Test TZ Territory', 'Kyosk HQ','DKasarani', 'Test KE Territory', 'Test UG Territory','Test Fresh TZ Territory')
               --where date(created_date) = current_date
               --and date(created_date) between '2024-09-01' and '2024-09-18'
               --and  date(created_date) >= date_sub(current_date, interval 1 month)
               --where date(created_date) >= date_sub(date_trunc(current_date,month), interval 2 day)
-              where date(created_date) >= '2024-09-01'
+              and date(created_date) >= '2024-10-01'
               --and is_pre_karuru = false
                --and date(created_date) between '2024-07-23' and '2024-08-06'
                --and id = 'SO-0H555F015N2QN'
                --and country_id = 'Kenya'
                --and name in ('SOZKVSH2024')
-               and order_status in ('PARTIALLY_DELIVERED')
+               --and order_status in ('PARTIALLY_DELIVERED')
               ),
 sales_order_cte as (
                 select distinct --date(created_date) as created_date,
@@ -78,14 +78,11 @@ outlets_summary as (
                       group by 1,2
                       order by 3 desc
                       )*/
-select distinct  order_status
+select --distinct  order_status
 --distinct country_id, delivery_window_id, delivery_window_start_time, delivery_window_end_time
---max(created_date) as max_created_date, max(last_modified_date) as max_last_modified_date, max(bq_upload_time) as max_bq_upload_time
+max(created_date) as max_created_date, max(last_modified_date) as max_last_modified_date, max(bq_upload_time) as max_bq_upload_time
 from sales_order_cte
 --and market_developer_phone_number is null
---and country_id = 'Uganda'
---and route_id = '0CW5Y2F5NETG1'
 --order by territory_id, created_date desc, route_id
 --and route_id is null
 --and market_developer_phone_number is null
---where name in ('SOYE7Y02024', 'SOHKA062024')

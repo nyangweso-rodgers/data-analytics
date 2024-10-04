@@ -20,14 +20,17 @@ sales_order as (
                 SELECT *,
                 row_number()over(partition by id  order by last_modified_date desc) as index
                 FROM `kyosk-prod.karuru_reports.sales_order` so
-                --where territory_id not in ('Test NG Territory', 'Kyosk TZ HQ', 'Test TZ Territory', 'Kyosk HQ','DKasarani', 'Test KE Territory', 'Test UG Territory','Test Fresh TZ Territory')
+                where territory_id not in ('Test NG Territory', 'Kyosk TZ HQ', 'Test TZ Territory', 'Kyosk HQ','DKasarani', 'Test KE Territory', 'Test UG Territory','Test Fresh TZ Territory')
                 --and territory.country_code = 'ke'
-                where territory_id = 'Ruiru'
-                and date(created_date) between '2024-09-01' and '2024-09-12' 
-                --and date(created_date) >= date_sub(current_date, interval 1 week)
+                --where territory_id = 'Ruiru'
+                --and date(created_date) between '2024-09-01' and '2024-09-12' 
+                and date(created_date) >= date_sub(current_date, interval 1 week)
+                and name = 'SO8GD9P2024'
                 ),
 sales_order_item_cte as (
                     select distinct  created_date,
+                    last_modified_date,
+                    bq_upload_time,
                     --extract( day from date(created_date)) as get_day,
                     --format_date('%A', date(created_date)) as get_sale_order_day, 
                     so.delivery_window.id as delivery_window_id,
@@ -73,4 +76,5 @@ sales_order_item_cte as (
                     --group by 1,2,3,4,5
                     )
 select *
+--max(created_date) as max_created_date, max(last_modified_date) as max_last_modified_date, max(bq_upload_time) as max_bq_upload_time
 from sales_order_item_cte 
