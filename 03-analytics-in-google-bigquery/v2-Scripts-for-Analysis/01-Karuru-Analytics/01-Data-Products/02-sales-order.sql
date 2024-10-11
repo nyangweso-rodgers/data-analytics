@@ -58,6 +58,8 @@ sales_order_cte as (
                 ),
 get_latest_sales_order_report as (
                                 select distinct outlet_id,
+                                last_value(date(created_date))over(partition by outlet_id order by created_date asc ROWS BETWEEN UNBOUNDED PRECEDING AND UNBOUNDED FOLLOWING) as latest_order_creation_date,
+                                last_value(territory_id)over(partition by outlet_id order by created_date asc ROWS BETWEEN UNBOUNDED PRECEDING AND UNBOUNDED FOLLOWING) as latest_territory_id,
                                 last_value(route_id)over(partition by outlet_id order by created_date asc ROWS BETWEEN UNBOUNDED PRECEDING AND UNBOUNDED FOLLOWING) as latest_route_id,
                                 last_value(market_developer_id)over(partition by outlet_id order by created_date asc ROWS BETWEEN UNBOUNDED PRECEDING AND UNBOUNDED FOLLOWING) as latest_market_developer_id,
                                 last_value(market_developer_name)over(partition by outlet_id order by created_date asc ROWS BETWEEN UNBOUNDED PRECEDING AND UNBOUNDED FOLLOWING) as latest_market_developer_name

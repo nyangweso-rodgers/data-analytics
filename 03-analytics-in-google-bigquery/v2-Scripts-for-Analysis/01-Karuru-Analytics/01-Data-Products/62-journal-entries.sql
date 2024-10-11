@@ -1,7 +1,8 @@
 with
 journal_entry as (
                   SELECT * FROM `kyosk-prod.karuru_reports.journal_entry` 
-                  WHERE date(creation) > "2021-01-01"
+                  WHERE date(creation) > "2024-01-01"
+                  and company_id = 'KYOSK DIGITAL SERVICES LTD (KE)'
                   ),
 journal_entry_list as (
                       select distinct je.creation,
@@ -41,7 +42,6 @@ journal_entry_list as (
                       pay_to_recd_from,
                       user_remark,
                       cheque_no,
-                      voucher_type,
                       title,
                       a.owner,
                       a.modified_by,
@@ -50,11 +50,8 @@ journal_entry_list as (
                       --min(creation)
                       from journal_entry je, unnest(accounts) a
                       )
-select *
+select distinct voucher_type, account_type -- --account_name, account
 from journal_entry_list
 --where remark is null
-where id in ("ACC-JV-2024-KDNG-00050",
-"ACC-JV-2024-KDTZ-00524",
-"ACC-JV-2024-26193",
-"ACC-JV-2024-26148",
-"ACC-JV-2024-26144")
+--where id in ("ACC-JV-2024-KDNG-00050","ACC-JV-2024-KDTZ-00524","ACC-JV-2024-26193","ACC-JV-2024-26148","ACC-JV-2024-26144")
+order by 1,2

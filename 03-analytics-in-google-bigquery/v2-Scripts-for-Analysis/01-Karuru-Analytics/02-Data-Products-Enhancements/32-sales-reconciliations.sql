@@ -20,10 +20,8 @@ delivery_trips as (
                 where territory_id not in ('Test UG Territory', 'Test NG Territory', 'Kyosk TZ HQ', 'Test TZ Territory', 'Kyosk HQ','DKasarani', 'Test KE Territory', 'Test Fresh TZ Territory')
                 and status not in ('CANCELLED')
                 and date(created_at) >= date_sub(date_trunc(current_date() , month), interval 1 month)
-                --and date(created_at) = '2024-08-26'
-                --and code in ('DT-EMBU-R9CV', 'DT-EAST-CD3L')
                 --and country_code = 'KE'
-                --and code = 'DT-VOIM-AMYF'
+                and id = '0HH2844KZ38YX'
                 ),
 delivery_trips_cte as (
                         select date(dt.created_at) as creation_date,
@@ -56,6 +54,7 @@ delivery_notes_cte as (
                         select distinct --dn.created_at,
                         dn.route_id,
                         dn.route_name,
+                        dn.fullfilment_center_id,
                         dn.delivery_trip_id,
                         dn.id,
                         dn.code,
@@ -70,7 +69,9 @@ delivery_notes_cte as (
                         where index =1
                         ),
 delivery_notes_items as (
-              select distinct dn.id,
+              select distinct dn.delivery_trip_id,
+              dn.id,
+              dn.code,
               row_number()over(partition by dn.id order by oi.product_bundle_id asc) as delivery_note_item_index,
               oi.item_group_id,
               oi.product_bundle_id,
@@ -99,7 +100,9 @@ delivery_notes_items as (
               where index = 1 
             ),
 delivery_notes_inventory_items as (
-                                  select distinct dni.id,
+                                  select distinct dni.delivery_trip_id,
+                                  dni.id,
+                                  dni.code,
                                   dni.delivery_note_item_index,
                                   dni.item_group_id,
                                   dni.product_bundle_id,
@@ -110,10 +113,10 @@ delivery_notes_inventory_items as (
                                   --dni.discount_amount,
                                   --dni.qty_delivered,
                                   --dni.total_delivered,
-                                  ii.conversion_factor,
-                                  ii.stock_item_id,
-                                  ii.uom as stock_uom,
-                                  ii.inventory_item_qty,
+                                  sum(ii.conversion_factor) as conversion_factor,
+                                  string_agg(distinct ii.stock_item_id ,"/" order by stock_item_id) as stock_item_id,
+                                  string_agg(distinct ii.uom,"/" order by ii.uom) as stock_uom,
+                                  sum(ii.inventory_item_qty) as inventory_item_qty,
                                   dni.delivery_note_ordered_amount,
                                   dni.delivery_note_dispatched_amount,
                                   dni.delivery_note_discount_amount,
@@ -123,6 +126,7 @@ delivery_notes_inventory_items as (
                                   dni.delivery_note_dispatched_qty,
                                   dni.delivery_note_delivered_qty
                                   from delivery_notes_items dni,unnest(inventory_items)ii
+                                  group by 1,2,3,4,5,6,7,8,13,14,15,16,17,18,19,20
                                 ),
 -------------------- Delivery Note Settlements ----------------------------
 delivery_notes_settlement_cte as (
@@ -205,6 +209,21 @@ vehicle_cte as (
               from vehicle
               where index = 1
               ),
+---------------------------- Fulfilment Centers --------------------
+fulfillment_center as (
+                        SELECT *,
+                        row_number()over(partition by id order by updated_at desc) as index 
+                        FROM `kyosk-prod.karuru_reports.fulfillment_center` 
+                        WHERE date(created_at) > "2021-06-27" #start date
+                        ),
+fulfillment_center_cte as (
+                            select distinct 
+                            id,
+                            name,
+                            --country_code,
+                            from fulfillment_center
+                            where index =1 
+                            ),
 ------------------------- Report ----------------------------
 sales_reconciliation_report as (
                                 select distinct dt.creation_date as delivery_trip_creation_date,
@@ -214,6 +233,9 @@ sales_reconciliation_report as (
                                 rm.new_territory_id as territory_id,
                                 dn.route_id,
                                 dn.route_name,
+                                --dn.fullfilment_center_id,
+                                --case when fc.name = "Khetia " then 'Khetia' else rm.new_territory_id  end as fullfilment_center_name,
+
                                 dt.driver_code,
                                 dt.driver_name,
                                 dn.market_developer_name,
@@ -241,6 +263,7 @@ sales_reconciliation_report as (
                                 dn.code as delivery_note_code,
                                 dn.status as delivery_note_status,
                                 dn.so_created_on_app as created_on_app,
+
                                 dnii.delivery_note_item_index,
                                 dnii.product_bundle_id,
                                 dnii.item_status,
@@ -274,31 +297,50 @@ sales_reconciliation_report as (
                                 left join service_provider_cte vsp on dt.vehicle_provider_id = vsp.id
                                 left join service_provider_cte v2vsp on dt.vehicle_v2_service_provider_id = v2vsp.id
                                 left join vehicle_cte v on dt.vehicle_id = v.id
-                                )/*,
-data_validation_summary as (
-            select distinct delivery_trip_creation_date,
+                                --left join fulfillment_center_cte fc on dn.fullfilment_center_id = fc.id
+                                ),
+dts_agg_cte as (
+            select distinct --delivery_trip_creation_date,
             vehicle_id,
-            vehicle_v2_id,
+            --vehicle_v2_id,
             vehicle_license_plate,
             vehicle_provider_id,
-            vehicle_v2_service_provider_id,
+            --vehicle_v2_service_provider_id,
             vehicle_service_provider_name,
             --vehicle_v2_service_provider_name,
             delivery_trip_code, 
             delivery_trip_status, 
-             
-             
-            --delivery_note_code, 
-            --delivery_note_status, 
-            --sum(gmv_vat_incl) as gmv_vat_incl,
-            --sum(delivery_note_settlement_amount) as delivery_note_settlement_amount
+            count(distinct delivery_note_code) as dns_count, 
+            sum(gmv_vat_incl) as gmv_vat_incl,
+            sum(delivery_note_settlement_amount) as delivery_note_settlement_amount
             from sales_reconciliation_report
-            where vehicle_license_plate = 'KAS 106R'
-            --group by 1,2,3,4,5,6
-            )*/
-select *
-from sales_reconciliation_report
-where FORMAT_DATE('%Y%m%d', delivery_trip_creation_date) between @DS_START_DATE and @DS_END_DATE
---where delivery_note_code = 'DN-VOIM-0H295C943NH0Q'
---where delivery_note_code = 'DN-VOIM-0H2RBX8BKNHKN'
---order by delivery_trip_id, delivery_note_id, product_bundle_id
+            where delivery_trip_creation_date = '2024-10-08' and country_code = 'KE'
+            --where vehicle_license_plate = 'KAS 106R'
+            group by 1,2,3,4,5,6
+            ),
+dns_agg_cte as (
+            select distinct --delivery_trip_creation_date,
+            vehicle_id,
+            --vehicle_v2_id,
+            vehicle_license_plate,
+            vehicle_provider_id,
+            --vehicle_v2_service_provider_id,
+            vehicle_service_provider_name,
+            --vehicle_v2_service_provider_name,
+            delivery_trip_code, 
+            delivery_trip_status, 
+            delivery_note_code,
+            count(distinct delivery_note_code) as dns_count, 
+            sum(gmv_vat_incl) as gmv_vat_incl,
+            sum(delivery_note_settlement_amount) as delivery_note_settlement_amount
+            from sales_reconciliation_report
+            where delivery_trip_creation_date = '2024-10-08' and country_code = 'KE' and delivery_trip_code = 'DT-KISU-LABU' and delivery_note_code = 'DN-KISU-0HGKT8MGV3BW9'
+            --where vehicle_license_plate = 'KAS 106R'
+            group by 1,2,3,4,5,6,7
+            )
+--select * from dns_agg_cte
+--select * from delivery_notes_items where code = 'DN-KHETIA -EIKT-0HGWREJ17W2YJ'
+--select * from delivery_notes_inventory_items where code = 'DN-KHETIA -EIKT-0HGWREJ17W2YJ'
+select * from delivery_trips_cte --where delivery_note_id = '0HGWREJ17W2YJ'
+--select * from sales_reconciliation_report --where delivery_note_code = 'DN-KHETIA -EIKT-0HGWREJ17W2YJ'
+--where FORMAT_DATE('%Y%m%d', delivery_trip_creation_date) between @DS_START_DATE and @DS_END_DATE --order by delivery_trip_id, delivery_note_id, product_bundle_id
