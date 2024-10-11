@@ -4,6 +4,14 @@
 
 # What is Linear Regression?
 
+- **Linear Regression** is a statistical way of measuring the relationship between **variables**.
+- There are two types of Linear Regression:
+
+  1. Simple Linear Regression
+  2. Multiple Linear Regression
+
+- Remark:
+  - **Multiple Linear Regression** is an extension of **Simple Linear Regression**. It is used when we want to predict the value of a variable based on the value of two or more other variables.
 - The most straightforward regression model, featuring one **dependent** and one **independent variable**, is encapsulated by the equation **y = c + m.x**, where:
   1. **y** represents the **predicted** score of the **dependent variable**,
   2. **c** is the constant,
@@ -128,5 +136,29 @@
 1. Lasso Regression (L1 Regularization)
 2. Ridge Regression (L2 Regularization)
 3. Elastic Net Regression
+
+# Example 1:
+
+- **Problem Statement**: Let’s predict the relationship between a person's **BMI** and their **weight**.
+- Code:
+
+  ```py
+    from sklearn.linear_model import LinearRegression
+    import numpy as np
+
+    # Sample data: BMI and corresponding weights
+    X = np.array([[18.5], [24.9], [30.0], [35.0], [40.0]])  # BMI
+    y = np.array([60, 70, 80, 90, 100])  # Weight in kg
+
+    # Initialize and train the model
+    model = LinearRegression()
+    model.fit(X, y)
+
+    # Predict weight for a BMI of 28.0
+    predicted_weight = model.predict([[28.0]])
+    print("Predicted weight for BMI 28.0:", predicted_weight[0], "kg")
+  ```
+
+  - Output:
 
 # Resources and Further Reading

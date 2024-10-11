@@ -75,6 +75,6 @@
     print("Subjectivity of Text 2 is", s_2)
   ```
 
-# 2. Using VADER
+# 2. Using Valence Aware Dictionary and Sentiment Reasoner (VADER)
 
-- **VADER** (**Valence Aware Dictionary and Sentiment Reasoner**) is a rule-based sentiment analyzer that has been trained on social media text.
+- **VADER** is a rule-based sentiment analyzer that has been trained on social media text.

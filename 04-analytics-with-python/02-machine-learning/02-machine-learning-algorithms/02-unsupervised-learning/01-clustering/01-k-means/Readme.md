@@ -68,4 +68,26 @@
     y_kmeans = kmeans.predict(X)
 ```
 
+# Example 1: K-Means Clustering
+
+- **Problem Statement**: Group customers based on their spending habits.
+- Code:
+
+  ```python
+    from sklearn.cluster import KMeans
+
+    # Sample data: Annual Income and Spending Score
+    X = np.array([[15, 39], [16, 81], [17, 6], [18, 77], [19, 40], [20, 76]])
+
+    # Initialize the model with 2 clusters
+    kmeans = KMeans(n_clusters=2, random_state=42)
+    kmeans.fit(X)
+
+    # Predict the cluster for a new customer with income 18 and spending score 50
+    cluster = kmeans.predict([[18, 50]])
+    print("Cluster for new customer:", cluster[0])
+  ```
+
+- Output:
+
 # Resources And Further Reading
