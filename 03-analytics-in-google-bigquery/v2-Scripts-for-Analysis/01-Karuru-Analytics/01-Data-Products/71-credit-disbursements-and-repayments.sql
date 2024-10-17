@@ -1,12 +1,14 @@
+------------------- credit disbursements -----------------
 with
 credit_disbursements as (
                                 SELECT *, 
                                 row_number()over(partition by id order by bq_upload_time desc) as index
                                 FROM `kyosk-prod.karuru_credit.credit_disbursements` 
-                                WHERE date(disbursement_date) > '2023-08-01'
-                                --where date(disbursement_date) > date_sub(date_trunc(current_date(), month), interval 4 month)
-                                and id = '0FG75T6HF3SPB'
-                                ),
+                                --WHERE date(disbursement_date) > '2023-08-01'
+                                where date(disbursement_date) > date_sub(date_trunc(current_date(), month), interval 4 month)
+                                --and id = '0FG75T6HF3SPB'
+                                and payment_request_id= '0HHRZ816ME1EK'
+                                ), 
 credit_disbursements_cte as (
                             select distinct cd.bq_upload_time,
                             cd.disbursement_date,
@@ -15,6 +17,7 @@ credit_disbursements_cte as (
                             cd.id,
                             cd.credit_status,
                             cd.credit_status_description,
+                            cd.payment_request_id
                             from credit_disbursements cd
                             where index = 1
                             ),
@@ -31,4 +34,4 @@ credit_repayments_cte as (
                             from credit_disbursements cd, unnest(repayments) r
                             where index = 1
                             )
-select * from credit_repayments_cte
+select * from credit_disbursements_cte
