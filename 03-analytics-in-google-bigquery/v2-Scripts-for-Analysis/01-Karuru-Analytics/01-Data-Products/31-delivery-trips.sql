@@ -5,16 +5,14 @@ delivery_trips as (
                 select *,
                 row_number()over(partition by id order by updated_at desc) as index
                 FROM `kyosk-prod.karuru_reports.delivery_trips` 
-                where territory_id not in ('Test UG Territory', 'Test NG Territory', 'Kyosk TZ HQ', 'Test TZ Territory', 'Kyosk HQ','DKasarani', 'Test KE Territory', 'Test Fresh TZ Territory')
-                and date(created_at) > '2024-09-01'
+                --where territory_id not in ('Test UG Territory', 'Test NG Territory', 'Kyosk TZ HQ', 'Test TZ Territory', 'Kyosk HQ','DKasarani', 'Test KE Territory', 'Test Fresh TZ Territory')
+                where date(created_at) > '2024-09-01'
                 --where date(created_at) = current_date
                 --and date_trunc(date(created_at),month) >= date_sub(date_trunc(current_date, month), interval 3 month)
                 --and date(created_at) between '2024-05-01' and '2024-06-31'
                 --and is_pre_karuru = false]
                 --and id = '0HH2844KZ38YX'
-                --and code like 'DT-KHETIA%'
-                --and id = '0HH2844KZ38YX'
-                --and id = '0HHQ4FZ126878'
+                --and code like "DT-KHETIA%"
                 and id in ("0HHQ4FZ126878",
 "0HHPWCCXJ6B84",
 "0HHCMFSKA6BBK",

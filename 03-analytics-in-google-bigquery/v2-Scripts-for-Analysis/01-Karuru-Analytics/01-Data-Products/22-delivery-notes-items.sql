@@ -14,13 +14,12 @@ delivery_notes as (
                 and id = '0FX8MV1E14W9Y'
                 ),
 delivery_notes_items as (
-                          select distinct --date(created_at) as 
+                          select distinct  created_at,
                           --dn.delivery_window.delivery_date as scheduled_delivery_date,
-                          created_at,
+                         
                           updated_at,
                           bq_upload_time,
                           --date(delivery_date) as delivery_date,
-                          --date_diff(date(updated_at), date(delivery_date), day) as check_delivery_date_diff,
                           coalesce(date(delivery_date), date(updated_at)) as delivery_date,
                           country_code,
                           territory_id,

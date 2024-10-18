@@ -1,5 +1,5 @@
 -------------------------------- Delivery Trip, Delivery Notes , Items ------------------------------------
------------------ Driver Sales Reconciliation Report -------------------
+----------------- Sales Reconciliation Report -------------------
 -----------------------------------Created By : Rodgers -----------------------------------------------
 with
 -------------------------------Uploaded Tables---------------------------------------
@@ -20,8 +20,8 @@ delivery_trips as (
                 where territory_id not in ('Test UG Territory', 'Test NG Territory', 'Kyosk TZ HQ', 'Test TZ Territory', 'Kyosk HQ','DKasarani', 'Test KE Territory', 'Test Fresh TZ Territory')
                 and status not in ('CANCELLED')
                 and date(created_at) >= date_sub(date_trunc(current_date() , month), interval 1 month)
-                --and country_code = 'KE'
-                and id = '0HH2844KZ38YX'
+                and country_code = 'KE'
+                --and id = '0HH2844KZ38YX'
                 ),
 delivery_trips_cte as (
                         select date(dt.created_at) as creation_date,
@@ -233,8 +233,8 @@ sales_reconciliation_report as (
                                 rm.new_territory_id as territory_id,
                                 dn.route_id,
                                 dn.route_name,
-                                --dn.fullfilment_center_id,
-                                --case when fc.name = "Khetia " then 'Khetia' else rm.new_territory_id  end as fullfilment_center_name,
+                                dn.fullfilment_center_id,
+                                case when fc.name = "Khetia " then 'Khetia' else rm.new_territory_id  end as fullfilment_center_name,
 
                                 dt.driver_code,
                                 dt.driver_name,
@@ -297,8 +297,8 @@ sales_reconciliation_report as (
                                 left join service_provider_cte vsp on dt.vehicle_provider_id = vsp.id
                                 left join service_provider_cte v2vsp on dt.vehicle_v2_service_provider_id = v2vsp.id
                                 left join vehicle_cte v on dt.vehicle_id = v.id
-                                --left join fulfillment_center_cte fc on dn.fullfilment_center_id = fc.id
-                                ),
+                                left join fulfillment_center_cte fc on dn.fullfilment_center_id = fc.id
+                                )/*,
 dts_agg_cte as (
             select distinct --delivery_trip_creation_date,
             vehicle_id,
@@ -314,7 +314,7 @@ dts_agg_cte as (
             sum(gmv_vat_incl) as gmv_vat_incl,
             sum(delivery_note_settlement_amount) as delivery_note_settlement_amount
             from sales_reconciliation_report
-            where delivery_trip_creation_date = '2024-10-08' and country_code = 'KE'
+            where delivery_trip_creation_date between '2024-10-06' and '2024-10-12'
             --where vehicle_license_plate = 'KAS 106R'
             group by 1,2,3,4,5,6
             ),
@@ -334,13 +334,15 @@ dns_agg_cte as (
             sum(gmv_vat_incl) as gmv_vat_incl,
             sum(delivery_note_settlement_amount) as delivery_note_settlement_amount
             from sales_reconciliation_report
-            where delivery_trip_creation_date = '2024-10-08' and country_code = 'KE' and delivery_trip_code = 'DT-KISU-LABU' and delivery_note_code = 'DN-KISU-0HGKT8MGV3BW9'
+            where delivery_trip_creation_date between '2024-10-06' and '2024-10-12'
             --where vehicle_license_plate = 'KAS 106R'
             group by 1,2,3,4,5,6,7
             )
+*/
 --select * from dns_agg_cte
+--select * from dts_agg_cte
 --select * from delivery_notes_items where code = 'DN-KHETIA -EIKT-0HGWREJ17W2YJ'
 --select * from delivery_notes_inventory_items where code = 'DN-KHETIA -EIKT-0HGWREJ17W2YJ'
-select * from delivery_trips_cte --where delivery_note_id = '0HGWREJ17W2YJ'
---select * from sales_reconciliation_report --where delivery_note_code = 'DN-KHETIA -EIKT-0HGWREJ17W2YJ'
---where FORMAT_DATE('%Y%m%d', delivery_trip_creation_date) between @DS_START_DATE and @DS_END_DATE --order by delivery_trip_id, delivery_note_id, product_bundle_id
+--select * from delivery_trips_cte where delivery_note_id = '0HGWREJ17W2YJ'
+select * from sales_reconciliation_report 
+where FORMAT_DATE('%Y%m%d', delivery_trip_creation_date) between @DS_START_DATE and @DS_END_DATE --order by delivery_trip_id, delivery_note_id, product_bundle_id
