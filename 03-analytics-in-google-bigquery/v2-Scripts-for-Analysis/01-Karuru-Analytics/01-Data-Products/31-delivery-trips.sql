@@ -5,45 +5,47 @@ delivery_trips as (
                 select *,
                 row_number()over(partition by id order by updated_at desc) as index
                 FROM `kyosk-prod.karuru_reports.delivery_trips` 
-                --where territory_id not in ('Test UG Territory', 'Test NG Territory', 'Kyosk TZ HQ', 'Test TZ Territory', 'Kyosk HQ','DKasarani', 'Test KE Territory', 'Test Fresh TZ Territory')
-                where date(created_at) > '2024-09-01'
+                where territory_id not in ('Test UG Territory', 'Test NG Territory', 'Kyosk TZ HQ', 'Test TZ Territory', 'Kyosk HQ','DKasarani', 'Test KE Territory', 'Test Fresh TZ Territory')
+                --where date(created_at) > '2024-09-01'
                 --where date(created_at) = current_date
-                --and date_trunc(date(created_at),month) >= date_sub(date_trunc(current_date, month), interval 3 month)
+                and date_trunc(date(created_at),month) >= date_sub(date_trunc(current_date, month), interval 1 month)
                 --and date(created_at) between '2024-05-01' and '2024-06-31'
                 --and is_pre_karuru = false]
                 --and id = '0HH2844KZ38YX'
                 --and code like "DT-KHETIA%"
-                and id in ("0HHQ4FZ126878",
-"0HHPWCCXJ6B84",
-"0HHCMFSKA6BBK",
-"0HH2844KZ38YX",
-"0HGS32B0V38D0",
-"0HGFQ0GPF3AFP",
-"0HGEMSTWF39JB",
-"0HFS89PC339FM",
-"0HFRZ77TB39S8",
-"0HFHQTHRQ3A1E",
-"0HFEE6Q0B38DJ",
-"0HF4KQ7433APT",
-"0HEW0A63V39X7",
-"0HEM8T9912QYK")
+                and id = '0HNXFZ7CF0X0V'
               ),
+dt_status_change_history_cte as (    
+                                  select distinct dt.id,
+                                  sch.from_status,
+                                  sch.to_status,
+                                  sch.change_time,
+                                  --case when sch.to_status = 'COMPLETED' then sch.change_time end as completed_time
+                                  --max(case when sch.to_status = 'COMPLETED' then sch.change_time end)  as completed_time,
+                                  --max(case when sch.to_status = 'DISPATCHED' then sch.change_time end)  as dispatched_time,
+                                  --max(case when sch.to_status = 'DELIVERED' then sch.change_time end)  as delivered_time
+                                  from delivery_trips dt,unnest(status_change_history) sch
+                                  where index = 1 
+                                  --group by 1
+                                  ),
 delivery_trips_cte as (
-                          select distinct --date(created_at) as created_at,
-                          created_at,
+                          select distinct created_at,
                           updated_at,
                           bq_upload_time,
+
+                          dtschct.change_time as dt_completed_datetime,
+
                           country_code,
                           territory_id,
+                          fulfillment_center_id,
+
                           warehouse_location.latitude as warehouse_latitude,
                           warehouse_location.latitude as warehouse_longitude,
 
                           is_preplanned, 
                           dispatch_time.dispatch_window_type,
 
-                          
-                          fulfillment_center_id,
-                          id,
+                          dt.id,
                           code,
                           status,
                           --vehicle.id as vehicle_id,
@@ -69,13 +71,10 @@ delivery_trips_cte as (
                           service_provider.id as service_provider_id,
                           service_provider.name as service_provider_name,
                           
-                          
-                          
                           from delivery_trips dt, unnest(delivery_note_ids) delivery_note_ids
+                          left join (select distinct id, change_time from dt_status_change_history_cte where to_status = 'COMPLETED') dtschct on dt.id = dtschct.id
                           where index = 1
-                          
                         )
-select *
+select * from delivery_trips_cte
 --distinct country_code, count(distinct id)
 --max(created_at) as max_created_at_datetime, max(updated_at) as max_updated_at_datetime, max(bq_upload_time) as max_bq_upload_time_datetime
-from delivery_trips_cte

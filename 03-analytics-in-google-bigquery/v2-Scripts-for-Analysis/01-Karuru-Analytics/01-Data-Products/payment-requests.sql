@@ -5,10 +5,11 @@ payment_requests as (
                 SELECT *,
                 row_number()over(partition by id order by last_modified desc) as index
                 FROM `kyosk-prod.karuru_reports.payment_requests` pr
-                WHERE DATE(created_at) >= "2023-01-01" 
+                --WHERE DATE(created_at) >= "2023-01-01" 
                 --where DATE(created_at) <= '2024-01-07'
-                --where date(created_at) <= date_sub(date_trunc(current_date, month),interval 1 day)
-                and id = '0FKPCA194YM1D'
+                where date(created_at) >= date_sub(date_trunc(current_date, month),interval 1 week)
+                and country_code = 'KE'
+                and payment_reference = '0HF8VVFEV7G6A'
                 ),
 payment_requests_cte as (
                           select distinct created_at,
@@ -30,7 +31,7 @@ payment_requests_settlement_cte as (
                                     s.transaction_reference,
                                     s.channel,
                                     s.settlement_type,
-                                    --s.amount as settlement_amount
+                                    s.amount as settlement_amount
                                     from payment_requests pr, unnest(settlement) s
                                     where index = 1
                                     ),
@@ -39,7 +40,8 @@ payment_requests_with_settlement_cte as (
                                         prws.settlement_status,
                                         prws.transaction_reference,
                                         prws.channel as settlement_channel,
-                                        prws.settlement_type
+                                        prws.settlement_type,
+                                        settlement_amount
                                         from payment_requests_cte prr
                                         left join payment_requests_settlement_cte prws on prr.id = prws.id
                                         )
