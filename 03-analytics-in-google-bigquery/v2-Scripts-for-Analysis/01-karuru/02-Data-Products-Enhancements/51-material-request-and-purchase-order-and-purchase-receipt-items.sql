@@ -13,8 +13,6 @@ material_request as(
                     row_number()over(partition by id order by date_modified desc) as index
                     FROM `kyosk-prod.karuru_reports.material_request` 
                     where date(date_created) >= date_sub(current_date, interval 12 month)
-                    and target_warehouse_territory_id not in ('Kyosk HQ', 'Nakuru', 'Karatina', 'Eldoret', 'Ongata Rongai', 'Athi River', 'Kawangware', 'Juja', 'Thika Rd', "Ruai", 'Kisii', 'Meru', 'Mtwapa Mombasa')
-                    --and set_warehouse_id not in ('Karatina Receiving Bay - KDKE', 'Eldoret Receiving Bay - KDKE', 'Ongata Rongai Receiving Bay - KDKE', 'Athi River Receiving Bay - KDKE', 'Kawangware Receiving Bay - KDKE')
                     --where date(date_created) between '2024-08-01' and '2024-08-31'
                     and material_request_type = 'PURCHASE'
                     and workflow_state not in ('REJECTED')
@@ -99,7 +97,7 @@ purchase_receipt as (
               FROM `kyosk-prod.karuru_reports.purchase_receipt` 
               where date(date_created) >= date_sub(current_date, interval 12 month)
               and territory_id not in ('Test UG Territory', 'Test KE Territory', 'Kawangware', 'Juja', 'Ongata Rongai', 'Kisii', 'Nakuru', 'Athi River', 'Karatina', 'Eldoret', 'Thika Rd', 'Mtwapa Mombasa', 'Ruai', 'Kiambu')
-              and company_id in ('KYOSK DIGITAL SERVICES LTD (KE)')
+              --and company_id in ('KYOSK DIGITAL SERVICES LTD (KE)')
               ),
 purchase_receipt_items_cte as (
                             select distinct date_created,
@@ -144,7 +142,7 @@ received_purchase_receipt_cte as (
                                   group by 1,2,3,4,5
                                   ),
 ------------------------------------------- MR, PO and PR Mashup ----------------------------
-mr_with_po_with_pr_cte as (
+mr_po_and_pr_cte as (
             select distinct mri.date_created as mr_creation_datetime,
             date(mri.date_created) as mr_creation_date,
             mri.company_id as company_id,
@@ -183,7 +181,7 @@ mr_with_po_with_pr_cte as (
               when (mri.status = 'RECEIVED') and (poi.workflow_state = 'APPROVED') and (pri.workflow_state is null) then 'MR In Received; PO In Approved; PR Is Null'
               when (mri.status = 'RECEIVED') and (poi.workflow_state = 'APPROVED') and (pri.workflow_state = 'COMPLETED') then 'MR In Received; PO In Approved; PR In Completed'
               when (mri.status = 'RECEIVED') and (poi.workflow_state = 'APPROVED') and (pri.workflow_state = 'REJECTED') then 'MR In Received; PO In Approved; PR In Rejected'
-            else 'UNSET' end as statuses_info,
+            else 'UNSET' end as statuses_description,
 
             mri.item_group as mr_item_group,
             --mri.item_code as mr_item_code,
@@ -218,41 +216,49 @@ mr_with_po_with_pr_cte as (
             from material_request_items_cte mri
             left join purchase_order_items_cte poi on mri.id = poi.material_request and mri.item_code = poi.item_code_id and mri.stock_uom = poi.stock_uom
             left join purchase_receipt_items_cte pri on poi.id = pri.purchase_order and poi.item_code_id = pri.item_code and poi.stock_uom = pri.stock_uom
+            where mri.warehouse_id not in ('Kyosk HQ Receiving - KDKE', 'Test KE Receiving Bay - KDKE', 'Test KE Main - KDKE', 'Nakuru Receiving Bay - KDKE', 'Ongata Rongai Receiving Bay - KDKE', 
+            'Kisii Receiving bay - KDKE', 'Kawangware Receiving Bay - KDKE', 'Eldoret Receiving Bay - KDKE', 'Athi River Receiving Bay - KDKE', 'Test UG Receiving By - KDUG', 'Test Fresh TZ Receiving Bay - KDTZ',
+            'Ruai Receiving Bay - KDKE', 'Themi Receiving Bay - KDTZ', 'Mukono Receiving Bay - KDUG', 'Juja Receiving Bay - KDKE', 'Karatina Receiving Bay - KDKE', 'Meru Receiving Bay - KDKE', 
+            'Thika Rd Receiving Bay - KDKE', 'Benin- Sapele Receiving Bay - KDNG', 'Ilorin Main Warehouse - KDNG', 'Ilorin Receiving Bay - KDNG', 'Kano-Sabongari Receiving Bay - KDNG', 
+            'Kano-Zoo Receiving Bay - KDNG', 'PortHarcourt-Obiakpor Receiving Bay - KDNG', 'Vingunguti Receiving Bay - KDTZ', 'Okota Receiving Bay - KDNG', 'Surulere Receiving Bay - KDNG',
+            'Mtwapa Mombasa Receiving Bay - KDKE')
             ),
 --------------------------- Pending MR, PO and PR -----------------------------------------
-pending_mr_with_po_with_pr_cte as (
-                                select distinct mr_creation_date,
-                                po_creation_date,
-                                company_id,
-                                warehouse_id,
-                                territory_id,
-                                statuses_info,
-                                material_request_id,
-                                purchase_order_id,
-                                item_code,
-                                stock_uom,
-                                mr_stock_qty,
-                                mr_qty,
-                                from mr_with_po_with_pr_cte
-                                where statuses_info in ('MR In Draft; PO In Pending; PR Is Null', 'MR In Draft; PO Is Null; PR Is Null', 'MR In Received; PO In Approved; PR Is Null')
-                                
-                                ),
-pending_mr_with_po_with_pr_agg_cte as (
-                                        select distinct company_id,
-                                        warehouse_id,
-                                        territory_id,
-                                        item_code,
-                                        stock_uom,
-                                        sum(case when statuses_info = 'MR In Draft; PO In Pending; PR Is Null' then mr_stock_qty else 0 end) as mr_stock_qty_in_draft_with_pending_po,
-                                        sum(case when statuses_info = 'MR In Draft; PO Is Null; PR Is Null' then mr_stock_qty else 0 end) as mr_stock_qty_in_draft_with_null_po,
-                                        sum(case when statuses_info = 'MR In Ordered; PO In Approved; PR Is Null' then mr_stock_qty else 0 end) as  mr_stock_qty_in_ordered_with_approved_po,
-                                        sum(case when statuses_info = 'MR In Received; PO In Approved; PR Is Null' then mr_stock_qty else 0 end) as  mr_stock_qty_in_received_with_approved_po,
-                                        max(mr_creation_date) as pending_mr_max_creation_date
-                                        from pending_mr_with_po_with_pr_cte
-                                        group by 1,2,3,4,5
-                                        ),
+pending_mr_po_and_pr_cte as (
+                              select distinct current_datetime as scheduled_query_creation_time,
+                              'rodgers.nyangweso@kyosk.app' as scheduled_query_created_by,
+                              mr_creation_date,
+                              po_creation_date,
+
+                              company_id,
+                              warehouse_id,
+                              territory_id,
+                              statuses_description,
+                              material_request_id,
+                              purchase_order_id,
+                              item_code,
+                              stock_uom,
+                              mr_stock_qty,
+                              mr_qty,
+                              from mr_po_and_pr_cte
+                              where statuses_description in ('MR In Draft; PO In Pending; PR Is Null', 'MR In Draft; PO Is Null; PR Is Null', 'MR In Received; PO In Approved; PR Is Null')
+                              ),
+pending_mr_po_and_pr_agg_cte as (
+                                  select distinct company_id,
+                                  warehouse_id,
+                                  territory_id,
+                                  item_code,
+                                  stock_uom,
+                                  sum(case when statuses_description = 'MR In Draft; PO In Pending; PR Is Null' then mr_stock_qty else 0 end) as mr_stock_qty_in_draft_with_pending_po,
+                                  sum(case when statuses_description = 'MR In Draft; PO Is Null; PR Is Null' then mr_stock_qty else 0 end) as mr_stock_qty_in_draft_with_null_po,
+                                  sum(case when statuses_description = 'MR In Ordered; PO In Approved; PR Is Null' then mr_stock_qty else 0 end) as  mr_stock_qty_in_ordered_with_approved_po,
+                                  sum(case when statuses_description = 'MR In Received; PO In Approved; PR Is Null' then mr_stock_qty else 0 end) as  mr_stock_qty_in_received_with_approved_po,
+                                  max(mr_creation_date) as pending_mr_max_creation_date
+                                  from mr_po_and_pr_cte
+                                  group by 1,2,3,4,5
+                                  ),
 ------------------- Latest MR, PO and PR ---------------------------------
-latest_mr_with_po_with_pr_cte as (
+latest_mr_po_and_pr_cte as (
                 select distinct company_id,
                 warehouse_id,
                 territory_id,
@@ -267,25 +273,6 @@ latest_mr_with_po_with_pr_cte as (
                 last_value(pr_posting_date IGNORE NULLS)over(partition by warehouse_id, item_code order by pr_creation_datetime asc ROWS BETWEEN UNBOUNDED PRECEDING AND UNBOUNDED FOLLOWING) as latest_pr_creation_date,
                 last_value(pr_posting_date IGNORE NULLS)over(partition by warehouse_id, item_code order by pr_creation_datetime asc ROWS BETWEEN UNBOUNDED PRECEDING AND UNBOUNDED FOLLOWING) as latest_pr_posting_date,
                 last_value(pr_supplier IGNORE NULLS)over(partition by territory_id, item_code order by pr_creation_datetime asc ROWS BETWEEN UNBOUNDED PRECEDING AND UNBOUNDED FOLLOWING) as latest_pr_supplier,
-                from mr_with_po_with_pr_cte
+                from mr_po_and_pr_cte
                       )                   
---select * from material_request_items where date(date_created) between '2024-08-28' and '2024-09-10'
---select * from latest_material_requests_cte
---select distinct company, warehouse_id, warehouse_territory, territory from purchase_order_items order by 1,2
-
---select * from latest_purchase_receipt_cte
-
---select * from mr_with_po_with_pr_mashup where mr_creation_date between '2024-09-01' and '2024-09-10'
---select * from material_request_items where item_code = 'Ideal Scented Petroleum Jelly 50gms'
-
---select distinct * from pending_mr_with_po_with_pr_cte order by 1
-select * from latest_mr_with_po_with_pr_cte where item_code = 'Toss Washing Powder Lavender 20g Sachet' and territory_id = 'Ruiru'
---select * from mr_with_po_with_pr_cte where item_code = 'Toss Washing Powder Lavender 20g Sachet' and territory_id = 'Ruiru' order by mr_creation_datetime desc
---select distinct mr_workflow_state,mr_status,po_workflow_state, pr_workflow_state, statuses_info  from pending_mr_with_po_with_pr  order by 1,2,3,4,5
---where FORMAT_DATE('%Y%m%d', mr_creation_date) between @DS_START_DATE and @DS_END_DATE  
---where mr_creation_date between '2024-08-28' and '2024-09-10'
---and compnay_id = 'YOSK DIGITAL SOLUTIONS NIGERIA LIMITED'
---and purchase_order_no in ('PUR-ORD-2024-06989')
---
---where item_code = 'Halisi Fry Cooking Oil 20L'
---order by mr_creation_date desc, company_id, warehouse_id, item_code 
+select * from pending_mr_po_and_pr_cte
