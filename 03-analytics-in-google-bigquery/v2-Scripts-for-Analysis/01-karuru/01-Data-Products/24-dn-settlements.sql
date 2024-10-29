@@ -15,6 +15,8 @@ delivery_notes as (
 delivery_notes_cte as (
                         select distinct created_at,
                         country_code,
+                        territory_id
+                        
                         delivery_trip_id,
                         dn.outlet_id,
                         outlet.name as outlet_name,
