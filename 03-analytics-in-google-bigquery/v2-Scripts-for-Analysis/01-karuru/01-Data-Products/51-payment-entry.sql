@@ -5,11 +5,11 @@ payment_entry as (
                   row_number()over(partition by id  order by modified desc) as index
                   FROM `kyosk-prod.karuru_reports.payment_entry` 
                   --WHERE date(creation) < "2024-01-01"
-                  WHERE date(creation) between "2022-03-01" and '2023-12-31'
+                  WHERE date(creation) between "2022-01-01" and '2023-12-31'
                   and company_id = 'KYOSK DIGITAL SERVICES LTD (KE)'
                   --and payment_type = 'Receive'
                   --and name = 'ACC-PAY-2022-1642575'
-                  and name = "ACC-PAY-2022-1642575"
+                  --and name = "ACC-PAY-2022-1642575"
                   ),
 payment_entry_cte as (
                       select distinct pe.creation,
@@ -21,6 +21,7 @@ payment_entry_cte as (
                       --pe.territory_code,
                       pe.territory,
 
+                      pe.name as payment_entry_name,
                       pe.payment_type,
                       pe.mode_of_payment,
                       pe.payment_method_sub_category,
@@ -52,3 +53,4 @@ select *
 --distinct party, sum(paid_amount) as paid_amount
 --min(creation) as min_creation_datetime, min(modified) as min_modified_datetime
 from payment_entry_cte
+--where payment_entry_name in ()

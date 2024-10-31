@@ -7,7 +7,7 @@ sales_invoice_with_index as (
                             FROM `kyosk-prod.erp_reports.sales_invoice` 
                             where territory not in ("Kyosk TZ HQ", "Kampala","Uganda","DKasarani","Kyosk HQ", "Kenya")
   							            and company = 'KYOSK DIGITAL SERVICES LTD (KE)'
-                            and date(creation) between '2022-04-01' and '2023-12-31'
+                            and date(creation) between '2022-01-01' and '2023-12-31'
                             --and docstatus = 1
                             --and name = 'SI-ATHI-00FD-22'
                             --and name = "SI-ATHI-02CN-23"
@@ -95,8 +95,8 @@ monthly_agg as (
                 sales_invoice
                 from report_with_reference_name_index where payment_entry_name is null
                 )
---select distinct date_trunc(posting_date, month) as posting_month, count(distinct sales_invoice) as sales_invoice_count from report_with_reference_name_index where payment_entry_name is null group by 1 order by 1
+select distinct date_trunc(posting_date, month) as posting_month, count(distinct sales_invoice) as sales_invoice_count from report_with_reference_name_index where payment_entry_name is null group by 1 order by 1
 --select * from payment_entries where kyosk_sales_invoice = 'SI-MTWM-SD9U-22' --= 'SI-ATHI-00FD-22'
 
 --select * from monthly_agg where posting_month in ('2022-02-01', '2022-03-01', '2022-04-01', '2023-02-01', '2023-03-01', '2023-04-01', '2023-05-01', '2023-06-01', '2023-07-01', '2023-08-01', '2023-09-01')
-select * from monthly_agg where posting_month = '2023-01-01'
+--select * from monthly_agg where posting_month = '2023-01-01'
