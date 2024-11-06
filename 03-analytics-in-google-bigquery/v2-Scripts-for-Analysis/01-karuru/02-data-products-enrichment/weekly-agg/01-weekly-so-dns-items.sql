@@ -2,8 +2,8 @@
 with    
 ------------------------ Date Variabes ------------------------------
 vars AS (
-  SELECT PARSE_DATE('%Y%m%d', @DS_START_DATE) as current_start_date, PARSE_DATE('%Y%m%d', @DS_END_DATE)  as current_end_date ),
-  --SELECT DATE '2024-10-01' as current_start_date,  DATE '2024-10-29' as current_end_date ),
+  --SELECT PARSE_DATE('%Y%m%d', @DS_START_DATE) as current_start_date, PARSE_DATE('%Y%m%d', @DS_END_DATE)  as current_end_date ),
+  SELECT DATE '2024-09-01' as current_start_date,  DATE '2024-09-30' as current_end_date ),
 ------------------------------- Sales Order ----------------------
 sales_order as (
                 SELECT *,
@@ -14,9 +14,7 @@ sales_order as (
                 --and territory.country_code = 'ke'
                 where territory_id = 'Ruiru'
                 --and date(created_date) between '2024-09-01' and '2024-09-12' 
-                and date(created_date) >= date_sub(current_date, interval 1 month)
-                --and id = 'SO-0HKMX1VCDRVSG' # test reschedueles
-                --and id = 'SO-0HNE8EXM9A0Z2'
+                and date(created_date) >= date_sub(current_date, interval 2 month)
                 ),
 so_items_cte as (
                 select distinct so.created_date,
@@ -99,8 +97,8 @@ delivery_notes as (
                 row_number()over(partition by id order by updated_at desc) as index
                 FROM `kyosk-prod.karuru_reports.delivery_notes` dn
                 --where territory_id not in ('Test NG Territory', 'Kyosk TZ HQ', 'Test TZ Territory', 'Kyosk HQ','DKasarani', 'Test KE Territory', 'Test UG Territory', 'Test Fresh TZ Territory')
-                where date(created_at) > date_sub(current_date, interval 1 month)
-                --and fullfilment_center_id = '0HEHY3146QXKF'
+                where date(created_at) > date_sub(current_date, interval 2 month)
+                and fullfilment_center_id = '0HEHY3146QXKF'
                 --and code = 'DN-KHETIA -EIKT-0HNE8EYHB4127'
                 ),
 dn_items_cte as (
@@ -158,48 +156,48 @@ dn_items_cte as (
                   where index = 1
                   ),
 --------------------------- Mashup ----------------------
-so_dn_and_dt_items_cte as (
-                            select distinct date(soii.created_date) as so_creation_date,
-                            
-                            soii.country_code,
-                            soii.territory_id,
-                            soii.fulfilment_center_id,
-                            soii.fulfilment_center_name,
+so_and_dn_items_cte as (
+                        select distinct date(soii.created_date) as so_creation_date,
+                        
+                        soii.country_code,
+                        soii.territory_id,
+                        soii.fulfilment_center_id,
+                        soii.fulfilment_center_name,
 
-                            soii.id as so_id,
-                            soii.name as so_code,
-                            soii.order_status as so_status,
+                        soii.id as so_id,
+                        soii.name as so_code,
+                        soii.order_status as so_status,
 
-                            soii.product_bundle_id,
-                            soii.uom,
-                            soii.fulfilment_status as so_item_fulfilment_status,
-                            soii.net_total as so_net_total,
+                        soii.product_bundle_id,
+                        soii.uom,
+                        soii.fulfilment_status as so_item_fulfilment_status,
+                        soii.net_total as so_net_total,
 
-                            --date(dni.created_at) as dn_creation_date,
-                            --date(dni.dispatched_datetime) as dn_dispatched_date,
-                            date(dni.delivery_date) as dn_delivery_date,
-                            dni.id as dn_id,
-                            dni.code as dn_code,
-                            dni.status as dn_status,
-                            dni.item_status as dn_item_status,
-                            dni.dn_user_cancelled_amount,
-                            dni.dn_ops_cancelled_amount,
-                            dni.delivery_note_dispatched_amount as dn_dispatched_amount,
-                            dni.dn_rescheduled_amount,
-                            dni.delivery_note_cancelled_amount as dn_cancelled_amount,
-                            dni.dn_rescheduled_amount + dni.delivery_note_cancelled_amount as dn_returned_amount,
-                            dni.gmv_vat_incl,
+                        --date(dni.created_at) as dn_creation_date,
+                        --date(dni.dispatched_datetime) as dn_dispatched_date,
+                        date(dni.delivery_date) as dn_delivery_date,
+                        dni.id as dn_id,
+                        dni.code as dn_code,
+                        dni.status as dn_status,
+                        dni.item_status as dn_item_status,
+                        dni.dn_user_cancelled_amount,
+                        dni.dn_ops_cancelled_amount,
+                        dni.delivery_note_dispatched_amount as dn_dispatched_amount,
+                        dni.dn_rescheduled_amount,
+                        dni.delivery_note_cancelled_amount as dn_cancelled_amount,
+                        dni.dn_rescheduled_amount + dni.delivery_note_cancelled_amount as dn_returned_amount,
+                        dni.gmv_vat_incl,
 
 
-                            # validate dates
-                            --date(soii.created_date) = date(dni.created_at) as check_so_and_dn_creation_date,
-                            --date(dni.dispatched_datetime) = date(dni.delivery_date) as check_dn_dispatch_and_delivered_dates
-                            from so_inventory_items_cte soii
-                            left join dn_items_cte dni on soii.id = dni.sale_order_id and soii.product_bundle_id = dni.product_bundle_id and soii.uom = dni.uom
+                        # validate dates
+                        --date(soii.created_date) = date(dni.created_at) as check_so_and_dn_creation_date,
+                        --date(dni.dispatched_datetime) = date(dni.delivery_date) as check_dn_dispatch_and_delivered_dates
+                        from so_inventory_items_cte soii
+                        left join dn_items_cte dni on soii.id = dni.sale_order_id and soii.product_bundle_id = dni.product_bundle_id and soii.uom = dni.uom
 
-                            where soii.fulfilment_center_id = '0HEHY3146QXKF'
-                            order by so_creation_date desc, so_id, product_bundle_id, uom
-                            ),
+                        where soii.fulfilment_center_id = '0HEHY3146QXKF'
+                        order by so_creation_date desc, so_id, product_bundle_id, uom
+                        ),
 so_dns_weekly_agg_cte as (
                           select distinct date_trunc(so_creation_date, week) as so_creation_week,
                           country_code,
@@ -210,9 +208,16 @@ so_dns_weekly_agg_cte as (
                           count(distinct case when dn_status in ('PAID', 'DELIVERED') then dn_id else null end) as paid_dns_count,
                           sum(so_net_total) as so_net_total,
                           sum(gmv_vat_incl) as gmv_vat_incl,
-                          from so_dn_and_dt_items_cte, vars
+                          from so_and_dn_items_cte, vars
                           where date(so_creation_date) between vars.current_start_date and vars.current_end_date
                           group by 1,2,3,4,5
                           order by so_creation_week asc
                           )
-select * from so_dns_weekly_agg_cte
+--select min(created_date) as min_so_creation_date, max(created_date) as max_so_creation_date  from so_items_cte
+select min(created_date) as min_so_creation_date, max(created_date) from so_inventory_items_cte where /*date(created_date) between '2024-09-01' and '2024-09-30' and*/ fulfilment_center_id = '0HEHY3146QXKF'
+
+--select min(created_at) as min_dn_creation_date, max(created_at) as max_dn_creation_date from dn_items_cte
+--select * from so_inventory_items_cte where fulfilment_center_id = '0HEHY3146QXKF'
+--select * from so_and_dn_items_cte
+--select * from dn_items_cte
+--select * from so_dns_weekly_agg_cte
