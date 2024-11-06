@@ -168,9 +168,51 @@
 - Computers are generally bad at understanding text, but they are very good with numbers. So we often need to transform our text data into numbers so that our model can better understand it.
 - You often need to transform data in such a way that the **mean of each column** (**feature**) is **zero** and the **standard deviation** is **one**. You can apply class `sklearn.preprocessing.StandardScaler` to do this:
 
-## Imputing Missing Values With Iterative Imputer
+## Handling Missing Values with `sckit-learn`
 
-- When a dataset has missing values, many problems in an ML algorithm can occur. In each column, we need to identify and replace missing values before we model prediction tasks. This process is called **data imputation**. It’s easy to stick with traditional methods for imputing missing values, like **mode** (for **classification**) or the **mean/median** (for **regression**). But **Sklearn** provides more powerful, simpler ways to impute missing values.
+- When a dataset has missing values, many problems in an ML algorithm can occur. In each column, we need to identify and replace missing values before we model prediction tasks. This process is called **data imputation**.
+- To get the status of missing values, run:
+  ```py
+    df.isna().sum()
+  ```
+- The following are the usual approaches to handling missing data:
+  1. By dropping columns containing `NaNs`.
+  2. By dropping rows containing `NaNs`.
+  3. By imputing the missing values suitably.
+
+### 1. Handling Missing Vlues - Removing Missing Values
+
+- The quickest way to remove missing values completely is done as follows:
+  ```py
+    df = df.dropna()
+  ```
+- If you wanted to be specific on removing **rows** or **columns**, you can specify it in the axis parameter, as follows.
+- Example (The entire column with missing values will be removed)
+  ```py
+    df = df.dropna(axis='columns')
+  ```
+
+### 2. Handling Missing Vlues - Filling The Missing Values
+
+- With Pandas, filling the missing values is very straightforward.
+- **Example** (fill missing values with a given number):
+  ```py
+    df = df.fillna(2)
+  ```
+- Remark:
+  - You can also use `ffill` (**forward fill**) or `bfill`(**backward fill)**, where you fill the values preceding or following the missing value.
+- **Example** (Forward Fill Missing Value):
+  ```py
+    df = df.fillna(method="ffill")
+  ```
+- **Example** (Backward Fill Missing Value):
+  ```py
+    df = df.fillna(method="bfill")
+  ```
+
+### 3. Handling Missing Vlues - Imputing Missing Values With Iterative Imputer
+
+- It’s easy to stick with traditional methods for imputing missing values, like **mode** (for **classification**) or the **mean/median** (for **regression**). But **Sklearn** provides more powerful, simpler ways to impute missing values.
 - In **Sklearn**, the `IterativeImputer` class allows us to use an entire set of features to locate and eliminate missing values. In fact, it is specifically designed to estimate missing values by taking them as a function of other features.
 - This approach repeatedly defines a model to predict missing features as a function of other features. This improves our dataset with each iteration.
 - To use this built-in iterative imputation feature, you must import `enable_iterative_imputer`, since it is still in the experimental phase.
@@ -180,7 +222,7 @@
     # now you can import normally from sklearn.impute
     from sklearn.impute import IterativeImputer
   ```
-- Example:
+- **Example**:
   - With this code, any missing values in a dataframe will be filled in a new dataframe called `impute_df`
   - We set the number of iterations and verbosity, which is optional. The imputer is fitted to the dataset that has missing values, generating our new dataframe.
     ```py
@@ -192,15 +234,7 @@
       impute_df = imp.transform(df)
       impute_df = pd.DataFrame(impute_df, columns=df.columns)
     ```
-
-## Data Preporocessing 2: Handling Missing Data with `sckit-learn`
-
-- The following are the usual approaches to handling missing data:
-  1. By dropping columns containing `NaNs`.
-  2. By dropping rows containing `NaNs`.
-  3. By imputing the missing values suitably.
-- When imputing missing values, if we would like to preserve information about which values were missing and would like to use that as a feature, then we can do it by setting the `add_indicator` attribute in **scikit-learn’s** `SimpleImputer` to `True`
-- Examples:
+- **Example**:
 
   - Let's create a pandas DataFrame X with one missing value.
 
@@ -224,7 +258,9 @@
       imputer.fit_transform(X) # Output: array([[20. ],[30. ],[10. ],[17.5],[10. ]])
     ```
 
-- **Remark**:
+- **Remarks**:
+
+  - When imputing missing values, if we would like to preserve information about which values were missing and would like to use that as a feature, then we can do it by setting the `add_indicator` attribute in **scikit-learn’s** `SimpleImputer` to `True`
   - In order to encode the missingness of values as a feature, we can set the `add_indicator` argument to `True` and observe the output.
     ```py
       # impute the mean and add an indicator matrix (new in scikit-learn 0.21)
@@ -283,19 +319,6 @@
                'Snowy', 'Snowy', 'Snowy', 'Snowy', 'Snowy', 'Snowy']
    labelEncoder = preprocessing.LabelEncoder();
    print (labelEncoder.fit_transform(weather)) # Output: [0 0 0 0 0 0 1 1 1 1 1 1 2 2 2 2 2 2]
-  ```
-
-## Steps for Data Processing
-
-### Step 1. Define NumPy Array
-
-- Let’s first define a NumPy array to work with:
-
-## Step 2.
-
-- You often need to transform data in such a way that the **mean of each column** (**feature**) is **zero** and the **standard deviation** is **one**. You can apply class `sklearn.preprocessing.StandardScaler` to do this:
-  ```py
-    from sklearn.preprocessing import StandardScaler
   ```
 
 ## Dimensionality Reduction
