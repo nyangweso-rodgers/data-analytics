@@ -5,9 +5,11 @@ material_request as(
                     SELECT *, 
                     row_number()over(partition by id order by date_modified desc) as index
                     FROM `kyosk-prod.karuru_reports.material_request` 
-                    WHERE date(date_created) >= date_sub(date_trunc(current_date, month), interval 2 month)
-                    --where date(date_created) >= '2022-02-01'
-                    and material_request_type = 'PURCHASE'
+                    --WHERE date(date_created) >= date_sub(date_trunc(current_date, month), interval 2 month)
+                    where date(date_created) >= '2022-02-01'
+                    --and material_request_type = 'PURCHASE'
+                    --and id = 'INT-FC-KHETIA -EIKT-RUIRU LMC-LMLI-4Z1H'
+                    and id = 'INT-FC-RUIRU LMC-LMLI-KHETIA -EIKT-KZWT'
                   ),
 material_request_items as (
                             select distinct --date(mr.date_created) as date_created,
@@ -39,12 +41,12 @@ material_request_items as (
                             from material_request mr, unnest(items) mri
                             where index = 1
                             --and workflow_state not in ("REJECTED", 'CHANGE_REQUESTED')
-                            and workflow_state in ('PENDING', 'VERIFIED', 'SUBMITTED')
+                            --and workflow_state in ('PENDING', 'VERIFIED', 'SUBMITTED')
                             )                             
 select *
 --distinct warehouse_id, territory_id
 --max(date_created), max(date_modified), max(bq_upload_time)
 from material_request_items
-where company_id =  'KYOSK DIGITAL SERVICES LTD (KE)'
+--where company_id =  'KYOSK DIGITAL SERVICES LTD (KE)'
 --where FORMAT_DATE('%Y%m%d', date_created) between @DS_START_DATE and @DS_END_DATE
 order by 1,2                     

@@ -4,9 +4,9 @@ delivery_notes as (
                 SELECT *,
                 row_number()over(partition by id order by updated_at desc) as index
                 FROM `kyosk-prod.karuru_reports.delivery_notes` dn
-                where territory_id not in ('Test NG Territory', 'Kyosk TZ HQ', 'Test TZ Territory', 'Kyosk HQ','DKasarani', 'Test KE Territory', 'Test UG Territory', 'Test Fresh TZ Territory')
+                --where territory_id not in ('Test NG Territory', 'Kyosk TZ HQ', 'Test TZ Territory', 'Kyosk HQ','DKasarani', 'Test KE Territory', 'Test UG Territory', 'Test Fresh TZ Territory')
                 --where territory_id in ('Voi')
-                and date_trunc(date(created_at),month) >= date_sub(date_trunc(current_date, month), interval 1 month)
+                where date_trunc(date(created_at),month) >= date_sub(date_trunc(current_date, month), interval 1 month)
                 --and date(created_at) = '2024-04-16' 
                 --and code = 'DN-NLKL-0HHPPMEK11X2N'
                 --and id = '0HJQB8SV7DPQT'
@@ -14,7 +14,7 @@ delivery_notes as (
                 --and status in ('PAID')
                 --and id = '0HNX673RF0YEK'
                 --and code = 'DN-KHETIA -EIKT-0HNE8EYHB4127'
-                and code like 'DN-KHETIA%'
+                --and code like 'DN-KHETIA%'
                 --and fullfilment_center_id = '0HEHY3146QXKF'
                 ),
 dns_status_change_history_cte as (
@@ -60,8 +60,9 @@ delivery_notes_cte as (
                         )
 
 --select distinct from_status, to_status from dns_status_change_history_cte order by 1,2
-select *  from delivery_notes_cte dn
+select distinct code, status  from delivery_notes_cte dn
 --where scheduled_delivery_date = '2024-10-19'
 --where scheduled_delivery_date is null
 --where country_code = 'KE'
 --order by delivery_date desc
+where code = "DN-IGOM-0HTYDNY2NNEA3"
