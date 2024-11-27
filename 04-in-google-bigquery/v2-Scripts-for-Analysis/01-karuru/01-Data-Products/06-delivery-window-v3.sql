@@ -20,4 +20,6 @@ delivery_window_v3_cte as (
                             from delivery_window_v3
                             where index = 1
                             )
-select * from delivery_window_v3_cte
+select 
+max(created_at) as max_created_at, max(updated_at) as max_updated_at, max(bq_upload_time) as max_bq_upload_time
+from delivery_window_v3_cte
