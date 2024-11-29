@@ -22,7 +22,7 @@
 
 # Sentiment Analysis Using Python
 
-# Ways to Perform Sentiment Analysis in Python
+# Ways to Perform Sentiment Analysis in Python (Python Libraries for Sentimental Analysis)
 
 - Pytho offers several ways to perform sentimental analysis:
   1. Using Text Blob
@@ -33,7 +33,8 @@
 
 # 1. Using Text Blob
 
-- Text Blob is a Python library for Natural Language Processing. Using Text Blob for sentiment analysis is quite simple. It takes text as an input and can return polarity and subjectivity as outputs.
+- **Text Blob** is a Python library for NLP. Using **Text Blob** for sentiment analysis is quite simple. It takes text as an input and can return polarity and subjectivity as outputs.
+- **TextBlob** is praised for its ease of use and adaptability while managing natural language processing (NLP) workloads.
   - **Polarity** determines the sentiment of the text. Its values lie in [-1,1] where -1 denotes a highly negative sentiment and 1 denotes a highly positive sentiment.
   - **Subjectivity** determines whether a text input is factual information or a personal opinion. Its value lies between [0,1] where a value closer to 0 denotes a piece of factual information and a value closer to 1 denotes a personal opinion.
 
@@ -75,6 +76,13 @@
     print("Subjectivity of Text 2 is", s_2)
   ```
 
+# Natural Language Toolkit (NLTK)
+
+- An extensive and well-liked open-source package for Python **natural language processing** (**NLP**) is called the **Natural Language Toolkit** (**NLTK**).
+- **NLTK**, which is well-known for its extensive collection of tools and resources, is capable of handling a number of **NLP** tasks, such as **tokenization**, **sentiment analysis**, **parsing**, and **semantic reasoning**.
+
 # 2. Using Valence Aware Dictionary and Sentiment Reasoner (VADER)
 
-- **VADER** is a rule-based sentiment analyzer that has been trained on social media text.
+- **VADER** (**Valence Aware Dictionary and Sentiment Reasoner**) is a sentiment analysis tool designed specifically for text on social media.
+- **VADER** was created as a component of the NLTK package and is intended to handle colloquial language and expressions that are frequently encountered on social media sites like Facebook and Twitter. In place of machine learning, it employs a rule-based methodology in conjunction with a sentiment lexicon, in which words are pre-labeled with neutral, negative, or positive values.
+- In order to assess text, **VADER** looks for sentiment-laden words and applies heuristic rules that take grammar and intensity into consideration. The entire sentiment is then reflected in a compound score that ranges from -1 to 1. Because VADER can scan enormous amounts of text quickly and accurately understand punctuation, emoticons, and slang to generate sentiment insights, it is particularly well-suited for social media surveillance.
