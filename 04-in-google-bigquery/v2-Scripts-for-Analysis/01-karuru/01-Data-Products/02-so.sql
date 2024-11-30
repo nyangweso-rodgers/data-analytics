@@ -26,11 +26,12 @@ sales_order_cte as (
                 delivery_window.id as delivery_window_id,
                 delivery_window.start_time as delivery_window_start_time,
                 delivery_window.end_time as delivery_window_end_time,
+
                 so.territory.country_id,
                 so.territory_id,
                 so.route_id,
                 --route.id as route_id,
-                route.route_code,
+                --route.route_code,
                 route.route_name,
                 so.outlet_id,
                 so.id,
@@ -82,9 +83,11 @@ outlets_summary as (
                       )*/
 select --distinct  order_status
 --distinct country_id, delivery_window_id, delivery_window_start_time, delivery_window_end_time
-max(created_date) as max_created_date, max(last_modified_date) as max_last_modified_date, max(bq_upload_time) as max_bq_upload_time
+--max(created_date) as max_created_date, max(last_modified_date) as max_last_modified_date, max(bq_upload_time) as max_bq_upload_time
+distinct country_id, territory_id, route_id, route_name
 from sales_order_cte
 --and market_developer_phone_number is null
 --order by territory_id, created_date desc, route_id
 --and route_id is null
 --and market_developer_phone_number is null
+order by 1,2,3,4

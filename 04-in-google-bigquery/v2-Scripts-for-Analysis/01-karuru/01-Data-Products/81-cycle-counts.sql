@@ -70,10 +70,10 @@ stock_count_report_cte as (
                             date_diff(stock_count_territory_completed_local_datetime, stock_count_territory_start_local_datetime, minute) as actual_time_taken_in_minutes
                             from stock_count_with_timestamps_cte
                             )
---select min(created_at) as min_created_at, min(stock_take_event_date) as min_stock_take_event_date from stock_count_cte
+--elect min(created_at) as min_created_at, min(stock_take_event_date) as min_stock_take_event_date from stock_count_cte
 --select max(created_at) as max_created_at, max(stock_take_event_date) as max_stock_take_event_date from stock_count_cte
 select *
 from stock_count_report_cte
-where company = 'KYOSK DIGITAL SERVICES LTD (KE)'
-and fulfilment_center_name = 'Kiambu' and creation_month = '2024-11-01'
+where company = 'KYOSK DIGITAL SERVICES LTD (KE)' and stock_list_code = 'Voi-GLB'
+--and fulfilment_center_name = 'Voi' --and creation_month = '2024-11-01'
 --and FORMAT_DATE('%Y%m%d', date(stock_take_event_date)) between @DS_START_DATE and @DS_END_DATE
