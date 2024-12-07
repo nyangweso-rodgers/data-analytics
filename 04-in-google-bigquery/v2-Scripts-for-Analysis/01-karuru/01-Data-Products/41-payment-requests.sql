@@ -59,12 +59,13 @@ pr_with_settlement_cte as (
                           from pr_cte pr
                           left join pr_settlements_cte prs on pr.id = prs.id
                           )
-select *
+
 --max(created_at) as max_created_at, max(bq_upload_time) as max_bq_upload_time
 --count(distinct id) as pr_count
 --from pr_with_settlement_cte
-from pr_with_settlement_cte
-where payment_request_id in ("0FMDNPZ6BA11D",
+--from pr_with_settlement_cte
+--where payment_request_id '0EE2MYSDQ85PN'
+select distinct payment_request_id from pr_with_settlement_cte where payment_request_id in ("0FMDNPZ6BA11D",
 "0FVT2HHH74ZZ3",
 "0G2884ZQQJ1TE",
 "0G55WXTPX05VT",

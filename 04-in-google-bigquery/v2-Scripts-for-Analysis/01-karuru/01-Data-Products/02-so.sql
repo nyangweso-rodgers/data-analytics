@@ -86,6 +86,7 @@ select --distinct  order_status
 --max(created_date) as max_created_date, max(last_modified_date) as max_last_modified_date, max(bq_upload_time) as max_bq_upload_time
 distinct country_id, territory_id, route_id, route_name
 from sales_order_cte
+where route_name = 'Lower Kabete'
 --and market_developer_phone_number is null
 --order by territory_id, created_date desc, route_id
 --and route_id is null
