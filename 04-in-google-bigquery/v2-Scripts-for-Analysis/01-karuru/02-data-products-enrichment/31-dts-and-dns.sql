@@ -11,8 +11,8 @@ delivery_trips as (
                 --where date_trunc(date(created_at),month) >= date_sub(date_trunc(current_date, month), interval 1 week)
                 and date(created_at) between '2024-05-01' and '2024-06-30'
                 --and is_pre_karuru = false
-                and country_code = 'KE'
-                and status not in ('CANCELLED')
+                --and country_code = 'KE'
+                --and status not in ('CANCELLED')
               ),
 delivery_trips_cte as (
                       select distinct
@@ -61,45 +61,45 @@ delivery_notes as (
                 --where date(created_at) > date_sub(current_date, interval 30 day)
                 --and is_pre_karuru = false
                 ),
-delivery_notes_cte as (
-                          select distinct date(created_at) as created_at,
-                          coalesce(delivery_date, updated_at) as delivery_date,
-                          case 
-                            when dn.country_code in ('TZ','KE','UG') then date_add(delivery_date, interval 3 hour)
-                            when dn.country_code in ('NG') then date_add(delivery_date, interval 2 hour)
-                          else dn.delivery_date end as delivery_date_in_local,
-                          dn.delivery_window.delivery_date as scheduled_delivery_date,
-                          cast(dn.delivery_window.start_time as int64) as delivery_window_start_time,
-                          cast(dn.delivery_window.end_time as int64) as delivery_window_end_time,
-                          case
-                            when (dn.delivery_window.start_time = "8") and (dn.delivery_window.end_time = "14") then '8-14 Delivery Window'
-                            when (dn.delivery_window.start_time = "13") and (dn.delivery_window.end_time = "19") then '13-19 Delivery Window'
-                          else 'UNSET' end as delivey_window_name,
-                          dn.territory_id,
-                          --route_id,
-                          delivery_trip_id,
-                          id,
-                          code,
-                          --dn.sale_order_id,
-                          dn.status,
-                          --payment_request_id,
-                          --agent_name as market_developer,
-                          --outlet.phone_number,
-                          outlet_id,
-                          --outlet.name as outlet_name,
-                          --outlet.outlet_code as outlet_code,
-                          cast(outlet.latitude as float64) as outlet_latitude,
-                          cast(outlet.longitude as float64) as outlet_longitude,
-                          
-                          --outlet_coordinates[OFFSET(0)] as outlet_coordinates_latiude,
-                          --outlet_coordinates[OFFSET(1)] as outlet_coordinates_longitude,
-                          sum(case when dn.status in ('CASH_COLLECTED','DELIVERED', 'PAID') and oi.status in ('ITEM_FULFILLED') then oi.total_delivered else 0 end) as gmv_vat_incl,
-                          from delivery_notes dn, unnest(order_items) oi
-                          where index = 1
-                          --AND dn.status IN ('PAID','DELIVERED','CASH_COLLECTED')
-                          --and dni.status = 'ITEM_FULFILLED'
-                          group by 1,2,3,4,5,6,7,8,9,10,11,12,13,14,15
-                          ),
+dns_agg_cte as (
+                select distinct date(created_at) as created_at,
+                coalesce(delivery_date, updated_at) as delivery_date,
+                case 
+                  when dn.country_code in ('TZ','KE','UG') then date_add(delivery_date, interval 3 hour)
+                  when dn.country_code in ('NG') then date_add(delivery_date, interval 2 hour)
+                else dn.delivery_date end as delivery_date_in_local,
+                dn.delivery_window.delivery_date as scheduled_delivery_date,
+                cast(dn.delivery_window.start_time as int64) as delivery_window_start_time,
+                cast(dn.delivery_window.end_time as int64) as delivery_window_end_time,
+                case
+                  when (dn.delivery_window.start_time = "8") and (dn.delivery_window.end_time = "14") then '8-14 Delivery Window'
+                  when (dn.delivery_window.start_time = "13") and (dn.delivery_window.end_time = "19") then '13-19 Delivery Window'
+                else 'UNSET' end as delivey_window_name,
+                dn.territory_id,
+                --route_id,
+                delivery_trip_id,
+                id,
+                code,
+                --dn.sale_order_id,
+                dn.status,
+                --payment_request_id,
+                --agent_name as market_developer,
+                --outlet.phone_number,
+                outlet_id,
+                --outlet.name as outlet_name,
+                --outlet.outlet_code as outlet_code,
+                cast(outlet.latitude as float64) as outlet_latitude,
+                cast(outlet.longitude as float64) as outlet_longitude,
+                
+                --outlet_coordinates[OFFSET(0)] as outlet_coordinates_latiude,
+                --outlet_coordinates[OFFSET(1)] as outlet_coordinates_longitude,
+                sum(case when dn.status in ('CASH_COLLECTED','DELIVERED', 'PAID') and oi.status in ('ITEM_FULFILLED') then oi.total_delivered else 0 end) as gmv_vat_incl,
+                from delivery_notes dn, unnest(order_items) oi
+                where index = 1
+                --AND dn.status IN ('PAID','DELIVERED','CASH_COLLECTED')
+                --and dni.status = 'ITEM_FULFILLED'
+                group by 1,2,3,4,5,6,7,8,9,10,11,12,13,14,15
+                ),
 -------------------------------------- Vehicle ----------------
 vehicle as (
             SELECT *,
@@ -120,6 +120,7 @@ vehicle_cte as (
               where index = 1
               ),
 ------------------------- Trip Route Plan -----------------------
+/*
 trip_route_plan as (
                     SELECT *,
                     row_number()over(partition by trip_id order by updated_at desc) as index
@@ -141,6 +142,7 @@ trip_route_plan_cte as (
                         from trip_route_plan trp
                         where index = 1
                         ),
+*/
 ------------------- Fulfiment Center ----------------
 fulfillment_center as (
                         SELECT *,
@@ -159,59 +161,59 @@ fulfillment_center_cte as (
                             where index =1 
                             ),
 --------------------- Delivery Trip, Delivery Notes, Vehicles --------------------------------
-delivery_trip_and_delivery_notes_cte as (
-                                            select distinct date(dt.created_at) as delivery_trip_creation_date,
-                                            dt.created_at_in_local,
-                                            EXTRACT(HOUR FROM dt.created_at_in_local) as delivery_trip_creation_hour,
-                                            case
-                                              when (EXTRACT(HOUR FROM dt.created_at_in_local) between 6 and 11) then "6-11 Trip Creation Window"
-                                              when (EXTRACT(HOUR FROM dt.created_at_in_local) between 12 and 19) then "12-19 Trip Creation Window"
-                                              when (EXTRACT(HOUR FROM dt.created_at_in_local) > 19) then "After 19 Trip Creation Window"
-                                            else 'UNSET' end as delivery_trip_creation_window_name,
-                                            dt.country_code,
-                                            dt.territory_id,
-                                            dt.id as delivery_trip_id,
-                                            dt.code as delivery_trip_code,
-                                            dt.status as delivery_trip_status,
+dts_and_dns_agg_cte as (
+                        select distinct date(dt.created_at) as delivery_trip_creation_date,
+                        dt.created_at_in_local,
+                        EXTRACT(HOUR FROM dt.created_at_in_local) as delivery_trip_creation_hour,
+                        case
+                          when (EXTRACT(HOUR FROM dt.created_at_in_local) between 6 and 11) then "6-11 Trip Creation Window"
+                          when (EXTRACT(HOUR FROM dt.created_at_in_local) between 12 and 19) then "12-19 Trip Creation Window"
+                          when (EXTRACT(HOUR FROM dt.created_at_in_local) > 19) then "After 19 Trip Creation Window"
+                        else 'UNSET' end as delivery_trip_creation_window_name,
+                        dt.country_code,
+                        dt.territory_id,
+                        dt.id as delivery_trip_id,
+                        dt.code as delivery_trip_code,
+                        dt.status as delivery_trip_status,
 
-                                            dt.vehicle_id,
-                                            coalesce(dt.vehicle_v2_license_plate, v.license_plate) as vehicle_license_plate,
-                                            safe_cast(coalesce(v.load_capacity, dt.vehicle_v2_load_capacity, 'UNSET') as float64) as vehicle_load_capacity,
-                                            coalesce(v.type, dt.vehicle_v2_type, 'UNSET') as vehicle_type,
+                        dt.vehicle_id,
+                        coalesce(dt.vehicle_v2_license_plate, v.license_plate) as vehicle_license_plate,
+                        safe_cast(coalesce(v.load_capacity, dt.vehicle_v2_load_capacity, 'UNSET') as float64) as vehicle_load_capacity,
+                        coalesce(v.type, dt.vehicle_v2_type, 'UNSET') as vehicle_type,
 
-                                            dt.delivery_note_id,
-                                            date(dn.created_at) as delivery_note_creatio_date,
-                                            dn.code as delivery_note_code,
-                                            dn.status as delivery_note_status,
-                                            dn.scheduled_delivery_date as delivery_note_scheduled_delvery_date,
-                                            dn.delivey_window_name,
-                                            dn.delivery_window_start_time,
-                                            delivery_window_end_time,
-                                            dn.delivery_date as delivery_note_delivery_date,
-                                            row_number()over(partition by dt.id order by dn.delivery_date asc) as delivery_note_delivery_asc_index,
-                                            row_number()over(partition by dt.id order by dn.delivery_date desc) as delivery_note_delivery_desc_index,
-                                            dn.delivery_date_in_local as delivery_note_delivery_date_in_local,
-                                            EXTRACT(HOUR FROM dn.delivery_date_in_local) as delivery_hour,
-                                            dn.outlet_id,
-                                            dn.outlet_latitude,
-                                            dn.outlet_longitude,
-                                            round(st_distance(ST_GEOGPOINT(fc.longitude, fc.latitude), ST_GEOGPOINT(dn.outlet_longitude, dn.outlet_latitude)) / 1000,2) as outlet_registration_distance,
-                                            --dn.outlet_coordinates_latiude,
-                                            --dn.outlet_coordinates_longitude
-                                            --dn.status as dn_status,
-                                            --v.license_plate
-                                            dn.gmv_vat_incl,
-                                            trp.distance_covered_by_driver,
-                                            trp.duration_covered_by_driver
-                                            from delivery_trips_cte dt
-                                            left join trip_route_plan_cte trp on dt.id = trp.trip_id
-                                            left join delivery_notes_cte dn on dt.id = dn.delivery_trip_id and dt.delivery_note_id = dn.id
-                                            left join fulfillment_center_cte fc on dn.territory_id = fc.name
-                                            left join vehicle_cte v on dt.vehicle_id = v.id
-                                            --left join vehicle_cte v on dt.vehicle_id = v.id
-                                            where dn.status not in ('RESCHEDULED', 'DRIVER_CANCELLED')
-                                            order by delivery_trip_id, delivery_note_delivery_asc_index
-                                            ),
+                        dt.delivery_note_id,
+                        date(dn.created_at) as delivery_note_creatio_date,
+                        dn.code as delivery_note_code,
+                        dn.status as delivery_note_status,
+                        dn.scheduled_delivery_date as delivery_note_scheduled_delvery_date,
+                        dn.delivey_window_name,
+                        dn.delivery_window_start_time,
+                        delivery_window_end_time,
+                        dn.delivery_date as delivery_note_delivery_date,
+                        row_number()over(partition by dt.id order by dn.delivery_date asc) as delivery_note_delivery_asc_index,
+                        row_number()over(partition by dt.id order by dn.delivery_date desc) as delivery_note_delivery_desc_index,
+                        dn.delivery_date_in_local as delivery_note_delivery_date_in_local,
+                        EXTRACT(HOUR FROM dn.delivery_date_in_local) as delivery_hour,
+                        dn.outlet_id,
+                        dn.outlet_latitude,
+                        dn.outlet_longitude,
+                        round(st_distance(ST_GEOGPOINT(fc.longitude, fc.latitude), ST_GEOGPOINT(dn.outlet_longitude, dn.outlet_latitude)) / 1000,2) as outlet_registration_distance,
+                        --dn.outlet_coordinates_latiude,
+                        --dn.outlet_coordinates_longitude
+                        --dn.status as dn_status,
+                        --v.license_plate
+                        dn.gmv_vat_incl,
+                        trp.distance_covered_by_driver,
+                        trp.duration_covered_by_driver
+                        from delivery_trips_cte dt
+                        left join trip_route_plan_cte trp on dt.id = trp.trip_id
+                        left join dns_agg_cte dn on dt.id = dn.delivery_trip_id and dt.delivery_note_id = dn.id
+                        left join fulfillment_center_cte fc on dn.territory_id = fc.name
+                        left join vehicle_cte v on dt.vehicle_id = v.id
+                        --left join vehicle_cte v on dt.vehicle_id = v.id
+                        --where dn.status not in ('RESCHEDULED', 'DRIVER_CANCELLED')
+                        order by delivery_trip_id, delivery_note_delivery_asc_index
+                        ),
 updated_delivery_trip_and_delivery_notes_cte as (
                 select distinct country_code,
                 delivery_trip_creation_date,
