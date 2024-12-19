@@ -6,7 +6,7 @@ delivery_trips as (
                 row_number()over(partition by id order by updated_at desc) as index
                 FROM `kyosk-prod.karuru_reports.delivery_trips` 
                 where territory_id not in ('Test UG Territory', 'Test NG Territory', 'Kyosk TZ HQ', 'Test TZ Territory', 'Kyosk HQ','DKasarani', 'Test KE Territory', 'Test Fresh TZ Territory')
-                and date(created_at) > '2024-01-01'
+                and date(created_at) > '2021-01-01'
                 --where date(created_at) = current_date
                 --and date_trunc(date(created_at),month) >= date_sub(date_trunc(current_date, month), interval 1 month)
                 --and date(created_at) between '2024-05-01' and '2024-06-31'
@@ -17,7 +17,7 @@ delivery_trips as (
                 --and id = '0HQTDQ89G1W3T'
                 --and fulfillment_center_id = '0HEHY3146QXKF'
                 --AND id = '0HP7MVP470X3J'
-                and fulfillment_center_id = '0HNP721RAVN7E'
+                --and fulfillment_center_id = '0HNP721RAVN7E'
               ),
 dt_status_change_history_cte as (    
                                   select distinct dt.id,
@@ -86,3 +86,4 @@ dts_cte as (
 --select min(created_at) as min_created_at_datetime from dts_cte
 --select max(created_at) as max_created_at_datetime, max(updated_at) as max_updated_at_datetime, max(bq_upload_time) as max_bq_upload_time_datetime from dts_cte
 select * from dts_cte
+where code = 'DT-LZRA-XPO1'

@@ -6,12 +6,13 @@ delivery_notes as (
                 row_number()over(partition by id order by updated_at desc) as index
                 FROM `kyosk-prod.karuru_reports.delivery_notes` dn
                 where territory_id not in ('Test NG Territory', 'Kyosk TZ HQ', 'Test TZ Territory', 'Kyosk HQ','DKasarani', 'Test KE Territory', 'Test UG Territory', 'Test Fresh TZ Territory')
-                and date(created_at) > date_sub(current_date, interval 1 month)
+                --and date(created_at) > date_sub(current_date, interval 1 month)
+                and date(created_at) between '2022-06-01' and '2022-07-30'
                 --and status in ('PAID','DELIVERED','CASH_COLLECTED')
                 --and date(created_at) > '2023-10-23'
                 --and country_code = 'KE'
                 --and territory_id = 'Voi'
-                and sale_order_code = 'SOZ5FLQ2024'
+                --and sale_order_code = 'SOZ5FLQ2024'
                 ),
 dn_items_cte as (
                   select distinct coalesce(date(delivery_date), date(updated_at)) as delivery_date,
@@ -19,6 +20,7 @@ dn_items_cte as (
                   dn.territory_id,
 
                   dn.outlet_id,
+                  dn.delivery_trip_id,
                   dn.id,
                   dn.code,
                   dn.sale_order_id,
@@ -30,6 +32,7 @@ dn_items_cte as (
                   oi.inventory_items,
                   oi.catalog_item_qty,
                   oi.qty_delivered,
+                  oi.total_delivered,
                   oi.net_total_delivered,
                   --sum(oi.net_total_delivered) as gmv_vat_incl,
                   --sum(oi.catalog_item_qty) as catalog_item_qty,
@@ -44,6 +47,7 @@ dn_inventory_items_cte as (
                           dni.territory_id,
                           dni.outlet_id,
 
+                          dni.delivery_trip_id,
                           dni.id,
                           dni.code,
                           dni.sale_order_id,
@@ -57,6 +61,7 @@ dn_inventory_items_cte as (
                           --sum(dni.gmv_vat_incl) as gmv_vat_incl,
                           dni.catalog_item_qty,
                           dni.qty_delivered,
+                          dni.total_delivered,
                           dni.net_total_delivered,
 
                           sum(ii.conversion_factor) as conversion_factor,
@@ -67,7 +72,7 @@ dn_inventory_items_cte as (
                           --string_agg(distinct ii.dimension.metric, "/" order by ii.dimension.metric) as dimension_metric,
                           --string_agg(distinct cast(ii.dimension.length as string), "/" order by cast(ii.dimension.length as string)) as dimension_length
                           from dn_items_cte dni, unnest(inventory_items) ii 
-                          group by 1,2,3,4,5,6,7,8,9,10,11,12,13,14
+                          group by 1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16
                           ),
 dns_inventory_items_agg_cte as (
                                 select distinct country_code,
@@ -79,3 +84,5 @@ dns_inventory_items_agg_cte as (
                                 group by 1
                                 )
 select * from dn_inventory_items_cte
+--where id = '0FJZ2953HGACE'
+where delivery_trip_id = '0D38GG700MFQ9'
