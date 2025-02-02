@@ -1,0 +1,6 @@
+# python
+venv/
+project-03-windows-venv/
+
+# environment variables
+.env
