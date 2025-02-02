@@ -1,2 +1,5 @@
 # python
 windows-venv/
+
+# environment variables
+.env
