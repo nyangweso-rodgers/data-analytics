@@ -28,20 +28,19 @@ IsDeleted,
 Phone,
 MobilePhone,
 Lead_AMT_Customer_Id__c,
-Installation_Date__c,
+
 LastViewedDate,
 LastReferencedDate,
 Payment_Method__c,
 Lead_Model_Category__c,
 ID_Number__c,
-Call_Back_Date__c,
-Follow_Up_Date__c,
+
 Product__c,
 KYC_Status__c,
 Agent_Phone_Number__c,
 Preferred_Language__c,
 Product_del__c,
-Purchase_Date__c,
+
 Water_Source_Distance__c,
 Water_Source__c,
 leadcap__Facebook_Lead_ID__c,
@@ -93,10 +92,13 @@ State,
 PostalCode,
 Title,
 
-
-
 MasterRecordId
 ############################ Not Included Fields #####################################
+Call_Back_Date__c,
+Follow_Up_Date__c,
+Purchase_Date__c,
+Installation_Date__c,
+
 Address,
 Latitude,
 Longitude,
