@@ -68,7 +68,7 @@ def main():
     table_schema = """
         id SERIAL PRIMARY KEY,
         product VARCHAR(255),
-        isActive BOOLEAN
+        isActive INTEGER
     """ 
 
     # Create the table
