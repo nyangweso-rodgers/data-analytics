@@ -115,4 +115,59 @@
 
 - Streams record changes in real-time (like Kafka topics).
 
+# SOQL Queries
+
+1. Fiter Results By Range of Dates
+
+   - **Example**: (**Greater than or less than a certain time**)
+
+     ```sql
+      SELECT Id
+      FROM Case
+      WHERE CreatedDate >= 2013-12-21T00:00:00Z
+      AND CreatedDate <= 2013-12-23T23:59:59Z
+     ```
+
+   - **Example**: (**Greater than a certain time**)
+     ```sql
+      SELECT count(Id)
+      FROM Lead
+      WHERE createdDate > 2015-02-01T00:00:00Z
+     ```
+   - **Example** (**Greater than yesterday**)
+     ```sql
+      SELECT count(Id)
+      FROM Lead
+      WHERE createdDate > YESTERDAY
+     ```
+   - **Example** (**Greater than 62 days ago**):
+     ```sql
+      SELECT id
+      FROM Lead
+      WHERE CreatedDate = LAST_N_DAYS:62
+      LIMIT 100
+     ```
+   - **Example** (**Greater than last week**):
+
+     ```sql
+      SELECT Id
+      FROM Lead
+      WHERE createdDate > LAST_WEEK
+     ```
+
+   - **Example** (**This year**):
+
+     ```sql
+      SELECT Id
+      FROM Lead
+      WHERE CALENDAR_YEAR(CreatedDate) = 2025
+     ```
+
+   - **Example** (**Get the current Year returned**):
+     ```sql
+      SELECT CALENDAR_YEAR(CreatedDate)
+      FROM Opportunity
+      group by CALENDAR_YEAR(CreatedDate)
+     ```
+
 # Resources and Further Reading
