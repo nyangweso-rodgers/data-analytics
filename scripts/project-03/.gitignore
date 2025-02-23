@@ -1,6 +1,7 @@
 # python
 venv/
 project-03-windows-venv/
+project-03-linux-venv/
 
 # environment variables
 .env
