@@ -38,7 +38,7 @@ def get_salesforce_token():
 def get_agents_fields(access_token, instance_url):
     """Fetch Agents fields from Salesforce, including their data types."""
     headers = {"Authorization": f"Bearer {access_token}"}
-    describe_url = f"{instance_url}/services/data/v58.0/sobjects/Agent/describe"
+    describe_url = f"{instance_url}/services/data/v58.0/sobjects/Agent__c/describe"
     
     response = requests.get(describe_url, headers=headers)
     
