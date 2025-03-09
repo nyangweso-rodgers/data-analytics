@@ -1,6 +1,7 @@
 import os
 from dotenv import load_dotenv
 import requests
+import csv
 
 # Load environment variables from .env file
 load_dotenv()
@@ -41,7 +42,23 @@ def fetch_form_fields():
         print("Error:", response.status_code, response.text)
         return None
 
+def save_fields_to_csv(fields, filename="kobo_form_fields.csv"):
+    """Save the form fields to a CSV file."""
+    if not fields:
+        print("No fields to save.")
+        return
+    
+    try:
+        with open(filename, mode="w", newline="", encoding="utf-8") as file:
+            writer = csv.writer(file)
+            writer.writerow(["Field Name"])  # Write header
+            writer.writerows([[field] for field in fields])  # Write each field as a row
+        print(f"Form fields successfully saved to {filename}")
+    except Exception as e:
+        print(f"Error saving to CSV: {e}")
+
 if __name__ == "__main__":
     form_fields = fetch_form_fields()
     if form_fields:
         print("Form Fields:", form_fields)
+        save_fields_to_csv(form_fields)
