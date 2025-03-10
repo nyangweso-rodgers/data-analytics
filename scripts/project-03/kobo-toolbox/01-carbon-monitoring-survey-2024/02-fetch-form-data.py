@@ -1,9 +1,10 @@
+import os
 import requests
 import csv
 
 # KoboToolbox API details
-KOBO_API_URL = "https://kf.kobotoolbox.org/api/v2/assets/aNo2GBnQSU8rghPQGmqTt9/data/?format=json"
-KOBO_API_TOKEN = "5f79b2c3f7a21850f931313b2ff40672792a89e2"
+KOBO_API_URL = os.getenv("Carbon_2nd_Monitoring_Survey_2024")
+KOBO_API_TOKEN = os.getenv("KOBO_API_TOKEN")
 HEADERS = {
     "Authorization": f"Token {KOBO_API_TOKEN}",
     "Accept": "application/json"
