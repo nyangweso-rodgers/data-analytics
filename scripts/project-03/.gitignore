@@ -5,3 +5,7 @@ project-03-linux-venv/
 
 # environment variables
 .env
+
+# data-sets
+account-data-in-excel.xlsx
+account-data-in-excel-v1.xlsx
