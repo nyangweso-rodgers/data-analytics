@@ -15,6 +15,7 @@ gitdb==4.0.12
 GitPython==3.1.44
 google-auth==2.38.0
 google-auth-oauthlib==1.2.1
+greenlet==3.1.1
 gspread==6.1.4
 idna==3.10
 isodate==0.7.2
@@ -60,6 +61,7 @@ salesforce-bulk==2.2.0
 simple-salesforce==1.12.6
 six==1.17.0
 smmap==5.0.2
+SQLAlchemy==2.0.39
 streamlit==1.42.2
 tenacity==9.0.0
 toml==0.10.2
