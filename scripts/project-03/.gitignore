@@ -2,6 +2,7 @@
 venv/
 project-03-windows-venv/
 project-03-linux-venv/
+wsl-py-venv/
 
 # environment variables
 .env
