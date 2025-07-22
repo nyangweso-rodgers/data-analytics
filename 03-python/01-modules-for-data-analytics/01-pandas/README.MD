@@ -1,25 +1,58 @@
 # Pandas
 
 ## Table Of Contents
-- [Introduction to Pandas]() 
-  
-- [How to in Pandas]() 
-  1. [How to Handle Missing Data](https://github.com/nyangweso-rodgers/Data_Analytics/tree/main/Analytics-with-Python/Python-Modules-for-Data-Analysis/Pandas-Module/How-to-Handle-Missing-Data-in-Pandas-DataFrame) 
-  2. [How to Aggregate Data](https://github.com/nyangweso-rodgers/Data_Analytics/tree/main/Analytics-with-Python/Python-Modules-for-Data-Analysis/Pandas-Module/How-to-Aggregate-Pandas-DataFrame) 
-  3. [How to Filter Data](https://github.com/nyangweso-rodgers/Data_Analytics/tree/main/Analytics-with-Python/Python-Modules-for-Data-Analysis/Pandas-Module) 
-  4. [How to Handle Duplicated Rows in DataFrame](https://github.com/nyangweso-rodgers/Data_Analytics/tree/main/Analytics-with-Python/Python-Modules-for-Data-Analysis/Pandas-Module/How-to-Handle-Duplicated-Rows-in-Pandas-DataFrame)
-  
-- [Google Colab Directory](https://drive.google.com/drive/folders/12esk9Y1lUeDZhGslh5snJ69CUXdfbO2O)
-    1. [Pandas Series Objects](https://colab.research.google.com/drive/1e27Ll8OhynbsR4s7lCYf6RYB--xfkajf#scrollTo=1f_LLbwcjGoX)
-    2. [Pandas DataFrame Object](https://colab.research.google.com/drive/1iCdhQvNUQX0KZjkc-kJT1znI270F_SUK)
-    3. [Operating on Data in Pandas](https://colab.research.google.com/drive/13FGW4luBcKIY4OHKjEzrQDbu4rAbOorE)
-    4. [Pandas - Handing Missing Data](https://colab.research.google.com/drive/1cRRsW8Y_7ahnz_oOdMu6Vx8kqqTovEfk)
-    5. [Pandas - Hierarchical Indexing](https://colab.research.google.com/drive/1QuUWgUPWIqf5DWbyEZpGIDQESDeEh3xU#scrollTo=8PqQSdYawIRi)
-    6. [Pandas - Combining Datasets: Concat & Append](https://colab.research.google.com/drive/1fO5fpL3tl7DX-Gs2WNrVAny1m1P8mqSI)
-    7. [Pandas - Combining Datasets: Merge & Join](https://colab.research.google.com/drive/1VlgSH7a22aqgqITUnb3D3HRCKpVsz_UT)
-    8. [Pandas - Aggregation & Grouping](https://colab.research.google.com/drive/1LL86dRvi26-gQ_9Af2YyN2hHm7obrCZF)
-    9. [Pandas - Pivot Table](https://colab.research.google.com/drive/1ZuhXM6nqluAhOfNPUUOqQRXCXqNMyHC3)
-    10. [Pandas - Vectorized String Operations](https://colab.research.google.com/drive/1aRtuTLq8WNZGAqkhRwoMWfsVvqoZTRdj)
-    11. [Pandas - apply, map & applymap](https://colab.research.google.com/drive/1jcrZa9LZA9Ak86tT_VEAFgvmzWYhYVtS)
+
+# Categorical Data Encoding Techniques
+
+## 1. One-hot Encoding
+
+- Each category is represented by a binary vector of 0s and 1s.
+- Each category gets its own binary feature, and only one of them is "hot" (set to 1) at a time, indicating the presence of that category.
+- Number of features = Number of unique categorical labels
+
+## 2. Dummy Encoding
+
+- Same as **one-hot encoding** but with one additional step.
+- After **one-hot encoding**, we drop a feature randomly.
+- This is done to avoid the dummy variable trap
+- Number of features = Number of unique categorical labels - 1.
+
+## 3. Effect Encoding
+
+- Similar to **dummy encoding** but with one additional step.
+- Alter the row with all zeros to -1.
+- This ensures that the resulting binary features represent not only the presence or absence of specific categories but also the contrast between the reference category and the absence of any category.
+- Number of features = Number of unique categorical labels - 1.
+
+## 4. Label Encoding
+
+- Assign each category a unique label.
+- Label encoding introduces an inherent ordering between categories, which may not be the case.
+- Number of features = 1.
+
+## 5. Ordinal Encoding
+
+- Similar to **label encoding** — assign a unique integer value to each category.
+- The assigned values have an inherent order, meaning that one category is considered greater or smaller than another.
+- Number of features = 1.
+
+## 6. Count (Frequency) Encoding
+
+- Encodes categorical features based on the frequency of each category.
+- Thus, instead of replacing the categories with numerical values or binary representations, count encoding directly assigns each category with its corresponding count.
+- Number of features = 1.
+
+## 7. Binary Encoding
+
+- Combination of **one-hot encoding** and **ordinal encoding**.
+- It represents categories as binary code.
+- Each category is first assigned an ordinal value, and then that value is converted to binary code.
+- The binary code is then split into separate binary features.
+- Useful when dealing with high-cardinality categorical features (or a high number of features) as it reduces the **dimensionality** compared to one-hot encoding.
+- Number of features = log(n) (in base 2).
 
 # Overview of Pandas Module
+
+# Resources and Further Reading
+
+1. [Daily Dose of Data Science - 7 Categorical Data Encoding Techniques](https://blog.dailydoseofds.com/p/7-categorical-data-encoding-techniques-1f5?ref=dailydev)
