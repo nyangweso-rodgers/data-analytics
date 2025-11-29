@@ -4,6 +4,61 @@
 
 # Concepts
 
+## ML Model
+
+- A **model** is created by training an **algorithm** with data. It finds the patterns and relationships found in the data. This lets the model predict new data.
+- For example:
+  1. **Linear Regression Model**: Predicts values by fitting a line to the data.
+  2. **Decision Tree Model**: Makes predictions by splitting data into groups based on features.
+  3. **Support Vector Machine (SVM) Model**: Finds the best boundary to separate different categories.
+
+## Features
+
+- **Features** are input data used to make predictions. They are measurable properties or characteristics of the data. They can be numerical or categorical. For example, consider a model that predicts house prices. **Features** could be the size, location, and age of the house. Each **feature** helps the **model** understand how these aspects influence the price.
+
+## Labels
+
+- **Labels** are the outcomes that a **machine learning model** tries to predict. Each set of features is paired with a label in supervised learning. Similar to features, they can be numerical or categorical.
+- Consider a model that classifies emails as “spam” or “not spam”. The label is either “spam” or “not spam.” The model learns patterns from these features to predict the label for new emails.
+
+## Underfitting
+
+- **Underfitting** happens when a ML model is too simple to understand the data patterns. As a result, it performs poorly on both training data and new data. This usually occurs if the model lacks complexity or hasn’t been trained long enough. Increase the model’s complexity or add more features to fit underfitting.
+
+## Overfitting
+
+- **Overfitting** happens when a ML model learns the training data too well, including noise and outliers. This makes the model perform well on training data but poorly on new data. This occurs because the model is too complex and memorizes the training data rather than generalizes it. To prevent **overfitting**, techniques like **cross-validation**, **pruning**, and **regularization** are used.
+
+## Hyperparameters
+
+- **Hyperparameters** are settings that guide the learning process and the model’s structure. They are chosen before training starts. In contrast, **parameters** are learned from the data during training,
+- Common **hyperparameters** include:
+  1. **Learning Rate**: Controls how much the model’s weights are updated during each training step.
+  2. **Number of Hidden Layers**: Specifies the number of layers between the input and output layers in the network.
+  3. **Batch Size**: Defines how many training examples are used in each iteration.
+  4. **Number of Epochs**: Determines how many times the entire training dataset is passed through the model.
+
+## Machine Learning Workflows
+
+- With machine learning, data practitioners are able to make predictions about key datasets, automate workflows, and extract insights. What does the machine learning workflow look like?
+  1. Project setup
+     1. Understand business goals
+     2. Choose the solution to your problem
+  2. Data Preparation
+     1. Data collection
+     2. Data cleaning
+     3. Feature engineering: Manipulate the datasets to create variables (features) that improve your model’s prediction accuracy. Create the same features in both the training set and the testing set.
+     4. Split the data: Randomly divide the records in the dataset into a training set and a testing set. For a more reliable assessment of model performance, generate multiple training and testing sets using cross validation
+  3. Modeling
+     1. Hyperparameter tuning: For each model, use hyperparameter tuning techniques to improve model performance.
+     2. Train your models
+     3. Make predictions
+     4. Assess model performance: For each model, calculate performance metrics on the testing set such as accuracy, recall and precision.
+  4. Deployment
+     1. Deploy the model
+     2. Monitor model performance
+     3. Improve your model
+
 ## Deploying Machine Learning Models
 
 ### 1. Deploying Machine Learning Models with FastAPI and Docker
@@ -207,3 +262,5 @@
 # Resources and Further Reading
 
 1. [Medium - FastAPI: The Modern Toolkit for Machine Learning Deployment](https://medium.com/@reza.shokrzad/fastapi-the-modern-toolkit-for-machine-learning-deployment-af31d72b6589)
+2. [Deploy Your Machine Learning Model as a REST API](https://towardsdatascience.com/deploy-your-machine-learning-model-as-a-rest-api-4fe96bf8ddcc)
+3. [Considerations for Deploying Machine Learning Models in Production](https://towardsdatascience.com/considerations-for-deploying-machine-learning-models-in-production-89d38d96cc23)
