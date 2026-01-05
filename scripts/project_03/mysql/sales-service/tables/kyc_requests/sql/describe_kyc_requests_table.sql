@@ -1,0 +1,1 @@
+DESCRIBE `sales-service`.`kyc_requests`;
