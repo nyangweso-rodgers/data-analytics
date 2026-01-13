@@ -29,7 +29,8 @@ customer_data_survey_cte as (
 	amount_left_after_monthly_expenses, 
 	--type_of_crops_grown, # all NULL 
 	--crop_grown, # all NULL 
-	--wheat_sale, maize_sale, paddy_sale, irish_potatoes_sale, cassava_sale, beans_sale, sunflower_sale, groundnuts_sale, other_stable_field_crops_sale, wheat_self_consumption, maize_self_consumption, 
+	--wheat_sale, maize_sale, paddy_sale, irish_potatoes_sale, cassava_sale, beans_sale, sunflower_sale, groundnuts_sale, other_stable_field_crops_sale, wheat_self_consumption, 
+	--maize_self_consumption, 
 	--paddy_self_consumption, irish_potatoes_self_consumption, cassava_self_consumption, beans_self_consumption, sunflower_self_consumption, groundnuts_self_consumption, 
 	--other_staple_field_crop_self_consumption, tomatoes_sale, cabbage_sale, spinach_sale, onion_sale, green_beans_sale, other_fruits_and_vegetable_sale, 
 	--tomatoes_self_consumption, cabbage_self_consumption, spinach_self_consumption, onion_self_consumption, green_beans_self_consumption, other_fruit_vegetable_self_consumption, 
@@ -46,9 +47,11 @@ customer_data_survey_cte as (
 	--number_of_businesses_before, # all NULL
 	average_monthly_income, 
 	--understand_the_products_shared_with_you, 
-	no_of_years_working_with_same_employer, no_of_jobs_in_the_last_5yrs, total_amount_from_remittances, total_amount_from_agriculture, total_amount_from_commerce_and_trade, total_amt_from_salary_private_inst, total_amount_from_provision_of_services,
+	no_of_years_working_with_same_employer, no_of_jobs_in_the_last_5yrs, total_amount_from_remittances, total_amount_from_agriculture, 
+	total_amount_from_commerce_and_trade, total_amt_from_salary_private_inst, total_amount_from_provision_of_services,
 	--agent_seek_to_understand_how_you_source, 
-	amount_spent_on_school_fees, amount_spent_on_food, amount_spent_on_farm_inputs, amount_spent_on_rent, amount_spent_on_loans, amount_spent_on_other, currently_have_any_outstanding_loans, 
+	amount_spent_on_school_fees, amount_spent_on_food, amount_spent_on_farm_inputs, amount_spent_on_rent, amount_spent_on_loans, amount_spent_on_other, 
+	currently_have_any_outstanding_loans, 
 	total_amount_of_outstanding_loan_s, no_of_months_to_finish_paying_loan_s, preferred_banking_method, 
 	--world_perception_supplier, 
 	--world_perception_default, 
@@ -197,4 +200,4 @@ from customer_data_survey_cte
 --from spv_requests_cte
 --from get_distribution_of_avg_monthly_income_cte
 --group by 1 order by 2 desc
-where lead_record = '00QPz00000SpiuvMAB'
+where lead_record = '00Q8d000009QA2aEAG'
