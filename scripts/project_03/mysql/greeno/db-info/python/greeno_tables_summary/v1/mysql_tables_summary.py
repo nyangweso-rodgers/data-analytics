@@ -15,7 +15,7 @@ load_dotenv()
 # ============================================================================
 DB_CONFIGS = {
     "host": os.getenv("MYSQL_GRDATA_HOST"),
-    "port": int(os.getenv("MYSQL_GRDATA_PORT", "3306")),
+    "port": int(os.getenv("MYSQL_DB_PORT", "3306")),
     "username": os.getenv("MYSQL_GRDATA_USER"),
     "password": os.getenv("MYSQL_GRDATA_PASSWORD", ""),
     "database": os.getenv("MYSQL_GRDATA_DB"),
