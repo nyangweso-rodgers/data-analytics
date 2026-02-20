@@ -80,13 +80,22 @@ def get_all_tables(connection, schema='public'):
 
 
 def get_table_schema(connection, table_name, schema='public'):
-    """Get detailed schema information for a table"""
+    """
+    Get detailed schema information for a table
+    
+    IMPORTANT: Uses udt_name for accurate PostgreSQL type information,
+    especially for arrays (_int4, _uuid, etc.) and JSON types
+    
+    Returns:
+        List of dicts with keys: column_name, data_type, udt_name, nullable
+    """
     try:
         cursor = connection.cursor()
         query = """
             SELECT 
                 column_name,
                 data_type,
+                udt_name,
                 character_maximum_length,
                 numeric_precision,
                 numeric_scale,
@@ -101,20 +110,53 @@ def get_table_schema(connection, table_name, schema='public'):
         
         schema_info = []
         for col in columns:
-            # Build complete data type string
+            column_name = col[0]
             data_type = col[1]
-            if col[2]:  # character_maximum_length
-                data_type = f"{data_type}({col[2]})"
-            elif col[3]:  # numeric_precision
-                if col[4]:  # numeric_scale
-                    data_type = f"{data_type}({col[3]},{col[4]})"
+            udt_name = col[2]
+            char_length = col[3]
+            numeric_precision = col[4]
+            numeric_scale = col[5]
+            is_nullable = col[6]
+            
+            # ================================================================
+            # CRITICAL FIX: Use udt_name for arrays and special types
+            # ================================================================
+            # PostgreSQL arrays use underscore prefix: _int4, _uuid, _text, etc.
+            # JSON types: json, jsonb
+            # UUIDs: uuid
+            # Custom types: enum names, composite types, etc.
+            
+            if data_type == 'ARRAY':
+                # Use the actual array type (e.g., _int4, _uuid, _text)
+                # This is what your YAML schemas need!
+                actual_type = udt_name
+            elif data_type == 'USER-DEFINED':
+                # Custom types (enums, composite types, etc.)
+                actual_type = udt_name
+            elif udt_name in ('json', 'jsonb', 'uuid'):
+                # Use udt_name for JSON and UUID types
+                actual_type = udt_name
+            else:
+                # For standard types (varchar, integer, etc.), use data_type
+                actual_type = data_type
+            
+            # Build complete data type string with parameters
+            if char_length:
+                # varchar(255), char(10), etc.
+                actual_type = f"{actual_type}({char_length})"
+            elif numeric_precision:
+                if numeric_scale:
+                    # decimal(18,2), numeric(10,4), etc.
+                    actual_type = f"{actual_type}({numeric_precision},{numeric_scale})"
                 else:
-                    data_type = f"{data_type}({col[3]})"
+                    # decimal(18), numeric(10), etc.
+                    actual_type = f"{actual_type}({numeric_precision})"
             
             schema_info.append({
-                'column_name': col[0],
-                'data_type': data_type,
-                'nullable': col[5]  # YES or NO
+                'column_name': column_name,
+                'data_type': actual_type,  # This now correctly shows _int4 instead of ARRAY
+                'udt_name': udt_name,  # Keep raw udt_name for reference
+                'nullable': is_nullable
             })
         
         cursor.close()
@@ -215,7 +257,8 @@ def collect_table_details(connection, table_name, schema='public'):
             'schema_name': schema,
             'table_name': table_name,
             'column_name': col['column_name'],
-            'data_type': col['data_type'],
+            'data_type': col['data_type'],  # Now correctly shows _int4, _uuid, etc.
+            'udt_name': col['udt_name'],  # Raw PostgreSQL type name
             'nullable': col['nullable'],
             'row_count': row_count,
             'max_updated_at': max_updated,
@@ -316,13 +359,14 @@ def create_excel_report(tables_data, output_filename, schema='public'):
     # CREATE INDIVIDUAL TABLE SHEETS
     # ========================================================================
     
-    # Detail headers
+    # Detail headers - NOW INCLUDES UDT_NAME
     detail_headers = [
         'Database Name',
         'Schema Name',
         'Table Name',
         'Column Name',
         'Data Type',
+        'UDT Name',  # Added this for debugging
         'Nullable',
         'Row Count',
         'Max Updated At',
@@ -349,10 +393,11 @@ def create_excel_report(tables_data, output_filename, schema='public'):
             ws.cell(row=row_idx, column=3, value=row_data['table_name'])
             ws.cell(row=row_idx, column=4, value=row_data['column_name'])
             ws.cell(row=row_idx, column=5, value=row_data['data_type'])
-            ws.cell(row=row_idx, column=6, value=row_data['nullable'])
-            ws.cell(row=row_idx, column=7, value=row_data['row_count'])
-            ws.cell(row=row_idx, column=8, value=row_data['max_updated_at'])
-            ws.cell(row=row_idx, column=9, value=row_data['max_created_at'])
+            ws.cell(row=row_idx, column=6, value=row_data['udt_name'])  # Raw PostgreSQL type
+            ws.cell(row=row_idx, column=7, value=row_data['nullable'])
+            ws.cell(row=row_idx, column=8, value=row_data['row_count'])
+            ws.cell(row=row_idx, column=9, value=row_data['max_updated_at'])
+            ws.cell(row=row_idx, column=10, value=row_data['max_created_at'])
         
         # Auto-adjust column widths
         for column in ws.columns:
@@ -391,6 +436,11 @@ Examples:
   
   # Scan specific tables (alternative syntax)
   python postgres_tables_summary.py --tables users orders products
+
+IMPORTANT NOTE:
+  This script now correctly reports PostgreSQL array types using udt_name.
+  For example, an integer array will show as "_int4" instead of "ARRAY".
+  Use this "Data Type" column value directly in your YAML schemas!
         """
     )
     
@@ -435,6 +485,9 @@ def main():
     print("=" * 70)
     print("PostgreSQL Database Tables Summary Generator")
     print("=" * 70)
+    print("\n💡 TIP: This script uses udt_name for accurate array type reporting")
+    print("   Array columns will show as '_int4', '_uuid', etc. (not 'ARRAY')")
+    print("   Use the 'Data Type' column directly in your YAML schemas!\n")
     
     # Parse arguments
     args = parse_arguments()
@@ -509,6 +562,11 @@ def main():
         print(f"  Tables Processed: {len(tables_data)}")
         print(f"  Total Columns: {total_columns}")
         print(f"  Output File: {output_filename}")
+        print("=" * 70)
+        print("\n✅ IMPORTANT: The 'Data Type' column now shows accurate types!")
+        print("   - Arrays: _int4, _uuid, _text (use these in your YAML)")
+        print("   - JSON: json, jsonb (use these in your YAML)")
+        print("   - UUIDs: uuid (use this in your YAML)")
         print("=" * 70)
         
     except Exception as e:
