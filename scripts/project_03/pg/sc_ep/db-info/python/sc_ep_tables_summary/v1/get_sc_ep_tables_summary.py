@@ -485,9 +485,6 @@ def main():
     print("=" * 70)
     print("PostgreSQL Database Tables Summary Generator")
     print("=" * 70)
-    print("\n💡 TIP: This script uses udt_name for accurate array type reporting")
-    print("   Array columns will show as '_int4', '_uuid', etc. (not 'ARRAY')")
-    print("   Use the 'Data Type' column directly in your YAML schemas!\n")
     
     # Parse arguments
     args = parse_arguments()
