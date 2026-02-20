@@ -14,4 +14,7 @@
 
     # Specific tables from custom schema
     python postgres_tables_summary.py --tables users orders --schema staging
+
+    # Scan with specific schema
+    python postgres_tables_summary.py --all --schema public
 ```
