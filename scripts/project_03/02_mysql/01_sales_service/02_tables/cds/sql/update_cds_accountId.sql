@@ -1,7 +1,10 @@
 UPDATE `sales-service`.cds
-SET accountId = CASE leadId
-
+SET accountId = CASE customerId
     ELSE accountId
 END 
-WHERE leadId in (
+WHERE customerId in (
+'74535'
 )
+
+
+-- update `sales-service`.cds
