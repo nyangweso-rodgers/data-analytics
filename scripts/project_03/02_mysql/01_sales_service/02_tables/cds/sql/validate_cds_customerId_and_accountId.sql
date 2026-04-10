@@ -32,16 +32,18 @@ cds_cte as (
 	),
 leads_cte as (
 	select leadId,
+    leadAmtCustomerId,
 	companyRegionId 
 	from `sales-service`.leads
 	),
 cds_leads_mashup_cte as (
 	select cds_cte.*,
-	leads_cte.companyRegionId 
+	leads_cte.companyRegionId ,
+    leadAmtCustomerId
 	from cds_cte
 	left join leads_cte on leads_cte.leadId = cds_cte.leadId 
 	),
-validate_customerId_cte as (
+validate_cds_customerId_cte as (
 	select distinct leadId,
 	customerId,
 	accountId,
@@ -49,9 +51,11 @@ validate_customerId_cte as (
 	cds1CompletionDate,
 	cds2CompletionDate,
 	is_migrated,
+	createdAt,
 	updatedAt
 	from cds_cte
 	where customerId is null
+	and accountId is not null
 	),
 validate_cds_accountId_cte as (
 	select distinct 
@@ -76,10 +80,10 @@ SELECT *
 #distinct cdsSource
 #distinct leadId, createdAt, customerId, accountId  
 #from cds_cte
-#from validate_customerId_cte
+#from validate_cds_customerId_cte
 from validate_cds_accountId_cte
 #where leadId = ''
 #where accountId in ('')
 #where customerId = ''
 #limit 100
-ORDER BY leadId, createdAt desc
+ORDER BY leadId, cds1CompletionDate desc
