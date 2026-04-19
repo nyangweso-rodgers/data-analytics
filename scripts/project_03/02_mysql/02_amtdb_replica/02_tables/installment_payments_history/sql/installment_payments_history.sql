@@ -1,0 +1,56 @@
+with
+installment_payments_history_cte as (
+	SELECT id, 
+	accountId, 
+	instalmentScheduleId, 
+	paymentId, 
+	paymentType, 
+	amtPaid, 
+	amtRefund, 
+	paidDate, 
+	#updatedAt, 
+	#updatedBy, 
+	createdAt, 
+	date(createdAt) as created_at
+	#createdBy
+	FROM amtdb.installment_payments_history
+	order by accountId
+	)
+select *
+from installment_payments_history_cte
+where paymentId in ("783102",
+"27590",
+"27590",
+"876221",
+"876221",
+"903078",
+"903078",
+"930322",
+"930322",
+"961812",
+"961812",
+"967466",
+"967466",
+"768818",
+"27033",
+"27033",
+"911148",
+"911148",
+"935656",
+"935656",
+"966859",
+"966859",
+"970328",
+"970328",
+"974230",
+"670343",
+"709687",
+"732572",
+"758050",
+"783164",
+"806382",
+"834434",
+"870014",
+"974985",
+"974985",
+"974985")
