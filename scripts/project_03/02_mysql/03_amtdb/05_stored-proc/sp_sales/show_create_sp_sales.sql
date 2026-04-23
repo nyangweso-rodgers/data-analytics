@@ -1,0 +1,1 @@
+SHOW CREATE PROCEDURE amtdb.sp_sales;
