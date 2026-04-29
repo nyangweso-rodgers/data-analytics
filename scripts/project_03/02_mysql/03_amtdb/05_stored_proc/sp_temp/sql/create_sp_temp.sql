@@ -1,0 +1,13 @@
+DROP PROCEDURE IF EXISTS test_temp;
+
+DELIMITER $$
+
+CREATE PROCEDURE test_temp()
+BEGIN
+  CREATE TEMPORARY TABLE temp_test (id INT);
+  INSERT INTO temp_test VALUES (1);
+  SELECT * FROM temp_test;
+  DROP TEMPORARY TABLE temp_test;
+END$$
+
+DELIMITER ;
