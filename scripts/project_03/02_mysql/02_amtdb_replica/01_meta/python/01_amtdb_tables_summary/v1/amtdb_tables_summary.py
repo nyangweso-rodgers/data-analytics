@@ -6,6 +6,7 @@ from datetime import datetime
 from openpyxl import Workbook
 from openpyxl.styles import Font, PatternFill, Alignment
 import argparse
+import time
 
 # Load environment variables
 load_dotenv()
@@ -116,11 +117,12 @@ def get_table_row_count(connection, table_name, use_approximate=False):
                 """
                 cursor.execute(query, (DB_CONFIGS['database'], table_name))
                 result = cursor.fetchone()
-                return result['TABLE_ROWS'] if result else 0
+                # TABLE_ROWS can be None for some table types (views, etc)
+                return result['TABLE_ROWS'] if (result and result['TABLE_ROWS'] is not None) else 0
             else:
                 cursor.execute(f"SELECT COUNT(*) as count FROM `{table_name}`")
                 result = cursor.fetchone()
-                return result['count']
+                return result['count'] if result else 0
     except Error as e:
         print(f"✗ Error getting row count for {table_name}: {e}")
         return 0
@@ -135,44 +137,95 @@ def find_timestamp_column(columns, patterns):
     return None
 
 
-def get_max_timestamp(connection, table_name, column_name):
-    """Get maximum value from a timestamp column"""
+def get_max_timestamp(connection, table_name, column_name, timeout_seconds=10):
+    """
+    Get maximum value from a timestamp column with timeout protection
+    
+    Args:
+        timeout_seconds: Maximum time to wait for query (default 10s)
+    
+    Returns:
+        datetime/str: Max timestamp value, "TIMEOUT" if query times out, or None
+    """
     if not column_name:
         return None
     
     try:
         with connection.cursor() as cursor:
-            query = f"SELECT MAX(`{column_name}`) as max_ts FROM `{table_name}`"
+            # Use ORDER BY DESC LIMIT 1 instead of MAX()
+            # This is often faster and will use index if available
+            query = f"""
+                SELECT `{column_name}` as max_ts 
+                FROM `{table_name}` 
+                WHERE `{column_name}` IS NOT NULL
+                ORDER BY `{column_name}` DESC 
+                LIMIT 1
+            """
+            
+            # Set a statement timeout (MySQL 5.7.8+)
+            # This prevents hanging on unindexed columns
+            try:
+                cursor.execute(f"SET SESSION max_execution_time = {timeout_seconds * 1000}")
+            except:
+                pass  # Older MySQL versions don't support this
+            
+            start_time = time.time()
             cursor.execute(query)
             result = cursor.fetchone()
-            return result['max_ts'] if result['max_ts'] else None
+            elapsed = time.time() - start_time
+            
+            # Warn if query was slow (likely unindexed)
+            if elapsed > 3:
+                print(f"    ⚠ Slow query ({elapsed:.1f}s) on {table_name}.{column_name} - consider indexing")
+            
+            return result['max_ts'] if result and result['max_ts'] else None
+            
+    except pymysql.err.OperationalError as e:
+        error_msg = str(e).lower()
+        if "max_execution_time" in error_msg or "timeout" in error_msg or "interrupted" in error_msg:
+            print(f"    ⏱ TIMEOUT on {table_name}.{column_name} (>{timeout_seconds}s - likely unindexed)")
+            return "TIMEOUT"
+        print(f"    ⚠ Error getting max timestamp for {table_name}.{column_name}: {e}")
+        return None
     except Error as e:
-        print(f"✗ Error getting max timestamp for {table_name}.{column_name}: {e}")
+        print(f"    ⚠ Error getting max timestamp for {table_name}.{column_name}: {e}")
         return None
 
 
 def collect_table_details(connection, table_name):
     """Collect detailed information for a single table"""
-    print(f"  - Processing: {table_name}")
+    print(f"  - Processing: {table_name}", end="", flush=True)
     
     db_name = DB_CONFIGS['database']
     
     # Get schema info
     schema_info = get_table_schema(connection, table_name)
+    print(f" ({len(schema_info)} cols)", end="", flush=True)
     
     # Get row count (using approximate for speed)
     row_count = get_table_row_count(connection, table_name, use_approximate=True)
+    print(f" (~{row_count:,} rows)", end="", flush=True)
     
-    # Find timestamp columns
+    # Find timestamp columns - ONLY look for updated_at and created_at patterns
     updated_patterns = ['updated_at', 'updatedAt', 'modified_at', 'modifiedAt', 'last_updated']
     created_patterns = ['created_at', 'createdAt', 'created', 'date_created']
     
     updated_col = find_timestamp_column(schema_info, updated_patterns)
     created_col = find_timestamp_column(schema_info, created_patterns)
     
-    # Get max timestamps
-    max_updated = get_max_timestamp(connection, table_name, updated_col)
-    max_created = get_max_timestamp(connection, table_name, created_col)
+    # Only query MAX if the columns exist
+    max_updated = None
+    max_created = None
+    
+    if updated_col:
+        print(f" [checking {updated_col}...]", end="", flush=True)
+        max_updated = get_max_timestamp(connection, table_name, updated_col)
+    
+    if created_col:
+        print(f" [checking {created_col}...]", end="", flush=True)
+        max_created = get_max_timestamp(connection, table_name, created_col)
+    
+    print(" ✓")  # End the line
     
     # Build rows for Excel
     rows = []
@@ -230,14 +283,22 @@ def create_excel_report(tables_data, output_filename):
     for table_name, rows in tables_data.items():
         if rows:  # Should always have rows, but safety check
             first_row = rows[0]
+            
+            # Handle TIMEOUT values
+            max_updated = first_row['max_updated_at']
+            max_created = first_row['max_created_at']
+            
+            has_updated = 'Yes' if max_updated and max_updated != 'TIMEOUT' else 'TIMEOUT' if max_updated == 'TIMEOUT' else 'No'
+            has_created = 'Yes' if max_created and max_created != 'TIMEOUT' else 'TIMEOUT' if max_created == 'TIMEOUT' else 'No'
+            
             summary_data.append({
                 'table_name': table_name,
                 'column_count': len(rows),
                 'row_count': first_row['row_count'],
-                'has_updated': 'Yes' if first_row['max_updated_at'] else 'No',
-                'max_updated_at': first_row['max_updated_at'],
-                'has_created': 'Yes' if first_row['max_created_at'] else 'No',
-                'max_created_at': first_row['max_created_at'],
+                'has_updated': has_updated,
+                'max_updated_at': max_updated if max_updated != 'TIMEOUT' else 'Query Timeout (>10s)',
+                'has_created': has_created,
+                'max_created_at': max_created if max_created != 'TIMEOUT' else 'Query Timeout (>10s)',
                 'sheet_name': table_name[:31]  # Excel sheet name limit
             })
     
@@ -303,8 +364,13 @@ def create_excel_report(tables_data, output_filename):
             ws.cell(row=row_idx, column=4, value=row_data['data_type'])
             ws.cell(row=row_idx, column=5, value=row_data['nullable'])
             ws.cell(row=row_idx, column=6, value=row_data['row_count'])
-            ws.cell(row=row_idx, column=7, value=row_data['max_updated_at'])
-            ws.cell(row=row_idx, column=8, value=row_data['max_created_at'])
+            
+            # Handle TIMEOUT values in individual sheets
+            updated_val = row_data['max_updated_at']
+            created_val = row_data['max_created_at']
+            
+            ws.cell(row=row_idx, column=7, value=updated_val if updated_val != 'TIMEOUT' else 'Query Timeout (>10s)')
+            ws.cell(row=row_idx, column=8, value=created_val if created_val != 'TIMEOUT' else 'Query Timeout (>10s)')
         
         # Auto-adjust column widths
         for column in ws.columns:
@@ -355,6 +421,13 @@ Examples:
         help='Scan all tables in the database'
     )
     
+    parser.add_argument(
+        '--timeout',
+        type=int,
+        default=10,
+        help='Timeout in seconds for MAX timestamp queries (default: 10)'
+    )
+    
     return parser.parse_args()
 
 
@@ -374,7 +447,7 @@ def parse_table_list(tables_arg):
 def main():
     """Main execution function"""
     print("=" * 70)
-    print("MySQL Database Tables Summary Generator")
+    print("MySQL Database Tables Summary Generator (OPTIMIZED)")
     print("=" * 70)
     
     # Parse arguments
@@ -416,14 +489,24 @@ def main():
             print("Run with --help for usage examples")
             return
         
+        print(f"✓ Timeout set to {args.timeout} seconds for timestamp queries")
+        
         # Collect data for each table
         tables_data = {}
         print(f"\nCollecting data from {len(tables_to_process)} table(s)...")
+        print("(Progress indicators: columns, approximate rows, timestamp checks)")
+        print("-" * 70)
+        
+        start_time = time.time()
         
         for idx, table_name in enumerate(tables_to_process, 1):
-            print(f"[{idx}/{len(tables_to_process)}] ", end="")
+            print(f"[{idx}/{len(tables_to_process)}] ", end="", flush=True)
             rows = collect_table_details(connection, table_name)
             tables_data[table_name] = rows
+        
+        elapsed = time.time() - start_time
+        print("-" * 70)
+        print(f"✓ Data collection completed in {elapsed:.1f} seconds")
         
         if not tables_data:
             print("\n✗ No data collected.")
@@ -445,6 +528,7 @@ def main():
         print(f"  Database: {db_name}")
         print(f"  Tables Processed: {len(tables_data)}")
         print(f"  Total Columns: {total_columns}")
+        print(f"  Total Time: {elapsed:.1f} seconds")
         print(f"  Output File: {output_filename}")
         print("=" * 70)
         
