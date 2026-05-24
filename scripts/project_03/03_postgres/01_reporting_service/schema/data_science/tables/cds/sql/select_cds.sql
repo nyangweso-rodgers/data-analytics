@@ -1,0 +1,31 @@
+with
+cds_cte as (
+	SELECT customerid, account_number, customergender, customerdateofbirth, customerage, 
+	latitude, longitude, own_the_land_for_product_installation__c, ready_to_make_the_deposit_on__c, how_long_have_you_had_the_same_phone_no__c, 
+	how_long_have_you_been_a_farmer__c, number_of_household_members__c, pest_disease_control_pest_type_usage_c, do_they_have_a_registered_business__c, 
+	do_you_have_a_reliable_market_for_your_p__c, total_income__c, total_expenses__c, remaining_income_after_expenses__c, 
+	overall_risk_assessment__c, amount_spent_on_rent_c, number_of_loans_taken_in_the_last_2yrs_c, no_of_months_to_finish_paying_loan_s_c, currently_have_any_outstanding_loans_c, number_of_outstanding_loans_c, 
+	total_amount_of_outstanding_loan_s_c, did_you_previously_own_a_water_pump_c, total_amount_from_salary_government_c, 
+	amount_spent_on_school_fees_c, amount_spent_on_loans_c, amount_spent_on_food_c, amount_spent_on_other_c, 
+	amount_spent_on_farm_inputs_c, amount_left_after_monthly_expenses_c, other_sources_of_income_of_the_household_c, 
+	total_amount_from_provision_of_services_c, total_amount_from_pension_c, total_amt_from_salary_private_inst_c, 
+	total_amount_from_remittances_c, total_amount_from_commerce_and_trade_c, total_amount_from_agriculture_c, amount_paid_for_getting_water_each_week__c, main_source_of_income_c, 
+	periodicity_of_the_income__c, no_of_family_members_friends_helping_c, salary_amount_c, periodicity_of_payment__c, average_monthly_income__c, 
+	main_purpose_of_acquiring_the_pump_c, other_machinery_and_equipment_ownership__c, primary_decision_maker_to_buy_product_c, other_sources_of_water_c, 
+	amount_paid_for_water_other_pump_usage__c, water_tank_capacity__c, hours_spent_fetching_water_every_week__c, do_you_have_animals_c, number_of_pigs_c, 
+	number_of_cows_c, number_of_sheep_c, number_of_goats_c, number_of_working_age_adults_in_the_hh__c, farm_acreage_c, 
+	number_of_pensioners_living_in_the_hh__c, number_of_financial_dependants__c, been_living_in_the_same_location_for__c, compensation_for_the_help_provided__c, 
+	depth_of_the_water_source__c, do_you_collaborate_with_other_farmers__c, do_you_keep_records_of_farm_performance__c, do_you_use_agricultural_inputs__c, 
+	duration_of_this_activity__c, during_your_working_peak_season_how_man__c, electricity_connectivity__c, 
+	harvest_cycle_per_year__c, how_do_you_compensate_them_for_the_help__c, in_which_market_do_you_sell__c, 
+	no_of_jobs_in_the_last_5yrs__c, no_of_years_working_with_same_employer__c, number_of_businesses_before__c, 
+	quantity_of_water_usage_per_week__c, seasonality_of_the_water_source__c, what_is_your_main_source_of_knowledge__c, 
+	carbon_credit_which_pump_type_c, types_of_crops_grown_c, type_of_fruits_and_vegetables_grown_, mobile_number, national_id_number, created_at, updated_at, sync_timestamp
+	FROM data_science.cds
+	)
+select --*
+max(sync_timestamp)
+--count(distinct customerid)
+from cds_cte
+where customerId in ('54230', '42248', '56618', '25996', '53372', '52660', '439', '53885', '2970', '148784')
+limit 1000
