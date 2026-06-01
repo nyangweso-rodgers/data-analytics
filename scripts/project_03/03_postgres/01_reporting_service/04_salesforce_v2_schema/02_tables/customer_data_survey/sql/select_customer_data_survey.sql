@@ -134,7 +134,10 @@ accounts_cte as (
 	FROM salesforce_v2.account
 ),
 cds_mashup_cte as (
-	select customer_data_survey_cte.*,
+	select distinct 
+	EXTRACT(YEAR FROM cds1_date) as cds1_year, 
+	EXTRACT(YEAR FROM cds2_date) as cds2_year,
+	customer_data_survey_cte.*,
 	country_code,
 	amt_customer_id,
 	credit_score,
@@ -195,9 +198,19 @@ get_distribution_of_avg_monthly_income_cte as (
 	from spv_requests_cte
 	)
 select *
+--count(*)
+--distinct min(cds1_date), max(cds1_date)
+--distinct cds1_year, count(*)
+--count(distinct amt_customer_id)
 --distinct country_code, count(distinct national_id_number), min(average_monthly_income), max(average_monthly_income)
-from customer_data_survey_cte
+--from customer_data_survey_cte
+from cds_mashup_cte
 --from spv_requests_cte
 --from get_distribution_of_avg_monthly_income_cte
 --group by 1 order by 2 desc
-where lead_record = '00Q8d000009QA2aEAG'
+--where amt_customer_id  in ('109137')
+--where lead_record in ('00Q8d000004RiqaEAC','00Q8d000004RqzyEAC','00Q8d000004RIZkEAO')
+where lead_record = '00QPz000004ZE0zMAG'
+--group by 1 order by 2 desc
+--order by 1
+limit 1000
