@@ -134,12 +134,15 @@ accounts_cte as (
 	FROM salesforce_v2.account
 ),
 cds_mashup_cte as (
-	select distinct 
+	select distinct accounts_cte.amt_customer_id,
+	accounts_cte.customer_amt_id,
+	accounts_cte.phone,
+	--customer_type,
+	accounts_cte.status,
 	EXTRACT(YEAR FROM cds1_date) as cds1_year, 
 	EXTRACT(YEAR FROM cds2_date) as cds2_year,
 	customer_data_survey_cte.*,
 	country_code,
-	amt_customer_id,
 	credit_score,
 	credit_check_result_status,
 	accounts_cte.new_credit_score,
@@ -210,7 +213,7 @@ from cds_mashup_cte
 --group by 1 order by 2 desc
 --where amt_customer_id  in ('109137')
 --where lead_record in ('00Q8d000004RiqaEAC','00Q8d000004RqzyEAC','00Q8d000004RIZkEAO')
-where lead_record = '00QPz000004ZE0zMAG'
+where lead_record = '00QPz00000BSgPNMA1'
 --group by 1 order by 2 desc
 --order by 1
 limit 1000
