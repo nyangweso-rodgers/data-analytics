@@ -1,0 +1,1 @@
+DELETE FROM amtdb.etl_state where table_name = 'accounts'

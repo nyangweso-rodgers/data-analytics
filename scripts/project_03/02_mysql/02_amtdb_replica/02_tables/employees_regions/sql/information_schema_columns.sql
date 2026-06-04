@@ -1,0 +1,10 @@
+SELECT 
+    COLUMN_NAME,
+    COLUMN_TYPE,
+    IS_NULLABLE,
+    COLUMN_KEY,
+    COLUMN_DEFAULT
+FROM information_schema.COLUMNS
+WHERE TABLE_SCHEMA = 'amtdb' 
+  AND TABLE_NAME = 'employee_regions'
+ORDER BY ORDINAL_POSITION;

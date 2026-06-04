@@ -11,9 +11,7 @@ installment_payments_cte as (
 	amtPaid, 
 	amtRefund, 
 	paidDate, 
-	date(paidDate) as paid_date,
 	createdAt, 
-	date(createdAt) as created_at,
 	#createdBy, 
 	#updatedAt, 
 	#updatedBy, 
@@ -21,6 +19,9 @@ installment_payments_cte as (
 	discountRefunds
 	FROM amtdb.installment_payments
 	)
-select #*
-count(distinct accountId) 
+select *,
+sum(amtPaid)over(partition by accountId ORDER  by paidDate asc) as cum_amt_paid
+#count(distinct accountId) 
 from installment_payments_cte
+where accountId in ('114540')
+ORDER BY accountId, paidDate
