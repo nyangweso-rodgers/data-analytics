@@ -1,0 +1,2 @@
+core_userSELECT id, email, first_name, last_name, "password", password_salt, date_joined, last_login, is_superuser, is_active, reset_token, reset_triggered, is_qbnewb, login_attributes, updated_at, sso_source, locale, is_datasetnewb, settings, "type", entity_id, deactivated_at, tenant_id, jwt_attributes, deactivated_with_tenant, is_data_analyst
+FROM public.core_user;
