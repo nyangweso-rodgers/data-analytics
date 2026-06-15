@@ -1,0 +1,158 @@
+[
+ {
+  "column_name": "id",
+  "data_type": "uuid",
+  "column_default": "gen_random_uuid()",
+  "is_nullable": "NO"
+ },
+ {
+  "column_name": "created_at",
+  "data_type": "timestamp without time zone",
+  "column_default": "now()",
+  "is_nullable": "NO"
+ },
+ {
+  "column_name": "updated_at",
+  "data_type": "timestamp without time zone",
+  "column_default": "now()",
+  "is_nullable": "NO"
+ },
+ {
+  "column_name": "created_by",
+  "data_type": "integer",
+  "column_default": null,
+  "is_nullable": "NO"
+ },
+ {
+  "column_name": "updated_by",
+  "data_type": "integer",
+  "column_default": null,
+  "is_nullable": "NO"
+ },
+ {
+  "column_name": "is_active",
+  "data_type": "boolean",
+  "column_default": "true",
+  "is_nullable": "NO"
+ },
+ {
+  "column_name": "meta",
+  "data_type": "json",
+  "column_default": null,
+  "is_nullable": "YES"
+ },
+ {
+  "column_name": "flagged_by",
+  "data_type": "integer",
+  "column_default": null,
+  "is_nullable": "NO"
+ },
+ {
+  "column_name": "repossessed_by",
+  "data_type": "integer",
+  "column_default": null,
+  "is_nullable": "YES"
+ },
+ {
+  "column_name": "repossession_date",
+  "data_type": "date",
+  "column_default": null,
+  "is_nullable": "YES"
+ },
+ {
+  "column_name": "paid_amount",
+  "data_type": "numeric",
+  "column_default": null,
+  "is_nullable": "YES"
+ },
+ {
+  "column_name": "recieved_by",
+  "data_type": "integer",
+  "column_default": null,
+  "is_nullable": "YES"
+ },
+ {
+  "column_name": "recieved_at",
+  "data_type": "date",
+  "column_default": null,
+  "is_nullable": "YES"
+ },
+ {
+  "column_name": "is_partial",
+  "data_type": "boolean",
+  "column_default": null,
+  "is_nullable": "YES"
+ },
+ {
+  "column_name": "flagged_at",
+  "data_type": "date",
+  "column_default": null,
+  "is_nullable": "NO"
+ },
+ {
+  "column_name": "account_id",
+  "data_type": "integer",
+  "column_default": null,
+  "is_nullable": "NO"
+ },
+ {
+  "column_name": "assignment_id",
+  "data_type": "uuid",
+  "column_default": null,
+  "is_nullable": "YES"
+ },
+ {
+  "column_name": "reason",
+  "data_type": "character varying",
+  "column_default": null,
+  "is_nullable": "NO"
+ },
+ {
+  "column_name": "status",
+  "data_type": "character varying",
+  "column_default": "'NEW'::character varying",
+  "is_nullable": "NO"
+ },
+ {
+  "column_name": "goods_receive_note_id",
+  "data_type": "character varying",
+  "column_default": null,
+  "is_nullable": "YES"
+ },
+ {
+  "column_name": "warehouse_id",
+  "data_type": "character varying",
+  "column_default": null,
+  "is_nullable": "YES"
+ },
+ {
+  "column_name": "cancellation_reason",
+  "data_type": "text",
+  "column_default": null,
+  "is_nullable": "YES"
+ },
+ {
+  "column_name": "credit_note_id",
+  "data_type": "character varying",
+  "column_default": null,
+  "is_nullable": "YES"
+ },
+ {
+  "column_name": "credit_note_amount",
+  "data_type": "character varying",
+  "column_default": null,
+  "is_nullable": "YES"
+ },
+ {
+  "column_name": "note",
+  "data_type": "text",
+  "column_default": null,
+  "is_nullable": "YES"
+ },
+ {
+  "column_name": "type",
+  "data_type": "character varying",
+  "column_default": null,
+  "is_nullable": "NO"
+ }
+]
