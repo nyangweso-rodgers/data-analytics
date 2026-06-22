@@ -27,6 +27,7 @@ One row per account. Central reference table for account lifecycle analysis incl
 ### Account Classification
 
 - `accountType` — `PAYG`, `CASH`, or `ADDON`. Determines payment structure.
+- For all PAYG Accounts set `accountType = PAYG`
 - `status` — Current lifecycle state: `Current`, `Arrears`, `Complete`, etc.
 
 ### Product Classification
@@ -56,8 +57,7 @@ One row per account. Central reference table for account lifecycle analysis incl
 
 ### Refunded Accounts Notes
 
-- `status` is `Refunded`
-- `sale_date` is null
+- For Full Refunds: `sale_date` is and `RefundDate` is NOT NULL
 
 ### Canonical Base Query
 
