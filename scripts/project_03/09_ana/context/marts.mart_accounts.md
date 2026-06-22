@@ -54,6 +54,11 @@ One row per account. Central reference table for account lifecycle analysis incl
 - `PAYG` accounts follow an installment payment plan — use installment tables for payment analysis
 - `CASH` accounts are fully paid upfront — no installment schedule applies
 
+### Refunded Accounts Notes
+
+- `status` is `Refunded`
+- `sale_date` is null
+
 ### Canonical Base Query
 
 WITH
