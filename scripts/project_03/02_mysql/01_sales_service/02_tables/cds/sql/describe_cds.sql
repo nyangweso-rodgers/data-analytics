@@ -1,1 +1,0 @@
-describe `sales-service`.cds
