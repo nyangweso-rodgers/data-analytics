@@ -21,3 +21,7 @@ mysql-data-in-excel-v1.xlsx
 
 # Data Science Excel Files
 data-science/03_calculate_customer_geo_value/v1/output/
+
+# Data & output folders (large/generated files, not tracked)
+data/
+output/
