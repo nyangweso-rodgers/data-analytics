@@ -1,0 +1,1 @@
+ALTER TABLE amtdb.ledger_entries ADD INDEX idx_updated_at (updated_at);
