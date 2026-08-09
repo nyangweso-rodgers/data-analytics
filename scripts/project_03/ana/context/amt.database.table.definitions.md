@@ -45,6 +45,48 @@ FROM installment_schedules_cte
 
 ---
 
+### `amt.ptps`
+
+One row per Promise to Pay (PTP) request per account. Tracks accounts that have
+made a request or promise to pay their overdue arrears by a specific date. A
+single account can have multiple PTP requests over time.
+
+#### Key Identifiers
+
+- `id` - Unique PTP identifier (primary dedup key)
+- `accountId` - Unique account identifier. Links to `marts.mart_accounts.account_id`
+
+#### PTP Details
+
+- `reason` - Reason provided by the customer for requesting the PTP
+- `comments` - Additional comments or notes logged against the PTP request
+- `createdAt` - Date the PTP request was logged in the system
+- `ptpDate` - Promise date — the date the customer has committed to m
+
+#### Notes
+
+- A single account can have multiple PTP records — one per request over time
+- To get the most recent PTP per account, filter on `MAX(createdAt) GROUP BY accountId`
+- `comments` and `reason` are free-text fields — values may be inconsistent across records
+
+```sql
+  WITH
+--------------------- PTPs ----------------------------------
+ptps_cte as (
+    select *
+    from (
+        SELECT *,
+    row_number() OVER (partition by id ORDER BY updatedAt DESC) as rnk
+    FROM amt.ptps
+    ) where rnk = 1
+    ORDER BY accountId, createdAt desc
+    )
+select *
+from ptps_cte
+```
+
+---
+
 ### `amt.wallet_installment_payments`
 
 - One row per ledger entry per installment schedule per account.

@@ -61,14 +61,16 @@ One row per lead. Central reference table for leads lifecycle analysis including
 
 ### Canonical Base Query
 
+```sql
 WITH
-mart*leads_cte as (
-select *
-from (
-SELECT \_,
-row_number()over(partition by leadId ORDER BY \_generated_at desc) as rnk
-FROM marts.mart_leads
-) where rnk = 1
+mart_leads_cte as (
+  select *
+  from (
+    SELECT *,
+      row_number() over (partition by leadId ORDER BY _generated_at desc) as rnk
+    FROM marts.mart_leads
+  ) where rnk = 1
 )
-select \*
+select *
 from mart_leads_cte
+```

@@ -2,19 +2,96 @@
 
 ### Purpose
 
-The `ccs` database contains data from Call Center operations including both
-inbound and outbound calls. The platform used for call center activities is
-called **Call Center Studio**, hence the abbreviation `ccs`.
+The `ccs` database contains data from Call Center operations including both inbound and outbound calls. The platform used for call center activities is called **Call Center Studio**, hence the abbreviation `ccs`.
 
 ## Tables
 
-### `ccs.queue_performance`
+### 1. `ccs.calls`
+
+One row per call. Contains the full details and metadata for each unique call.
+The aggregated metrics in `ccs.queue_performance` and `ccs.user_performance` are derived from this table.
+
+#### Key Identifiers
+
+- `country` - Country the call originated from i.e., kenya, uganda, civ
+- `call_key` - Unique identifier for the call (primary dedup key)
+- `call_id` - Alternative unique identifier for the call. Same grain as `call_key`
+
+#### Call Classification
+
+- `is_inbound` - Boolean. `true` for inbound calls, `false` for outbound calls
+- `is_answered` - Boolean. `true` if the call was answered by an agent
+- `is_assigned` - Boolean. `true` if the call was assigned to a specific agent
+- `is_abandoned` - Boolean. `true` if the caller hung up before being answered
+- `has_voicemail` - Boolean. `true` if the caller left a voicemail
+- `black_list` - Boolean. `true` if the caller is on the blacklist
+- `status` - Call status: `hangup` or `NULL`
+- `disposition` - Final call disposition:
+  - `ANSWER` - Call was answered
+  - `BUSY` - Line was busy
+  - `CANCEL` - Call was cancelled before connecting
+  - `NOANSWER` - Call was not answered
+  - `CHANUNAVAIL` - Channel unavailable
+  - `CONGESTION` - Network congestion
+  - `PREDIAL` - Call in pre-dial state
+  - `NULL` / `BLANK` - Disposition not recorded
+
+#### Queue & Agent
+
+- `queue_name` - Name of the queue the call was routed through
+- `agent_name` - Full name of the agent who handled the call
+- `agent_email` - Email of the agent. Links to `ccs.user_performance.user_email`
+- `caller_id` - Caller phone/mobile number
+
+#### Dates & Timestamps
+
+- `queue_date` - Date the call entered the queue
+- `call_date` - Datetime the call was initiated
+- `talk_date` - Datetime the call was answered and talk began
+- `hangup_date` - Datetime the call ended
+
+#### Duration Columns (in seconds)
+
+- `wait_duration` - Time in seconds the caller waited before being answered
+- `duration` - Total call duration in seconds including talk and hold time
+- `hold_duration` - Time in seconds the call was placed on hold
+- `voicemail_duration` - Duration of the voicemail left by the caller in seconds
+
+#### Notes
+
+- All duration columns are in **seconds** — divide by 60 for minutes, 3600 for hours
+- `is_abandoned = true` and `is_answered = true` should be mutually exclusive — use as a data quality check
+- `disposition = 'ANSWER'` aligns with `is_answered = true` — use either but be consistent
+- `agent_email` may be NULL for abandoned or unanswered calls where no agent was assigned
+- `talk_date` may be NULL if the call was never answered
+- `hangup_date` may be NULL if the call record was not fully synced
+- For inbound analysis filter `is_inbound = true`, for outbound filter `is_inbound = false`
+- This is the most granular table in `ccs` — use `queue_performance` and `user_performance` for aggregated reporting and this table for call-level analysis
+
+#### Canonical Base Query
+
+```sql
+    WITH
+--------------------- ccs - calls ----------------------------------
+calls_cte as (
+    select *
+    from (
+        SELECT *,
+        row_number()over(partition by call_key ORDER BY _synced_at desc) as rnk
+        FROM ccs.calls
+        ) where rnk = 1
+    )
+select *
+from calls_cte
+```
+
+### 2. `ccs.queue_performance`
 
 One row per queue per day. End-of-day performance summary for each Call Center Queue.
 
 #### Key Identifiers
 
-- `country` - Country the queue operates in i.e., kenya, uganda, civ
+- `country` - Country the queue operates in i.e., kenya, uganda
 - `queue_key` - Unique identifier for the Call Center Queue
 - `queue_date` - Date of the performance summary (daily grain)
 - `queue_name` - Human readable name of the queue
@@ -75,7 +152,7 @@ select *
 from queue_performance_cte
 ```
 
-### `ccs.user_performance`
+### 3. `ccs.user_performance`
 
 One row per agent per day. End-of-day performance summary for each Call Center
 Representative/Agent.

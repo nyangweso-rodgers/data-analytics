@@ -1,4 +1,4 @@
-## Table: marts.mart_accounts
+## Table: `marts.mart_accounts`
 
 ### Purpose
 
@@ -7,7 +7,7 @@ One row per account. Central reference table for account lifecycle analysis incl
 ### Key Identifiers
 
 - `companyRegion` - Country name i.e., kenya, uganda, and civ
-- `region` - Region within a country
+- `region` - Customer region within a country
 - `account_id` — Primary key. Unique per account.
 - `accountRef` - similar to `account_id` another unique identifier per account. Human readable.
 - `customerId` — Unique Customer Id. Each customer has several accounts, i.e., `account_id` or `accountRef`
@@ -22,6 +22,8 @@ One row per account. Central reference table for account lifecycle analysis incl
 - `customerType` - Distributor, Individual, Partner. Determines the type of customer
 - `latitude` - customer latitude
 - `longitude` - customer longitude
+- `County` - customer County - specifically for Kenya, since Uganda does not have County concept
+- `subcounty` - customer subcounty
 - `town` - customer town
 
 ### Account Classification
@@ -50,6 +52,16 @@ One row per account. Central reference table for account lifecycle analysis incl
 - `sale_date` must not be null
 - Exclude status: `No Deposit`, `No Deposit `, `Refunded`
 
+### Notes on Installations
+
+- For installations:
+- `jsf_date` is the installation date.
+- `jsf_date` is not NULL,and `jsf_type = 'INSTALLATION'`, and `engineer_recommendation = 'Installed'`
+
+### Notes on Accounts
+
+- `arrears` - total arrears for each account: what is currently owed, including previous obligations plus what is expected as of now.
+
 ### Account Type Notes
 
 - `PAYG` accounts follow an installment payment plan — use installment tables for payment analysis
@@ -61,16 +73,20 @@ One row per account. Central reference table for account lifecycle analysis incl
 
 ### Canonical Base Query
 
+Note: the raw table holds one row per account _snapshot_ (a new row is written each time an account changes), so the query below dedupes to the latest snapshot per account before use.
+
+```sql
 WITH
-mart*accounts_cte as (
-select *
-from (
-SELECT \_,
-row_number()over(partition by account_id ORDER BY \_generated_at desc) as rnk
-FROM marts.mart_accounts
-) where rnk = 1
-and productName not in ('Transport / Shipping', 'TSR', 'TSR Uganda', 'Training', 'UG Extra Items', 'Extra Items', 'Installation', 'furrow', 'AfterSale', 'Agronomy', 'Samsung Galaxy A11')
-and customer_name NOT LIKE '%Test%'
+mart_accounts_cte as (
+  select *
+  from (
+    SELECT *,
+      row_number() over (partition by account_id ORDER BY _generated_at desc) as rnk
+    FROM marts.mart_accounts
+  ) where rnk = 1
+  and productName not in ('Transport / Shipping', 'TSR', 'TSR Uganda', 'Training', 'UG Extra Items', 'Extra Items', 'Installation', 'furrow', 'AfterSale', 'Agronomy', 'Samsung Galaxy A11')
+  and customer_name NOT LIKE '%Test%'
 )
-select \*
+select *
 from mart_accounts_cte
+```
