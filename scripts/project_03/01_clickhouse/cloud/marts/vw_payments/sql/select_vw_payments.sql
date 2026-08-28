@@ -1,0 +1,1 @@
+SELECT * FROM marts.vw_payments LIMIT 1000
