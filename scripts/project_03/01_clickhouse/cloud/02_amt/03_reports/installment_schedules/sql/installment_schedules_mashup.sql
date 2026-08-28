@@ -82,6 +82,28 @@ agg_installment_schedules_mashup_cte as (
         )
     ORDER BY accountId, paymentSequence
     ),
+--------------------- Next Installment Schedules ----------------------------------
+next_installment_schedule_cte AS (
+    SELECT accountId,
+    argMin(paymentSequence, expectedDate) AS next_payment_sequence,
+    argMin(expectedAmount, expectedDate) AS next_expected_amount,
+    MIN(expectedDate) AS next_expected_date
+    FROM installment_schedules_cte
+    WHERE paymentSequence <> 0
+    and expectedDate >= today()
+    GROUP BY accountId
+    ),
+--------------------- Current Installment Schedule ----------------------------------
+current_installment_schedule_cte AS (
+    SELECT accountId,
+    argMax(paymentSequence, expectedDate) AS current_payment_sequence,
+    argMax(expectedAmount, expectedDate) AS current_expected_amount,
+    MAX(expectedDate) AS current_expected_date
+    FROM installment_schedules_cte
+    WHERE paymentSequence <> 0
+    and expectedDate < today()
+    GROUP BY accountId
+    ),
 --------------------- Current + Next Installment Schedule ----------------------------------
 installment_schedule_summary_cte AS (
     SELECT accountId,
