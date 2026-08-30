@@ -30,7 +30,7 @@ mart_accounts_cte as (
 deleted_records_audit_cte as (
     select *
     from (
-        SELECT distinct id,
+        SELECT  id,
         recordId,
         tableName,
         row_number() OVER (partition by id ORDER BY sync_at DESC) as rnk 
@@ -39,14 +39,9 @@ deleted_records_audit_cte as (
 ),
 --------------------- Installment Schedules ----------------------------------
 installment_schedules_cte as (
-    select distinct accountId,
-    id,
-    installmentType,
-    paymentSequence,
-    expectedDate,
-    expectedAmount
+    select *
     from (
-        SELECT distinct id,
+        SELECT  id,
         accountId,
         installmentType,
         paymentSequence,
@@ -61,11 +56,11 @@ installment_schedules_cte as (
 wallet_installment_payments_cte as (
     select *
     from (
-        SELECT distinct id,
+        SELECT id,
         accountId,
         instalmentScheduleId,
         paymentId,
-        ledgerEntryId,
+        --ledgerEntryId,
         amountPaid,
         amountRefunded,
         paymentDate,
@@ -78,18 +73,18 @@ wallet_installment_payments_cte as (
 installment_payments_mashup_cte as (
     select *
     from (
-        select distinct mart_accounts_cte.account_id as account_id,
+        select distinct mart_accounts_cte.account_id as accountId,
         accountRef,
         accountType as accountType,
         status as status,
         customerId,
         identification_number,
         customer_name,
-        installmentType,
+        installment_schedules_cte.installmentType as installmentType,
         installment_amount,
         expected_payment_amount,
-        paymentSequence,
-        expectedDate,
+        installment_schedules_cte.paymentSequence as paymentSequence,
+        installment_schedules_cte.expectedDate as expectedDate,
         paymentDate,
         expectedAmount,
         (wallet_installment_payments_cte.amountPaid - wallet_installment_payments_cte.amountRefunded) as amountPaid,
@@ -106,24 +101,42 @@ installment_payments_mashup_cte as (
         from mart_accounts_cte
         LEFT JOIN installment_schedules_cte on installment_schedules_cte.accountId = mart_accounts_cte.account_id
         left join wallet_installment_payments_cte on wallet_installment_payments_cte.instalmentScheduleId = installment_schedules_cte.id
-        ) where companyRegion = 'kenya'
+        ) where accountType in ('PAYG')
+        and status not in ('No Deposit', 'Full Deposit', 'Refunded')
+        and companyRegion = 'kenya'
         --where companyRegion in ('kenya', 'uganda')
-        --and accountType in ('PAYG')
         --and status in ('Complete', 'Current', 'Repossession', 'Arrears', 'Pending Repossession', 'Write Off', 'Advance', 'Repossession On Hold', 'REPOSSESSION', 'Completed') 
         --and expectedDate is not NULL
         --and product = 'Kilimo Boost'
         --and expectedDate <= '2026-04-31'
         --and status = 'Pending Repossession'
-        ORDER BY account_id, paymentSequence, expectedDate, paymentDate
+        ORDER BY accountId, paymentSequence, expectedDate, paymentDate
     ),
 --------------------- Mashup ----------------------------------
 agg_installment_payments_cte as (
     select *,
     CASE
+        WHEN paymentSequence <> 1 THEN NULL
+        WHEN expectedDate > today() THEN NULL
+        WHEN amountPaid >= expectedAmount AND paymentDate <= expectedDate THEN 0
+    ELSE 1 END AS is_fpd,
+    CASE
+        WHEN paymentSequence <> 1 THEN NULL
+        WHEN expectedDate > today() THEN NULL
+        WHEN amountPaid >= expectedAmount THEN 0
+        ELSE 1
+    END AS is_fpd_amount,
+    CASE
         WHEN paymentSequence = 0 THEN 'Deposit'
         WHEN expectedDate < today() THEN 'Past Due'
         WHEN expectedDate = today() THEN 'Due Today'
-    ELSE 'Upcoming' END AS installment_timeline,
+        ELSE 'Upcoming' 
+    END AS installment_schedule_status,
+    CASE
+        WHEN ifNull(amountPaid, 0) = 0 THEN 'Unpaid'
+        WHEN ifNull(amountPaid, 0) < expectedAmount THEN 'Partially Paid'
+        ELSE 'Paid in Full' 
+    END AS installment_payment_status,
     CASE
         WHEN amountPaid >= expectedAmount THEN dateDiff('day', expectedDate, paymentDate)
     END AS days_to_full_payment, -- How many days late was the installment when it was eventually completed?
@@ -133,42 +146,33 @@ agg_installment_payments_cte as (
             THEN dateDiff('day', expectedDate, today())
     ELSE 0 END AS current_dpd, -- If it's still outstanding, how many days overdue is it today?
     CASE
-        WHEN ifNull(amountPaid, 0) = 0 THEN 'Unpaid'
-        WHEN ifNull(amountPaid, 0) < expectedAmount THEN 'Partially Paid'
-    ELSE 'Paid in Full' END AS payment_status,
-    CASE
-        WHEN paymentSequence <> 1 THEN NULL
-        WHEN expectedDate > today() THEN NULL
-        WHEN amountPaid >= expectedAmount AND paymentDate <= expectedDate THEN 0
-    ELSE 1 END AS is_fpd,
-    CASE
-        WHEN paymentSequence <> 0 AND installment_timeline = 'Past Due'
+        WHEN paymentSequence <> 0 AND installment_schedule_status = 'Past Due'
             AND (
-                payment_status <> 'Paid in Full'
+                installment_payment_status <> 'Paid in Full'
                 OR days_to_full_payment > 0
             )
         THEN 1
     ELSE 0 END AS arrears_flag,
     sum(CASE WHEN paymentSequence > 0 THEN expectedAmount ELSE 0 END) OVER (
-        PARTITION BY account_id
+        PARTITION BY accountId
         ORDER BY paymentSequence
         ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW
     ) AS cumulative_expected_amount,
     sum(CASE WHEN paymentSequence > 0 THEN amountPaid ELSE 0 END) OVER (
-        PARTITION BY account_id
+        PARTITION BY accountId
         ORDER BY paymentSequence
         ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW
     ) AS cumulative_amount_paid,
     sum(CASE WHEN paymentSequence > 0 THEN expectedAmount ELSE 0 END) OVER (
-        PARTITION BY account_id ORDER BY paymentSequence
+        PARTITION BY accountId ORDER BY paymentSequence
         ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW
     ) -
     sum(CASE WHEN paymentSequence > 0 THEN amountPaid ELSE 0 END) OVER (
-        PARTITION BY account_id ORDER BY paymentSequence
+        PARTITION BY accountId ORDER BY paymentSequence
         ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW
     ) AS cumulative_arrears
     from (
-        select distinct account_id,
+        select distinct accountId,
         accountRef,
         accountType,
         status,
@@ -194,9 +198,31 @@ agg_installment_payments_cte as (
         from installment_payments_mashup_cte
         GROUP BY 1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,22
     )
-    ORDER BY account_id, paymentSequence, expectedDate, paymentDate
+    ORDER BY accountId, paymentSequence, expectedDate, paymentDate
     ),
+--------------------- agg ----------------------------------
+agg_account_installment_schedule_summary_cte AS (
+    SELECT accountId,
+    maxIf(expectedDate, paymentSequence = 1) AS first_expected_date,
+    maxIf(is_fpd, paymentSequence = 1) AS is_fpd,
+    maxIf(is_fpd_amount, paymentSequence = 1) AS is_fpd_amount,
+    max(paymentSequence) as installment_schedules_count,
+    argMinIf(paymentSequence, expectedDate, expectedDate >= today()) AS next_payment_sequence,
+    argMinIf(expectedAmount, expectedDate, expectedDate >= today()) AS next_expected_amount,
+    minIf(expectedDate, expectedDate >= today()) AS next_expected_date,
+    argMaxIf(paymentSequence, expectedDate, expectedDate < today()) AS current_payment_sequence,
+    argMaxIf(expectedAmount, expectedDate, expectedDate < today()) AS current_expected_amount,
+    maxIf(expectedDate, expectedDate < today()) AS current_expected_date
+    FROM agg_installment_payments_cte
+    where accountType in ('PAYG')
+    and status not in ('No Deposit', 'Full Deposit', 'Refunded')
+    and companyRegion = 'kenya'
+    and paymentSequence <> 0
+    and expectedDate is not null
+    GROUP BY accountId
+    )
 --------------------- arrears array calc ----------------------------------
+/*
 arrears_calc_cte as (
     select
         account_id,
@@ -224,8 +250,9 @@ arrears_calc_cte as (
     )
     ARRAY JOIN seq_arr as paymentSequence, cum_arr as true_cumulative_arrears
 ),
-
+*/
 --------------------- agg - collections ----------------------------------
+/*
 agg_collections_rates_cte as (
     select
         t.*,
@@ -245,6 +272,7 @@ agg_collections_rates_cte as (
         ON t.account_id = c.account_id AND t.paymentSequence = c.paymentSequence
     ORDER BY t.account_id, t.paymentSequence, t.expectedDate, t.paymentDate
 )
+*/
 --------------------- agg - collections ----------------------------------
 /*
 agg_collections_rates_cte as (
@@ -393,24 +421,8 @@ check_payment_sequence_cte as (
     )
 */
 select *
---count(distinct account_id)
---from mashup_cte
---from check_accounts_fpd_cte
---from agg_accounts_cte
---from agg_arrears_summary_cte
---from agg_installment_payments_cte
---from agg_accounts_ever_in_arrears_cte
---from agg_accounts_max_aging_cte
---from check_fpd_accounts_cte
---from check_accounts_with_null_expected_dates_cte
---from agg_accounts_with_null_expected_dates_cte
---from check_accounts_with_first_expected_date_in_2027_cte
---from accounts_has_ever_been_in_arrears_cte
---from ad_hoc_request_cte
---from agg_cte
---from check_payment_sequence_cte
---from arrears_calc_cte
-from agg_collections_rates_cte
+from agg_installment_payments_cte
+--from agg_account_installment_schedule_summary_cte
 --where account_id in ('164948')
 --where accountRef = 'CF84029102NGWH'
 --where (paymentSequence <> 0) and (installment_timeline = 'Past Due') and (days_to_full_payment <= 0)
@@ -420,6 +432,6 @@ from agg_collections_rates_cte
 --where identification_number = 'CM60007100LAWG'
 --where accountRef = '36463428'
 --where account_id = '142655' # check out this
-where account_id = '1128'
+where accountId = '188480'
 --ORDER BY account_id
 limit 1000
