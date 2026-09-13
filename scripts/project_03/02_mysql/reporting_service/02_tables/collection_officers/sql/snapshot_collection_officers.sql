@@ -1,0 +1,4 @@
+CREATE TABLE reporting_service.collection_officer_assignments_202609131436
+AS
+SELECT *
+FROM reporting_service.collection_officer_assignments;

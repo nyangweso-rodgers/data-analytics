@@ -5,4 +5,4 @@ collection_officers_cte as (
 	order by primary_role, employee_name
 	)
 SELECT *
-from collection_officers_cte 
+from collection_officers_cte
