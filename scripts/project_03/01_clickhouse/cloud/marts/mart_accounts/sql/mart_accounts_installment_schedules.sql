@@ -13,8 +13,6 @@ mart_accounts_cte as (
         product,
         companyRegion,
         region,
-        --cds1_date,
-        --cds2_date,
         sale_date,
         dispatchDate,
         jsf_date,
@@ -22,6 +20,8 @@ mart_accounts_cte as (
         last_payment_date,
         installment_amount,
         expected_payment_amount,
+        jsf_type,
+        engineer_recommendation,
         row_number()over(partition by account_id ORDER BY _generated_at desc) as rnk 
     FROM marts.mart_accounts
     ) where rnk = 1
@@ -85,34 +85,74 @@ installment_payments_mashup_cte as (
         expected_payment_amount,
         installment_schedules_cte.paymentSequence as paymentSequence,
         installment_schedules_cte.expectedDate as expectedDate,
-        paymentDate,
+        wallet_installment_payments_cte.paymentDate as paymentDate,
         expectedAmount,
         (wallet_installment_payments_cte.amountPaid - wallet_installment_payments_cte.amountRefunded) as amountPaid,
         companyRegion,
         region,
         product,
-        --cds1_date,
-        --cds2_date,
         sale_date,
         dispatchDate,
         jsf_date,
         first_payment_date,
-        last_payment_date
+        last_payment_date,
+        jsf_type,
+        engineer_recommendation
         from mart_accounts_cte
         LEFT JOIN installment_schedules_cte on installment_schedules_cte.accountId = mart_accounts_cte.account_id
         left join wallet_installment_payments_cte on wallet_installment_payments_cte.instalmentScheduleId = installment_schedules_cte.id
         ) where accountType in ('PAYG')
-        and status not in ('No Deposit', 'Full Deposit', 'Refunded')
+        --and status not in ('No Deposit', 'Full Deposit', 'Refunded')
+        --and status = 'Pending Repossession'
+        --and status in ('Complete', 'Current', 'Repossession', 'Arrears', 'Pending Repossession', 'Write Off', 'Advance', 'Repossession On Hold', 'REPOSSESSION', 'Completed') 
         and companyRegion = 'kenya'
         --where companyRegion in ('kenya', 'uganda')
-        --and status in ('Complete', 'Current', 'Repossession', 'Arrears', 'Pending Repossession', 'Write Off', 'Advance', 'Repossession On Hold', 'REPOSSESSION', 'Completed') 
         --and expectedDate is not NULL
         --and product = 'Kilimo Boost'
         --and expectedDate <= '2026-04-31'
-        --and status = 'Pending Repossession'
+        --and accountId = '72118'
         ORDER BY accountId, paymentSequence, expectedDate, paymentDate
     ),
---------------------- Mashup ----------------------------------
+--------------------- check - compare jsf_date with expectedDate ----------------------------------
+/*
+compare_jsf_date_with_first_expected_dates_cte as (
+    select distinct accountId,
+    accountRef,
+    accountType,
+    status,
+    product,
+    expectedAmount,
+    date(jsf_date) as jsf_date,
+    toStartOfMonth(date(jsf_date)) as jsf_month,
+    minIf(expectedDate, paymentSequence = 1) AS first_expected_date,
+    dateDiff('day', date(jsf_date), minIf(expectedDate, paymentSequence = 1)) AS days_diff
+    from installment_payments_mashup_cte
+    where accountType in ('PAYG')
+    and companyRegion = 'kenya'
+    and paymentSequence <> 0
+    and jsf_type = 'INSTALLATION'
+    AND engineer_recommendation = 'Installed'
+    and toStartOfMonth(date(jsf_date)) = '2026-07-01'
+    group by 1,2,3,4,5,6,7,8
+    ORDER BY days_diff
+),
+*/
+--------------------- check - Installment Payments Before JSF Date ----------------------------------
+check_installment_payments_before_jsf_date_cte as (
+    select --*
+    count(distinct accountId) as account_id_count
+    from (
+        select distinct accountId,
+        accountRef,
+        jsf_date,
+        min(date(paymentDate)) as first_wallet_installment_payment_date
+        from installment_payments_mashup_cte
+        where paymentSequence = 1
+        group by 1,2,3
+        ) where first_wallet_installment_payment_date < jsf_date
+)
+--------------------- agg - installment schedules + payments ----------------------------------
+/*
 agg_installment_payments_cte as (
     select *,
     CASE
@@ -200,7 +240,9 @@ agg_installment_payments_cte as (
     )
     ORDER BY accountId, paymentSequence, expectedDate, paymentDate
     ),
+*/
 --------------------- agg ----------------------------------
+/*
 agg_account_installment_schedule_summary_cte AS (
     SELECT accountId,
     maxIf(expectedDate, paymentSequence = 1) AS first_expected_date,
@@ -215,12 +257,13 @@ agg_account_installment_schedule_summary_cte AS (
     maxIf(expectedDate, expectedDate < today()) AS current_expected_date
     FROM agg_installment_payments_cte
     where accountType in ('PAYG')
-    and status not in ('No Deposit', 'Full Deposit', 'Refunded')
+    --and status not in ('No Deposit', 'Full Deposit', 'Refunded')
     and companyRegion = 'kenya'
     and paymentSequence <> 0
     and expectedDate is not null
     GROUP BY accountId
     )
+*/
 --------------------- arrears array calc ----------------------------------
 /*
 arrears_calc_cte as (
@@ -421,7 +464,10 @@ check_payment_sequence_cte as (
     )
 */
 select *
-from agg_installment_payments_cte
+--count(*) as record_count, count(distinct accountId) as account_id_count
+--from compare_jsf_date_with_first_expected_dates_cte
+from check_installment_payments_before_jsf_date_cte
+--from agg_installment_payments_cte
 --from agg_account_installment_schedule_summary_cte
 --where account_id in ('164948')
 --where accountRef = 'CF84029102NGWH'
@@ -432,6 +478,7 @@ from agg_installment_payments_cte
 --where identification_number = 'CM60007100LAWG'
 --where accountRef = '36463428'
 --where account_id = '142655' # check out this
-where accountId = '188480'
+--where accountId = '143738'
+--where first_expected_date = '2026-09-05' and is_fpd_amount = 1
 --ORDER BY account_id
 limit 1000
