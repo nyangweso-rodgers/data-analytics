@@ -1,0 +1,2 @@
+SELECT id, search_vector, with_native_query_vector, model, display_data, legacy_input, created_at, updated_at, archived, model_updated_at, is_published, pinned, collection_id, official_collection, "name", source_type, has_temporal_dim, last_edited_at, dashboardcard_count, non_temporal_dim_ids, dashboard_id, last_editor_id, model_id, display_type, last_viewed_at, database_id, creator_id, view_count, model_created_at, verified
+FROM public.search_index__ryly8gmootlo6wbak21g1;

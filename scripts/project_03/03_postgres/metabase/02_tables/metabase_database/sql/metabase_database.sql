@@ -1,0 +1,2 @@
+SELECT id, created_at, updated_at, "name", description, details, engine, is_sample, is_full_sync, points_of_interest, caveats, metadata_sync_schedule, cache_field_values_schedule, timezone, is_on_demand, auto_run_queries, refingerprint, cache_ttl, initial_sync_status, creator_id, settings, dbms_version, is_audit, uploads_enabled, uploads_schema_name, uploads_table_prefix, is_attached_dwh, router_database_id, provider_name, write_data_details, admin_details, is_stub
+FROM public.metabase_database;

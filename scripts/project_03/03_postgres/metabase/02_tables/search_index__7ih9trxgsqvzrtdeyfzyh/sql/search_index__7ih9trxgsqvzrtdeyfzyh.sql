@@ -1,0 +1,2 @@
+SELECT id, search_vector, with_native_query_vector, model, display_data, legacy_input, created_at, updated_at, archived, model_updated_at, collection_type, is_published, pinned, collection_id, official_collection, "name", data_authority, source_type, curated, last_edited_at, dashboardcard_count, collection_location, dashboard_id, data_layer, last_editor_id, model_id, display_type, last_viewed_at, database_id, creator_id, root_collection_type, view_count, model_created_at, verified
+FROM public.search_index__7ih9trxgsqvzrtdeyfzyh;

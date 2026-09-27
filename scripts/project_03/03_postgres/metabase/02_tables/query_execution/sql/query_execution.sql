@@ -1,0 +1,2 @@
+SELECT id, hash, started_at, running_time, result_rows, native, context, "error", executor_id, card_id, dashboard_id, pulse_id, database_id, cache_hit, action_id, is_sandboxed, cache_hash, embedding_client, embedding_sdk_version, parameterized, transform_id, lens_id, lens_params, auth_method, tenant_id, is_impersonated, is_db_routed, parameters, embedding_hostname, embedding_path, user_agent, ip_address, sanitized_user_agent, embedding_route, metabase_version
+FROM public.query_execution;

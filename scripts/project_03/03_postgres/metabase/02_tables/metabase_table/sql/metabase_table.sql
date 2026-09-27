@@ -1,0 +1,2 @@
+SELECT id, created_at, updated_at, "name", description, entity_type, active, db_id, display_name, visibility_type, "schema", points_of_interest, caveats, show_in_getting_started, field_order, initial_sync_status, is_upload, database_require_filter, estimated_row_count, view_count, is_defective_duplicate, unique_table_helper, deactivated_at, archived_at, is_writable, data_authority, data_source, data_layer, owner_email, owner_user_id, collection_id, is_published, transform_id, transform_target
+FROM public.metabase_table;

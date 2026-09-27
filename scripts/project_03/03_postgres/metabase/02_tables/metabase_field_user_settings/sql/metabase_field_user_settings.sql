@@ -1,0 +1,2 @@
+SELECT field_id, created_at, updated_at, semantic_type, description, display_name, visibility_type, fk_target_field_id, has_field_values, effective_type, coercion_strategy, caveats, points_of_interest, nfc_path, json_unfolding, settings
+FROM public.metabase_field_user_settings;

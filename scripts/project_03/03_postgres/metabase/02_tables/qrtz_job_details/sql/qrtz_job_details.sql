@@ -1,0 +1,2 @@
+SELECT sched_name, job_name, job_group, description, job_class_name, is_durable, is_nonconcurrent, is_update_data, requests_recovery, job_data
+FROM public.qrtz_job_details;

@@ -1,0 +1,2 @@
+SELECT id, created_at, updated_at, "name", description, creator_id, parameters, points_of_interest, caveats, show_in_getting_started, public_uuid, made_public_by_id, enable_embedding, embedding_params, archived, "position", collection_id, collection_position, cache_ttl, entity_id, auto_apply_filters, width, initially_published_at, view_count, archived_directly, last_viewed_at, embedding_type, public_uuid_prefix
+FROM public.report_dashboard;

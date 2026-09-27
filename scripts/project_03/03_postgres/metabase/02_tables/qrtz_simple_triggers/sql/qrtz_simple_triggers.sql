@@ -1,0 +1,2 @@
+SELECT sched_name, trigger_name, trigger_group, repeat_count, repeat_interval, times_triggered
+FROM public.qrtz_simple_triggers;

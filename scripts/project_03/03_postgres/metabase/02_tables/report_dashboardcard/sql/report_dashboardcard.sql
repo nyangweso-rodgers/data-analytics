@@ -1,0 +1,2 @@
+SELECT id, created_at, updated_at, size_x, size_y, "row", col, card_id, dashboard_id, parameter_mappings, visualization_settings, entity_id, action_id, dashboard_tab_id, inline_parameters
+FROM public.report_dashboardcard;

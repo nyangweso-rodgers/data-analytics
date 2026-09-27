@@ -1,0 +1,2 @@
+SELECT lock_name
+FROM public.metabase_cluster_lock;
