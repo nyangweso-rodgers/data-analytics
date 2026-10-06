@@ -8,6 +8,7 @@ products_cte as (
             FROM amt.products
             ) where rnk = 1
     )
-select *
+select distinct product
 from products_cte
+ORDER BY 1
 limit 1000
