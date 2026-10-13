@@ -19,14 +19,14 @@ accounts_cte as (
 	#salesAgents, assignmentId, assignmentDate, netSuiteAccountId, isMigrated, isWalletActive, walletID, 
 	#creditCheck, creditCheckId
 	FROM amtdb.accounts
+	#where id = '142705'
+	where status = ''
 ),
 agg_account_status_cte as (
 	select distinct status,
 	#count(distinct id) as account_id_count,
 	count(distinct accountRef) as account_ref_count
 	from accounts_cte
-	where accountRef in (
-)
 	group by 1
 	order by 2 desc
 	)
@@ -45,7 +45,7 @@ select *
 #count(*)
 #sum(account_id_count)
 #distinct creditCheck
-#from accounts_cte
-from agg_account_status_cte
+from accounts_cte
+#from agg_account_status_cte
 #from validate_credit_check_cte
 #where creditCheck is not null
