@@ -1,5 +1,6 @@
 # python
 venv/
+.venv/
 project-03-venv/
 project-03-windows-venv/
 wsl-py-venv/
